@@ -22,8 +22,25 @@
  font-size: 13px;
 }
 
+.logo_middle {
+    display: flex;
+}
+
+
+.logo_middle img {
+    width: 120px;
+    height:120px;
+}
+
+.logo_middle span {
+    font-size: 70px;
+    padding-left: 10px;
+    text-align:center
+}
+
 
 .footer {
+    display: flex;
     text-align: center;
     margin: auto;
     font-size : 16px;
@@ -35,7 +52,7 @@
 }
 
 .footer span {
-    font-size: 25px;
+    font-size: 34px;
     padding-left: 5px;
 }
 

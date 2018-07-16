@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { List, Avatar, Button, Spin,Icon,Row,Col } from 'antd';
 import {Router, Route, Link, browserHistory} from 'react-router'
+import { Rate } from 'antd';
+import { Tag } from 'antd';
 
 var listData =[];
 
@@ -29,7 +31,7 @@ export default class LoadMoreList extends React.Component {
     listData=[];
     this.setState({loading:true,typeChange:true});
   }
-  
+
 
 
   render() {
@@ -54,6 +56,7 @@ export default class LoadMoreList extends React.Component {
           temp.description = json[i].realtype;
           temp.content = '';
           temp.uniquekey = json[i].uniquekey;
+          temp.star = 4;
 
           //console.log(temp);
           listData.push(temp);
@@ -80,7 +83,18 @@ export default class LoadMoreList extends React.Component {
         footer={<div></div>}
     renderItem={item => (
       <List.Item key={item.title}
-          actions={[<IconText text={item.description} />, <IconText  text={item.author_name} />, <IconText  text="2" />]}
+          actions={[
+            <p>新闻指数：<Rate disabled allowHalf defaultValue={item.star}/></p>,
+            <IconText text={item.description}/>,
+            <p>
+              <div>标签：
+                <Tag>Tag 1</Tag>
+                <Tag>Tag 2</Tag>
+                <Tag><a href="https://github.com/ant-design/ant-design/issues/1862">Link</a></Tag>
+              </div>
+            </p>,
+
+          ]}
           extra={<img width={120} alt="logo" src={item.image} />}>
           <Link to={`details/${item.uniquekey}`} target="_blank">
         <List.Item.Meta
@@ -88,7 +102,9 @@ export default class LoadMoreList extends React.Component {
           title={<a href={item.url}>{item.title}</a>}
           description = {item.title}/>
           </Link>
+
       </List.Item>
+
     )}
   />
     );
