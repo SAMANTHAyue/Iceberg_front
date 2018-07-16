@@ -26,7 +26,19 @@ export default class PCIndex extends React.Component {
 	//点击处理
 	handleClick(e){
     console.log('click ', e);
-		this.setState({newsType:'guoji'});
+		if(e.key == 'index_news'){	//点击首页新闻
+			this.setState({newsType:'top'});
+		}else if(e.key == 'guoji_news'){
+			this.setState({newsType:'guoji'});
+		}else if(e.key == 'yule_news'){
+			this.setState({newsType: 'yule'});
+		}else if(e.key == 'tiyu_news'){
+			this.setState({newsType: 'tiyu'});
+		}else if(e.key == 'zhengzhi_news'){
+			this.setState({newsType: 'guonei'});
+		}
+
+		console.log(this.state.newsType);
 
   }
 
@@ -51,11 +63,11 @@ export default class PCIndex extends React.Component {
 							<Icon type="desktop" />
 							<span>新闻首页</span>
 						</Menu.Item>
-						<Menu.Item key="1">
+						<Menu.Item key="hot_news">
               <Icon type="pie-chart" />
               <span>热点新闻</span>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="search_news">
               <Icon type="search" />
               <span>搜索新闻</span>
             </Menu.Item>
@@ -63,12 +75,12 @@ export default class PCIndex extends React.Component {
               key="sub1"
               title={<span><Icon type="book" /><span>新闻分类</span></span>}
             >
-              <Menu.Item key="3">科技</Menu.Item>
-              <Menu.Item key="4">政治</Menu.Item>
-              <Menu.Item key="5">娱乐</Menu.Item>
-							<Menu.Item key="6">体育</Menu.Item>
-							<Menu.Item key="7">财经</Menu.Item>
-							<Menu.Item key="8">国际</Menu.Item>
+              <Menu.Item key="keji_news">科技</Menu.Item>
+              <Menu.Item key="zhengzhi_news">政治</Menu.Item>
+              <Menu.Item key="yule_news">娱乐</Menu.Item>
+							<Menu.Item key="tiyu_news">体育</Menu.Item>
+							<Menu.Item key="caijing_news">财经</Menu.Item>
+							<Menu.Item key="guoji_news">国际</Menu.Item>
 
             </SubMenu>
             <Menu.Item key="sub2">

@@ -18,7 +18,7 @@ export default class PCNewsContainer extends React.Component {
 	};
 
 	render() {
-
+		console.log('来自菜单栏类型',this.props.newsType);
 		return (
 			<div>
 				<Row>
@@ -38,7 +38,7 @@ export default class PCNewsContainer extends React.Component {
 				<Row>
 					<Col span={1}></Col>
 					<Col span={21}>
-						<LoadMoreList count={30} type={this.props.newsType}></LoadMoreList>
+						<LoadMoreList count={30} newsType={this.props.newsType}></LoadMoreList>
 					</Col>
 					<Col span={2}></Col>
 				</Row>

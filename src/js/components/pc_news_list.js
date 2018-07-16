@@ -19,44 +19,50 @@ export default class LoadMoreList extends React.Component {
 		super();
 		this.state = {
 			news: [],
-      loading:true
+      loading:true,
+      typeChange:true
 		};
 	}
-	componentWillMount() {
-		var myFetchOptions = {
-			method: 'GET'
-		};
 
-		fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=" +
-		this.props.type + "&count=" + this.props.count, myFetchOptions)
-		.then((response) =>{
-      return response.json();
-    })
-		.then((json)=>{
-      for (var i = 1; i < json.length; i++) {
-        var name = json[i].title;
-        var temp = {};
-        temp.title = json[i].title;
-        temp.author_name = json[i].author_name;
-        temp.href = json[i].url;
-        temp.image = json[i].thumbnail_pic_s;
-        temp.description = json[i].realtype;
-        temp.content = '';
-        temp.uniquekey = json[i].uniquekey;
-
-        //console.log(temp);
-        listData.push(temp);
-      }
-      //console.log(listData);
-      this.setState({loading:false, news: json})
-      //console.log('result',this.state.news);
-    });
-
-	};
-
+  //更改新闻类别，重新加载
+  componentWillReceiveProps(){
+    listData=[];
+    this.setState({loading:true,typeChange:true});
+  }
+  
 
 
   render() {
+    if(this.state.typeChange==true){
+      console.log('列表获取到的新闻类型',this.props.newsType);
+      var myFetchOptions = {
+        method: 'GET'
+      };
+      fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=" +
+      this.props.newsType + "&count=" + this.props.count, myFetchOptions)
+      .then((response) =>{
+        return response.json();
+      })
+      .then((json)=>{
+        for (var i = 0; i < json.length; i++) {
+          var name = json[i].title;
+          var temp = {};
+          temp.title = json[i].title;
+          temp.author_name = json[i].author_name;
+          temp.href = json[i].url;
+          temp.image = json[i].thumbnail_pic_s;
+          temp.description = json[i].realtype;
+          temp.content = '';
+          temp.uniquekey = json[i].uniquekey;
+
+          //console.log(temp);
+          listData.push(temp);
+        }
+        //console.log(listData);
+        this.setState({loading:false, news: json, typeChange:false});
+        //console.log('result',this.state.news);
+      });
+    }
     return (
       <List
         itemLayout="vertical"
