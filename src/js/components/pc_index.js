@@ -17,13 +17,34 @@ export default class PCIndex extends React.Component {
 		super();
 		this.state = {
       collapsed: false,
+			newsType: "top"
     };
+		this.onCollapse = this.onCollapse.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 	}
 
+	//点击处理
+	handleClick(e){
+    console.log('click ', e);
+		if(e.key == 'index_news'){	//点击首页新闻
+			this.setState({newsType:'top'});
+		}else if(e.key == 'guoji_news'){
+			this.setState({newsType:'guoji'});
+		}else if(e.key == 'yule_news'){
+			this.setState({newsType: 'yule'});
+		}else if(e.key == 'tiyu_news'){
+			this.setState({newsType: 'tiyu'});
+		}else if(e.key == 'zhengzhi_news'){
+			this.setState({newsType: 'guonei'});
+		}
 
+		console.log(this.state.newsType);
+
+  }
+
+	//缩放测菜单
   onCollapse(collapsed){
-    console.log(collapsed);
-    this.setState({ collapsed });
+    this.setState({ collapsed: !this.state.collapsed });
   }
 
 	render() {
@@ -37,16 +58,16 @@ export default class PCIndex extends React.Component {
           onCollapse={this.onCollapse}
         >
           <div className="logo" />
-          <Menu theme="dark" defaultSelectedKeys={['0']} mode="inline">
-						<Menu.Item key="0">
+          <Menu theme="dark" defaultSelectedKeys={['index_news']} mode="inline" onClick={this.handleClick}>
+						<Menu.Item key="index_news">
 							<Icon type="desktop" />
 							<span>新闻首页</span>
 						</Menu.Item>
-						<Menu.Item key="1">
+						<Menu.Item key="hot_news">
               <Icon type="pie-chart" />
               <span>热点新闻</span>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="search_news">
               <Icon type="search" />
               <span>搜索新闻</span>
             </Menu.Item>
@@ -54,12 +75,12 @@ export default class PCIndex extends React.Component {
               key="sub1"
               title={<span><Icon type="book" /><span>新闻分类</span></span>}
             >
-              <Menu.Item key="3">科技</Menu.Item>
-              <Menu.Item key="4">政治</Menu.Item>
-              <Menu.Item key="5">娱乐</Menu.Item>
-							<Menu.Item key="6">体育</Menu.Item>
-							<Menu.Item key="7">财经</Menu.Item>
-							<Menu.Item key="8">国际</Menu.Item>
+              <Menu.Item key="keji_news">科技</Menu.Item>
+              <Menu.Item key="zhengzhi_news">政治</Menu.Item>
+              <Menu.Item key="yule_news">娱乐</Menu.Item>
+							<Menu.Item key="tiyu_news">体育</Menu.Item>
+							<Menu.Item key="caijing_news">财经</Menu.Item>
+							<Menu.Item key="guoji_news">国际</Menu.Item>
 
             </SubMenu>
             <Menu.Item key="sub2">
@@ -79,7 +100,7 @@ export default class PCIndex extends React.Component {
 
             </Breadcrumb>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-              <PCNewsContainer></PCNewsContainer>
+              <PCNewsContainer newsType = {this.state.newsType}></PCNewsContainer>
             </div>
           </Content>
           <PCFooter></PCFooter>

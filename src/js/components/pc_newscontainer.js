@@ -8,18 +8,17 @@ import PCProduct from './pc_products';
 import {List, Card } from 'antd';
 import LoadMoreList from './pc_news_list';
 export default class PCNewsContainer extends React.Component {
-	render() {
 
-		//滚动播放的setting
-		const settings = {
-			dots: true,
-			infinite: true,
-			speed: 500,
-			slidesToShow: 1,
-			autoplay: true
 
+	constructor() {
+		super();
+		this.state = {
+			newsType:"top"
 		};
+	};
 
+	render() {
+		console.log('来自菜单栏类型',this.props.newsType);
 		return (
 			<div>
 				<Row>
@@ -39,7 +38,7 @@ export default class PCNewsContainer extends React.Component {
 				<Row>
 					<Col span={1}></Col>
 					<Col span={21}>
-						<LoadMoreList count={30} type="top"></LoadMoreList>
+						<LoadMoreList count={30} newsType={this.props.newsType}></LoadMoreList>
 					</Col>
 					<Col span={2}></Col>
 				</Row>
