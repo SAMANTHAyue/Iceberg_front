@@ -44,16 +44,15 @@ export default class LoadMoreList extends React.Component {
         temp.content = '';
         temp.uniquekey = json[i].uniquekey;
 
-        //console.log(temp);
+        console.log(temp);
         listData.push(temp);
       }
-      //console.log(listData);
+      console.log(listData);
       this.setState({loading:false, news: json})
-      //console.log('result',this.state.news);
+      console.log('result',this.state.news);
     });
 
 	};
-
 
 
   render() {
@@ -66,7 +65,7 @@ export default class LoadMoreList extends React.Component {
         split="true"
         pagination={{
           onChange: (page) => {
-            //console.log(page);
+            console.log(page);
           },
           pageSize: 5,
         }}
