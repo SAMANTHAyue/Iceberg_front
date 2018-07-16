@@ -91,18 +91,18 @@
 .topNewsList {
     float: left;
     text-align: left;
-    font-size: 14px;
+    font-size: 50px;
     margin-bottom: 10px;
 }
 
 .topNewsList a {
-    line-height: 22px !important;
+    line-height: 30px !important;
     color: #666 !important;
 }
 
 .tabs_news {
     padding-left: 10px;
-    width: 460px;
+    width: 700px;
     float: left;
 }
 
@@ -465,4 +465,9 @@ iframe {
 
 .ant-carousel .slick-slide h3 {
   color: #fff;
+  font-size: 40px;
+}
+
+.demo-loadmore-list {
+  min-height: 350px;
 }

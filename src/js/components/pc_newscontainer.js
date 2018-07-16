@@ -5,7 +5,8 @@ const TabPane = Tabs.TabPane;
 import PCNewsBlock from './pc_news_block';
 import PCNewsImageBlock from './pc_news_image_block';
 import PCProduct from './pc_products';
-
+import {List, Card } from 'antd';
+import LoadMoreList from './pc_news_list';
 export default class PCNewsContainer extends React.Component {
 	render() {
 
@@ -16,35 +17,29 @@ export default class PCNewsContainer extends React.Component {
 			speed: 500,
 			slidesToShow: 1,
 			autoplay: true
+
 		};
 
 		return (
 			<div>
 				<Row>
-					<Col span={2}></Col>
-					<Col span={7} class="container">
-						<div class="leftContainer">
-							<div class="carousel">
-								<Carousel {...settings}>
-									<div><img src="./src/images/carousel_1.jpg"/></div>
-									<div><img src="./src/images/carousel_2.jpg"/></div>
-									<div><img src="./src/images/carousel_3.jpg"/></div>
-									<div><img src="./src/images/carousel_4.jpg"/></div>
-								</Carousel>
-							</div>
+					<Col >
+						<div>
+							<Carousel autoplay>
+						    <div>
+									<h3>Attitude determines altitude</h3>
+								</div>
+						    <div><h3>Attitude determines altitude</h3></div>
+						    <div><h3>Attitude determines altitude</h3></div>
+						    <div><h3>Attitude determines altitude</h3></div>
+  						</Carousel>
 						</div>
 					</Col>
 				</Row>
 				<Row>
-					<Col>
-						<Tabs class="tabs_news">
-							<TabPane tab="头条新闻" key="1">
-								<PCNewsBlock count={22} type="top" width="100%" bordered="false"/>
-							</TabPane>
-							<TabPane tab="国际" key="2">
-								<PCNewsBlock count={22} type="guoji" width="100%" bordered="false"/>
-							</TabPane>
-						</Tabs>
+					<Col span={1}></Col>
+					<Col span={21}>
+						<LoadMoreList count={30} type="top"></LoadMoreList>
 					</Col>
 					<Col span={2}></Col>
 				</Row>
@@ -68,3 +63,24 @@ export default class PCNewsContainer extends React.Component {
 // 	<PCNewsImageBlock count={8} type="guonei" width="100%" cartTitle="国内新闻" imageWidth="132px"/>
 // 	<PCNewsImageBlock count={16} type="yule" width="100%" cartTitle="娱乐新闻" imageWidth="132px"/>
 // </div>
+
+// <Carousel {...settings}>
+// 	<div><img src="./src/images/carousel_1.jpg"/></div>
+// 	<div><img src="./src/images/carousel_2.jpg"/></div>
+// 	<div><img src="./src/images/carousel_3.jpg"/></div>
+// 	<div><img src="./src/images/carousel_4.jpg"/></div>
+// </Carousel>
+
+// <Row>
+// 	<Col>
+// 		<Tabs>
+// 			<TabPane tab="头条新闻" key="1">
+// 				<PCNewsBlock count={22} type="top" width="700px" bordered="false"/>
+// 			</TabPane>
+// 			<TabPane tab="国际" key="2">
+// 				<PCNewsBlock count={22} type="guoji" width="100%" bordered="false"/>
+// 			</TabPane>
+// 		</Tabs>
+// 	</Col>
+// 	<Col span={2}></Col>
+// </Row>
