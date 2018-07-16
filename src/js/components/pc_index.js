@@ -17,13 +17,22 @@ export default class PCIndex extends React.Component {
 		super();
 		this.state = {
       collapsed: false,
+			newsType: "top"
     };
+		this.onCollapse = this.onCollapse.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 	}
 
+	//点击处理
+	handleClick(e){
+    console.log('click ', e);
+		this.setState({newsType:'guoji'});
 
+  }
+
+	//缩放测菜单
   onCollapse(collapsed){
-    console.log(collapsed);
-    this.setState({ collapsed });
+    this.setState({ collapsed: !this.state.collapsed });
   }
 
 	render() {
@@ -37,8 +46,8 @@ export default class PCIndex extends React.Component {
           onCollapse={this.onCollapse}
         >
           <div className="logo" />
-          <Menu theme="dark" defaultSelectedKeys={['0']} mode="inline">
-						<Menu.Item key="0">
+          <Menu theme="dark" defaultSelectedKeys={['index_news']} mode="inline" onClick={this.handleClick}>
+						<Menu.Item key="index_news">
 							<Icon type="desktop" />
 							<span>新闻首页</span>
 						</Menu.Item>
@@ -79,7 +88,7 @@ export default class PCIndex extends React.Component {
 
             </Breadcrumb>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-              <PCNewsContainer></PCNewsContainer>
+              <PCNewsContainer newsType = {this.state.newsType}></PCNewsContainer>
             </div>
           </Content>
           <PCFooter></PCFooter>
