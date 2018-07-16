@@ -22,12 +22,10 @@ export default class PCNewsContainer extends React.Component {
 		return (
 			<div>
 				<Row>
-					<Col >
+					<Col>
 						<div>
 							<Carousel autoplay>
-						    <div>
-									<h3>Attitude determines altitude</h3>
-								</div>
+						    <div><h3>Attitude determines altitude</h3></div>
 						    <div><h3>Attitude determines altitude</h3></div>
 						    <div><h3>Attitude determines altitude</h3></div>
 						    <div><h3>Attitude determines altitude</h3></div>
@@ -38,6 +36,7 @@ export default class PCNewsContainer extends React.Component {
 				<Row>
 					<Col span={1}></Col>
 					<Col span={21}>
+						<br/>
 						<LoadMoreList count={30} newsType={this.props.newsType}></LoadMoreList>
 					</Col>
 					<Col span={2}></Col>

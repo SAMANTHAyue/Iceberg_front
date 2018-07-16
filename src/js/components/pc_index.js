@@ -2,6 +2,7 @@ import React from 'react';
 import PCHeader from './pc_header';
 import PCFooter from './pc_footer';
 import PCNewsContainer from './pc_newscontainer';
+import SearchPage from './pc_news_search'
 
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 const Header = Layout.Header;
@@ -10,6 +11,8 @@ const Footer = Layout.Footer;
 const Sider = Layout.Sider;
 const SubMenu = Menu.SubMenu;
 
+var content;
+
 export default class PCIndex extends React.Component {
 
 
@@ -17,7 +20,9 @@ export default class PCIndex extends React.Component {
 		super();
 		this.state = {
       collapsed: false,
-			newsType: "top"
+			newsType: "top",
+			currentPage:'index_page',
+			searchType:'title'
     };
 		this.onCollapse = this.onCollapse.bind(this);
 		this.handleClick = this.handleClick.bind(this);
@@ -25,21 +30,25 @@ export default class PCIndex extends React.Component {
 
 	//点击处理
 	handleClick(e){
-    console.log('click ', e);
-		if(e.key == 'index_news'){	//点击首页新闻
-			this.setState({newsType:'top'});
+		if(e.key == 'index_page'){	//点击首页新闻
+			this.setState({newsType:'top',currentPage:'index_page'});
 		}else if(e.key == 'guoji_news'){
-			this.setState({newsType:'guoji'});
+			this.setState({newsType:'guoji',currentPage:'index_page'});
 		}else if(e.key == 'yule_news'){
-			this.setState({newsType: 'yule'});
+			this.setState({newsType: 'yule',currentPage:'index_page'});
 		}else if(e.key == 'tiyu_news'){
-			this.setState({newsType: 'tiyu'});
+			this.setState({newsType: 'tiyu',currentPage:'index_page'});
 		}else if(e.key == 'zhengzhi_news'){
-			this.setState({newsType: 'guonei'});
+			this.setState({newsType: 'guonei',currentPage:'index_page'});
+		}else	if(e.key == 'search_page'){
+			this.setState({currentPage:'search_page',searchType:'title'});
+		}else if(e.key == 'search_by_title'){
+			this.setState({currentPage:'search_page',searchType:'title'});
+		}else if(e.key == 'search_by_time'){
+			this.setState({currentPage:'search_page',searchType:'time'});
+		}else if(e.key == 'search_by_tag'){
+			this.setState({currentPage:'search_page',searchType:'tag'});
 		}
-
-		console.log(this.state.newsType);
-
   }
 
 	//缩放测菜单
@@ -48,6 +57,13 @@ export default class PCIndex extends React.Component {
   }
 
 	render() {
+
+		if(this.state.currentPage == 'index_page'){
+			content = <PCNewsContainer newsType = {this.state.newsType}></PCNewsContainer>;
+		}else if(this.state.currentPage == 'search_page'){
+			content = <SearchPage searchType = {this.state.searchType}></SearchPage>;
+		}
+
 		return (
 			<div>
 			<PCHeader theme="dark"></PCHeader>
@@ -59,7 +75,7 @@ export default class PCIndex extends React.Component {
         >
           <div className="logo" />
           <Menu theme="dark" defaultSelectedKeys={['index_news']} mode="inline" onClick={this.handleClick}>
-						<Menu.Item key="index_news">
+						<Menu.Item key="index_page">
 							<Icon type="desktop" />
 							<span>新闻首页</span>
 						</Menu.Item>
@@ -67,10 +83,14 @@ export default class PCIndex extends React.Component {
               <Icon type="pie-chart" />
               <span>热点新闻</span>
             </Menu.Item>
-            <Menu.Item key="search_news">
-              <Icon type="search" />
-              <span>搜索新闻</span>
-            </Menu.Item>
+						<SubMenu
+							key="search_page"
+              title={<span><Icon type="search" /><span>新闻搜索</span></span>}
+            >
+              <Menu.Item key="search_by_title">标题搜索</Menu.Item>
+              <Menu.Item key="search_by_tag">标签搜索</Menu.Item>
+							<Menu.Item key="search_by_time">时间搜索</Menu.Item>
+            </SubMenu>
             <SubMenu
               key="sub1"
               title={<span><Icon type="book" /><span>新闻分类</span></span>}
@@ -100,10 +120,10 @@ export default class PCIndex extends React.Component {
 
             </Breadcrumb>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-              <PCNewsContainer newsType = {this.state.newsType}></PCNewsContainer>
+							{content}
             </div>
           </Content>
-          <PCFooter></PCFooter>
+						<PCFooter></PCFooter>
         </Layout>
       </Layout>
 			</div>
