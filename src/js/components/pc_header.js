@@ -1,15 +1,15 @@
 import React from 'react';
 import {Row, Col} from 'antd';
 import {
-	Menu,
-	Icon,
-	Tabs,
-	message,
-	Form,
-	Input,
-	Button,
-	CheckBox,
-	Modal
+    Menu,
+    Icon,
+    Tabs,
+    message,
+    Form,
+    Input,
+    Button,
+    CheckBox,
+    Modal
 } from 'antd';
 const FormItem = Form.Item;
 const SubMenu = Menu.SubMenu;
@@ -18,168 +18,228 @@ const MenuItemGroup = Menu.ItemGroup;
 import {Router, Route, Link, browserHistory} from 'react-router'
 class PCHeader extends React.Component {
 
-	//初始化
-	constructor() {
-		super();
-		this.state = {
-			current: 'top',
-			modalVisible: false,
-			action: 'login',
-			hasLogined: false,
-			userNickName: '',
-			userid: 0
-		};
-	};
+    //初始化
+    constructor() {
+        super();
+        this.state = {
+            current: 'top',
+            modalVisible: false,
+            action: 'login',
+            hasLogined: false,
+            userName: '',
+            password: '',
+            userid: 0
+        };
+    };
 
-	componentWillMount(){
-		if (localStorage.userid!='') {
-			this.setState({hasLogined:true});
-			this.setState({userNickName:localStorage.userNickName,userid:localStorage.userid});
-		}
-	};
+    componentWillMount(){
+        if (localStorage.userName!=='') {
+            this.setState({hasLogined: true});
+            this.setState({usekName: localStorage.userName, password: localStorage.password});
+        }
+    };
 
-	//更改登录注册框是否展示
-	setModalVisible(value)
-	{
-		this.setState({modalVisible: value});
-	};
-	//点击注册登录按钮
-	handleClick(e) {
-		if (e.key == "register") {
-			this.setState({current: 'register'});
-			this.setModalVisible(true);
-		} else {
-			{
-				this.setState({current: e.key});
-			}
-		}
-	};
+    //更改登录注册框是否展示
+    setModalVisible(value)
+    {
+        this.setState({modalVisible: value});
+    };
 
-	//提交数据
-	handleSubmit(e)
-	{
-		//页面开始向 API 进行提交数据
-		e.preventDefault();
-		var myFetchOptions = {
-			method: 'GET'
-		};
-		//获取页面参数
-		var formData = this.props.form.getFieldsValue();
-		console.log('页面参数',formData);
-		//网络通信
-		fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=" + this.state.action
-		+ "&username="+formData.userName+"&password="+formData.password
-		+"&r_userName=" + formData.r_userName + "&r_password="
-		+ formData.r_password + "&r_confirmPassword="
-		+ formData.r_confirmPassword, myFetchOptions)
-		.then(response => response.json())	//对返回json进行格式化
-		.then(json => {
-			//获取用户名
-			this.setState({userNickName: json.NickUserName, userid: json.UserId});
+    //点击注册登录按钮
+    handleClick(e) {
+        if (e.key === "register") {
+            this.setState({current: 'register'});
+            this.setModalVisible(true);
+        } else {
+            {
+                this.setState({current: e.key});
+            }
+        }
+    };
 
-			localStorage.userid= json.UserId;
-			localStorage.userNickName = json.NickUserName;
-		});
+    //提交数据
+    handleSubmit(e)
+    {
+        //页面开始向 API 进行提交数据
+        e.preventDefault();
+        /*       var myFetchOptions = {
+                   method: 'GET'
+               };*/
 
-		if (this.state.action=="login") {
-			this.setState({hasLogined:true});
-		}
-		message.success("请求成功！");
-		this.setModalVisible(false);
-	};
+        //获取页面参数
+        var formData = this.props.form.getFieldsValue();
+        console.log(formData);
+
+        //网络通信
+        if(this.state.action ==='login') { //登录页面
+            const myRequest = new Request('/login',{method: 'GET', body: 'name='+formData.userName+'&password='+formData.password})
+            fetch(myRequest)
+                .then(response => {
+                    if(response.status === "200") {
+                        return response.json();
+                    }
+                    else {
+                        throw new Error('Something went wrong');
+                    }
+                })	//对返回json进行格式化
+                .then(json => {
+                    console.log(json);
+                    if(json.result === 0) {
+                        //获取用户id
+                        this.setState({userName: formData.userName});
+                        json.user.map((userItem) => (
+                            this.setState({userid: userItem.user_id})
+                        ));
+
+                        this.setState({hasLogined:true});
+                        message.success("登录成功！");
+                        localStorage.userName = formData.userName;
+                        localStorage.password = formData.password;
+                    }
+                    else if(json.result === 1) {
+                        this.setState({userName: formData.userName});
+                        message.warn("密码错误！");
+                    }
+                    else {
+                        message.warn("用户名不存在！");
+                    }
+                }).catch(error => {
+                console.error(error);
+            });
+        }
+        else { //注册页面
+            if (formData.r_password === formData.r_comfirmPassword) {
+                const myRequest = new Request('/register',{method: 'GET', body: 'name='+formData.r_userName+'&password='+formData.r_password});
+                fetch(myRequest)
+                    .then(response => {
+                        if (response.status === 200) {
+                            return response.json();
+                        }
+                        else {
+                            throw new Error("Something went wrong");
+                        }
+                    })	//对返回json进行格式化
+                    .then(json => {
+                        console.log(json);
+                        if(json.result === 0) {
+                            //获取用户id
+                            this.setState({userName: formData.userName});
+                            json.user.map((userItem) => (
+                                this.setState({userid: userItem.user_id})
+                            ));
+
+                            message.success("注册成功！");
+                            localStorage.userName = formData.r_userName;
+                            localStorage.password = formData.r_password;
+                        }
+                        else  {
+                            this.setState({userName: formData.userName});
+                            message.warn("用户名已存在！");
+                        }
+                    }).catch(error => {
+                    console.error(error);
+                });
+            }
+            else {
+                message.warn("请重新确认你的密码。");
+            }
+        }
+
+        this.setModalVisible(false);
+    };
 
 
-	callback(key) {
-		if (key == 1) {
-			this.setState({action: 'login'});
-		} else if (key == 2) {
-			this.setState({action: 'register'});
-		}
-	};
+    callback(key) {
+        if (key === 1) {
+            this.setState({action: 'login'});
+        } else if (key === 2) {
+            this.setState({action: 'register'});
+        }
+    };
 
-	//注销登录
-	logout(){
-		localStorage.userid= '';
-		localStorage.userNickName = '';
-		this.setState({hasLogined:false});
-	};
+    //注销登录
+    logout(){
+        localStorage.userid= '';
+        localStorage.userNickName = '';
+        this.setState({hasLogined:false});
+    };
 
-	//渲染
-	render() {
-		//接收界面参数
-		let {getFieldProps} = this.props.form;
+    //渲染
+    render() {
+        //接收界面参数
+        let {getFieldProps} = this.props.form;
 
-		const DemoBox = props => <p className={`height-${props.value}`}>{props.children}</p>;
-
-
-		//是否登录的的三元表达式
-		const userShow = this.state.hasLogined
-			?<Menu.Item key="logout" class="register">
-					<Button type="primary" htmlType="button">{this.state.userNickName}</Button>
-					&nbsp;&nbsp;
-					<Link target="_blank" to={`/usercenter`}>
-						<Button type="dashed" htmlType="button">个人中心</Button>
-					</Link>
-					&nbsp;&nbsp;
-					<Button type="ghost" htmlType="button" onClick={this.logout.bind(this)}>退出</Button>
-				</Menu.Item>
-			:<Menu.Item key="register" class="register">
-				<Icon type="appstore"/>注册/登录
-			</Menu.Item>;
-		return (
-			<header>
-				<Row >
-					<Col span={16}>
-						<a href="/" class="logo">
-							<img src="./src/images/logo.png" alt="logo"/>
-							<div>
-								<span>ICEBERGNews</span>
-								<p>只服务于独立思考的人群</p>
-							</div>
-
-						</a>
-					</Col>
-					<Col>
-
-							<Menu mode="horizontal" onClick={this.handleClick.bind(this)}>
-								{userShow}
-							</Menu>
-					</Col>
-				</Row>
+        const DemoBox = props => <p className={`height-${props.value}`}>{props.children}</p>;
 
 
-				<Modal title="登录/注册" wrapClassName="vertical-center-modal" visible={this.state.modalVisible} onCancel= {()=>this.setModalVisible(false)} onOk={() => this.setModalVisible(false)} okText="关闭">
-					<Tabs type="card" onChange={this.callback.bind(this)}>
-						<TabPane tab="登录" key="1">
-							<Form horizontal onSubmit={this.handleSubmit.bind(this)}>
-								<FormItem label="账户">
-									<Input placeholder="请输入您的账号" {...getFieldProps('userName')}/>
-								</FormItem>
-								<FormItem label="密码">
-									<Input type="password" placeholder="请输入您的密码" {...getFieldProps('password')}/>
-								</FormItem>
-								<Button type="primary" htmlType="submit">登录</Button>
-							</Form>
-						</TabPane>
-						<TabPane tab="注册" key="2">
-							<Form horizontal onSubmit={this.handleSubmit.bind(this)}>
-								<FormItem label="账户">
-									<Input placeholder="请输入您的账号" {...getFieldProps('r_userName')}/>
-								</FormItem>
-								<FormItem label="密码">
-									<Input type="password" placeholder="请输入您的密码" {...getFieldProps('r_password')}/>
-								</FormItem>
-								<FormItem label="确认密码">
-									<Input type="password" placeholder="请再次输入您的密码" {...getFieldProps('r_confirmPassword')}/>
-								</FormItem>
-								<Button type="primary" htmlType="submit">注册</Button>
-							</Form>
-						</TabPane>
-					</Tabs>
-				</Modal>
-			</header>
-		);
-	};
+        //是否登录的的三元表达式
+        const userShow = this.state.hasLogined
+            ?<Menu.Item key="logout" class="register">
+                <Button type="primary" htmlType="button">{this.state.userNickName}</Button>
+                &nbsp;&nbsp;
+                <Link target="_blank" to={`/usercenter`}>
+                    <Button type="dashed" htmlType="button">个人中心</Button>
+                </Link>
+                &nbsp;&nbsp;
+                <Button type="ghost" htmlType="button" onClick={this.logout.bind(this)}>退出</Button>
+            </Menu.Item>
+            :<Menu.Item key="register" class="register">
+                <Icon type="appstore"/>注册/登录
+            </Menu.Item>;
+        return (
+            <header>
+                <Row >
+                    <Col span={16}>
+                        <a href="/" class="logo">
+                            <img src="./src/images/logo.png" alt="logo"/>
+                            <div>
+                                <span>ICEBERGNews</span>
+                                <p>只服务于独立思考的人群</p>
+                            </div>
+
+                        </a>
+                    </Col>
+                    <Col>
+
+                        <Menu mode="horizontal" onClick={this.handleClick.bind(this)}>
+                            {userShow}
+                        </Menu>
+                    </Col>
+                </Row>
+
+
+                <Modal title="登录/注册" wrapClassName="vertical-center-modal" visible={this.state.modalVisible} onCancel= {()=>this.setModalVisible(false)} onOk={() => this.setModalVisible(false)} okText="关闭">
+                    <Tabs type="card" onChange={this.callback.bind(this)}>
+                        <TabPane tab="登录" key="1">
+                            <Form horizontal onSubmit={this.handleSubmit.bind(this)}>
+                                <FormItem label="账户">
+                                    <Input placeholder="请输入您的账号" {...getFieldProps('userName',{rules: [{required: true, message: '账号不能为空！'}]})}/>
+                                </FormItem>
+                                <FormItem label="密码">
+                                    <Input type="password" placeholder="请输入您的密码" {...getFieldProps('password',{rules: [{required: true, message: '密码不能为空！'}]})}/>
+                                </FormItem>
+                                <Button type="primary" htmlType="submit">登录</Button>
+                            </Form>
+                        </TabPane>
+                        <TabPane tab="注册" key="2">
+                            <Form horizontal onSubmit={this.handleSubmit.bind(this)}>
+                                <FormItem label="账户">
+                                    <Input placeholder="请输入您的账号" {...getFieldProps('r_userName',{rules: [{required: true, message: '账号不能为空！'}]})}/>
+                                </FormItem>
+                                <FormItem label="密码">
+                                    <Input type="password" placeholder="请输入您的密码" {...getFieldProps('r_password',{rules: [{required: true, message: '密码不能为空！'}]})}/>
+                                </FormItem>
+                                <FormItem label="确认密码">
+                                    <Input type="password" placeholder="请再次输入您的密码" {...getFieldProps('r_confirmPassword',{rules: [{required: true, message: '确认密码不能为空！'}]})}/>
+                                </FormItem>
+                                <Button type="primary" htmlType="submit">注册</Button>
+                            </Form>
+                        </TabPane>
+                    </Tabs>
+                </Modal>
+            </header>
+        );
+    };
 }
 export default PCHeader = Form.create({})(PCHeader);
 
