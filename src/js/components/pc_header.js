@@ -69,6 +69,8 @@ class PCHeader extends React.Component {
         //获取页面参数
         var formData = this.props.form.getFieldsValue();
         console.log(formData);
+        console.log(this.state.action);
+
 
         //网络通信
         if(this.state.action ==='login') { //登录页面
@@ -150,9 +152,9 @@ class PCHeader extends React.Component {
 
 
     callback(key) {
-        if (key === 1) {
+        if (key == "1") {
             this.setState({action: 'login'});
-        } else if (key === 2) {
+        } else if (key == "2") {
             this.setState({action: 'register'});
         }
     };
