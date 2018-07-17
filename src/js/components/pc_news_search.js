@@ -66,7 +66,7 @@ export default class SearchPage extends React.Component {
     }else if(this.props.searchType == 'tag'){
       hintMessage = '请输入新闻标签';
     }else if(this.props.searchType == 'time'){
-      hintMessage = '时间格式例：2018-07-17;2018-07-20';
+      hintMessage = '时间格式例：2018-07-17';
     }
 
     if(this.state.hasResult == true){ //有结果就展示
