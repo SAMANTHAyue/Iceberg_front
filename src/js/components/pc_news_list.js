@@ -142,7 +142,7 @@ export default class LoadMoreList extends React.Component {
                     }
                   </div>
                 }>
-
+                
           <Link to={`details/${item.uniquekey}`} target="_blank">
             <List.Item.Meta
               avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}

@@ -523,6 +523,25 @@ iframe {
   font-size: 16px;
   margin-top: 10px;
   width: 80%;
-  margin-left: 10%;
-  margin-right: 10%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.comment_label{
+  text-align: center;
+  width: 20%;
+  font-size: 20px;
+  margin-left: 40%;
+  margin-right: 40%;
+}
+
+.news_comment_bottom{
+  padding-top: 10px;
+  font-size: 16px;
+  float: right;
+}
+
+.news_comment_father{
+  background-color: #f2f2f2;
+  padding: 20px;
 }
