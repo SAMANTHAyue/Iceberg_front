@@ -2,7 +2,8 @@ import React from 'react';
 import PCHeader from './pc_header';
 import PCFooter from './pc_footer';
 import PCNewsContainer from './pc_newscontainer';
-import SearchPage from './pc_news_search'
+import SearchPage from './pc_news_search';
+import PCUserCenter from './pc_usercenter';
 
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 const Header = Layout.Header;
@@ -23,7 +24,8 @@ export default class PCIndex extends React.Component {
 			newsType: "top",
 			currentPage:'index_page',
 			searchType:'title',
-			isManager:false
+			isManager:false,
+			userId: '',
     };
 		this.onCollapse = this.onCollapse.bind(this);
 		this.handleClick = this.handleClick.bind(this);
@@ -41,7 +43,7 @@ export default class PCIndex extends React.Component {
 			this.setState({newsType: 'tiyu',currentPage:'index_page'});
 		}else if(e.key == 'zhengzhi_news'){
 			this.setState({newsType: 'guonei',currentPage:'index_page'});
-		}else	if(e.key == 'search_page'){
+		}else if(e.key == 'search_page'){
 			this.setState({currentPage:'search_page',searchType:'title'});
 		}else if(e.key == 'search_by_title'){
 			this.setState({currentPage:'search_page',searchType:'title'});
@@ -49,6 +51,8 @@ export default class PCIndex extends React.Component {
 			this.setState({currentPage:'search_page',searchType:'time'});
 		}else if(e.key == 'search_by_tag'){
 			this.setState({currentPage:'search_page',searchType:'tag'});
+		}else if(e.key == 'usercenter'){
+			this.setState({currentPage:'usercenter_page',userId: localStorage.userid})
 		}
   }
 
@@ -59,10 +63,13 @@ export default class PCIndex extends React.Component {
 
 	render() {
 
+		console.log(this.state.currentPage);
 		if(this.state.currentPage == 'index_page'){
 			content = <PCNewsContainer newsType = {this.state.newsType}></PCNewsContainer>;
 		}else if(this.state.currentPage == 'search_page'){
 			content = <SearchPage searchType = {this.state.searchType}></SearchPage>;
+		}else if(this.state.currentPage == 'usercenter_page'){
+            content = <PCUserCenter userId = {this.state.userId}></PCUserCenter>;
 		}
 
 		return (
@@ -81,38 +88,35 @@ export default class PCIndex extends React.Component {
 							<span>新闻首页</span>
 						</Menu.Item>
 						<Menu.Item key="hot_news">
-              <Icon type="pie-chart" />
-              <span>热点新闻</span>
-            </Menu.Item>
-						<SubMenu
+                            <Icon type="pie-chart" />
+                            <span>热点新闻</span>
+                        </Menu.Item>
+						  <SubMenu
 							key="search_page"
-              title={<span><Icon type="search" /><span>新闻搜索</span></span>}
-            >
-              <Menu.Item key="search_by_title">标题搜索</Menu.Item>
-              <Menu.Item key="search_by_tag">标签搜索</Menu.Item>
+                            title={<span><Icon type="search" /><span>新闻搜索</span></span>}>
+                            <Menu.Item key="search_by_title">标题搜索</Menu.Item>
+                            <Menu.Item key="search_by_tag">标签搜索</Menu.Item>
 							<Menu.Item key="search_by_time">时间搜索</Menu.Item>
-            </SubMenu>
-            <SubMenu
-              key="sub1"
-              title={<span><Icon type="book" /><span>新闻分类</span></span>}
-            >
-              <Menu.Item key="keji_news">科技</Menu.Item>
-              <Menu.Item key="zhengzhi_news">政治</Menu.Item>
-              <Menu.Item key="yule_news">娱乐</Menu.Item>
+                          </SubMenu>
+                          <SubMenu
+                            key="sub1"
+                            title={<span><Icon type="book" /><span>新闻分类</span></span>}>
+                            <Menu.Item key="keji_news">科技</Menu.Item>
+                            <Menu.Item key="zhengzhi_news">政治</Menu.Item>
+                            <Menu.Item key="yule_news">娱乐</Menu.Item>
 							<Menu.Item key="tiyu_news">体育</Menu.Item>
 							<Menu.Item key="caijing_news">财经</Menu.Item>
 							<Menu.Item key="guoji_news">国际</Menu.Item>
-
-            </SubMenu>
-            <Menu.Item key="sub2">
-							<Icon type="user" />
-							<span>用户中心</span>
-            </Menu.Item>
-            <Menu.Item key="11">
-              <Icon type="setting" />
-              <span>新闻管理</span>
-            </Menu.Item>
-          </Menu>
+						  </SubMenu>
+			              <Menu.Item key="usercenter">
+							  <Icon type="user" />
+							  <span>用户中心</span>
+                          </Menu.Item>
+                          <Menu.Item key="11">
+							  <Icon type="setting" />
+                              <span>新闻管理</span>
+                          </Menu.Item>
+		  </Menu>
         </Sider>
         <Layout>
 
@@ -121,7 +125,7 @@ export default class PCIndex extends React.Component {
 
             </Breadcrumb>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-							{content}
+				        {content}
             </div>
           </Content>
 						<PCFooter></PCFooter>

@@ -20,6 +20,7 @@ const TabPane = Tabs.TabPane;
 import {Router, Route, Link, browserHistory} from 'react-router'
 import PCHeader from './pc_header';
 import PCFooter from './pc_footer';
+import SearchPage from "./pc_news_search";
 export default class PCUserCenter extends React.Component {
     constructor() {
         super();
@@ -28,16 +29,15 @@ export default class PCUserCenter extends React.Component {
             intro: '',
             credit: '',
             comments: '',
-            previewImage: '',
-            previewVisible: false
+/*            previewImage: '',
+            previewVisible: false*/
         };
     };
     componentDidMount() {
         /*		var myFetchOptions = {
                     method: 'GET'
                 };*/
-
-        const myRequest = new Request('/user/<'+key+'>',{method: 'GET', body: ''});
+        const myRequest = new Request('/user/<'+this.props.userId+'>',{method: 'GET'});
         fetch(myRequest)
             .then(response=>{
                 if(response.status === 200) {
@@ -56,7 +56,7 @@ export default class PCUserCenter extends React.Component {
 
     };
     render() {
-        const props = {
+/*        const props = {
             action: 'http://newsapi.gugujiankong.com/handler.ashx',
             headers: {
                 "Access-Control-Allow-Origin": "*"
@@ -74,12 +74,12 @@ export default class PCUserCenter extends React.Component {
             onPreview: (file) => {
                 this.setState({previewImage: file.url, previewVisible: true});
             }
-        };
+        };*/
 
         const {username,userintro,usercredit,usercomments} = this.state;
         const usercommentsList = usercomments.length ?
             usercomments.map((comment,index)=>(
-                <Card key={index} title={`于 ${comment.timestamp} 评论了文章 ${comment.article_id}`} extra={<a target="_blank" href={`/#/details/${comment.article_id}`}>查看</a>}>
+                <Card key={index} title={`于 ${comment.timestamp} 评论了文章 ${comment.article_id}`} extra={<a target="_blank" href={`/article/${comment.article_id}`}>查看</a>}>
                     <p>{comment.comment_content}</p>
                 </Card>
             ))
@@ -88,7 +88,6 @@ export default class PCUserCenter extends React.Component {
 
         return (
             <div>
-                <PCHeader key={this.props.userid} />
                 <Row>
                     <Col span={2}></Col>
                     <Col span={20}>
@@ -128,8 +127,8 @@ export default class PCUserCenter extends React.Component {
                     </Col>
                     <Col span={2}></Col>
                 </Row>
-                <PCFooter/>
             </div>
         );
     };
 }
+
