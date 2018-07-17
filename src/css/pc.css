@@ -491,3 +491,38 @@ iframe {
 .demo-loadmore-list {
   min-height: 350px;
 }
+
+#components-layout-demo-top .logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255,255,255,.2);
+  margin: 16px 24px 16px 0;
+  float: left;
+}
+
+.news-detial-title {
+  text-align: center;
+  font-size: 35px;
+}
+.news-detail-card {
+  font-size: 28px;
+  margin-top: 5px;
+  text-align: center;
+}
+.news-detail-description {
+  text-align: center;
+  font-size: 16px;
+  margin-top: 10px;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.news-detail-info{
+  text-align: center;
+  font-size: 16px;
+  margin-top: 10px;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
