@@ -68,12 +68,11 @@ class PCHeader extends React.Component {
 
         //获取页面参数
         var formData = this.props.form.getFieldsValue();
-        console.log(formData);
         console.log(this.state.action);
 
 
         //网络通信
-        if(this.state.action ==='login') { //登录页面
+        if(this.state.action =='login') { //登录页面
             const myRequest = new Request('/login',{method: 'GET', body: 'name='+formData.userName+'&password='+formData.password})
             fetch(myRequest)
                 .then(response => {
@@ -110,7 +109,9 @@ class PCHeader extends React.Component {
             });
         }
         else { //注册页面
-            if (formData.r_password === formData.r_comfirmPassword) {
+          console.log('密码1',formData.r_password);
+          console.log('密码2',formData.r_confirmPassword);r_confirmPassword
+            if (formData.r_password == formData.r_confirmPassword) {
                 const myRequest = new Request('/register',{method: 'GET', body: 'name='+formData.r_userName+'&password='+formData.r_password});
                 fetch(myRequest)
                     .then(response => {
