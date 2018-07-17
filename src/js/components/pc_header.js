@@ -87,10 +87,8 @@ class PCHeader extends React.Component {
                     console.log(json);
                     if(json.result === 0) {
                         //获取用户id
-                        this.setState({userName: formData.userName});
-                        json.user.map((userItem) => (
-                            this.setState({userid: userItem.user_id})
-                        ));
+                        this.setState({userid: json.user.user_id});
+                        localStorage.userid = this.state.userid;
 
                         this.setState({hasLogined:true});
                         message.success("登录成功！");
@@ -126,10 +124,8 @@ class PCHeader extends React.Component {
                         console.log(json);
                         if(json.result === 0) {
                             //获取用户id
-                            this.setState({userName: formData.userName});
-                            json.user.map((userItem) => (
-                                this.setState({userid: userItem.user_id})
-                            ));
+                            this.setState({userid: json.user.user_id});
+                            localStorage.userid = this.state.userid;
 
                             message.success("注册成功！");
                             localStorage.userName = formData.r_userName;
