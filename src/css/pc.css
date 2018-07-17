@@ -38,6 +38,9 @@
     text-align:center
 }
 
+.Managerment{
+  visibility:hidden;
+}
 
 .footer {
     display: flex;

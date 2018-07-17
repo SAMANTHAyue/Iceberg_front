@@ -37,7 +37,7 @@ export default class PCNewsContainer extends React.Component {
 					<Col span={1}></Col>
 					<Col span={21}>
 						<br/>
-						<LoadMoreList count={30} newsType={this.props.newsType}></LoadMoreList>
+						<LoadMoreList count={30} newsType={this.props.newsType} isManager={true}></LoadMoreList>
 					</Col>
 					<Col span={2}></Col>
 				</Row>

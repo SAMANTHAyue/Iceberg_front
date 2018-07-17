@@ -22,7 +22,8 @@ export default class PCIndex extends React.Component {
       collapsed: false,
 			newsType: "top",
 			currentPage:'index_page',
-			searchType:'title'
+			searchType:'title',
+			isManager:false
     };
 		this.onCollapse = this.onCollapse.bind(this);
 		this.handleClick = this.handleClick.bind(this);
