@@ -1,4 +1,5 @@
 import React from 'react';
+import marked from 'marked'
 import {Row, Col, BackTop} from 'antd';
 import PCHeader from './pc_header';
 import PCFooter from './pc_footer';
@@ -20,7 +21,7 @@ export default class PCNewsDetails extends React.Component {
 			newsAuthor:'未知作者',
 			newsID:'12344',
 			newsDiscribe:'这是新闻概要就是觉得洛夫卡的撒娇的开发及分厘卡技术的拉法基拉萨酱豆腐了及独立董事咖啡机卢卡斯的经理反馈尽量扩大时间分厘卡机联发科老大就是浪费卡洛斯开发上的分厘卡机撒大反击大师傅大师傅航空基地建设',
-			newsContent:'新闻正文',
+			newsContent:marked('# Damage done\n\nDoes Donald Trump believe in ominous metaphors? As he affirmed his support for US intelligence agencies, the lights went to black in the White House conference room.\nOnce order was restored, he said he had been in the dark as to why a storm had swirled around his presidency since his Helsinki summit with Vladimir Putin. It was, he said, because he had misspoken.\nThat is going to be hard for many of the president\'s critics to swallow, however. Even if he did mean to say, \"I don\'t see a reason why it wouldn\'t be Russia\", it is a pretty weak way to confront the head of a nation accused of targeting the heart of American democracy.\nWhat is more, the context of the president\'s comments make a simple slip of the tongue seem less likely.\nAt the very least, the president gave his supporters some material to rally around.\nThe damage, however, has been done. Mr Trump can give as many White House statements as he likes, but on the biggest stage \- standing beside the Russian president - he fumbled. All the explanations cannot change that.'),
 			newsStar:4,
 			newsType:'科技',
 			newsTime:'2018-10-29',
@@ -121,7 +122,10 @@ export default class PCNewsDetails extends React.Component {
 						<Col span={5}></Col>
 						<Col span={14}>
 		      		<div style={{ background: '#fff',  padding: 44, minHeight: 580 }}>
-								这里是新闻正文部分，Markdown
+
+							<div class="news-content"><div dangerouslySetInnerHTML = {{ __html:this.state.newsContent }}>
+							</div>
+							</div>
 							</div>
 						</Col>
 						<Col span={5}></Col>
