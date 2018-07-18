@@ -4,6 +4,7 @@ import PCFooter from './pc_footer';
 import PCNewsContainer from './pc_newscontainer';
 import SearchPage from './pc_news_search';
 import PCUserCenter from './pc_usercenter';
+import ManagePanel from './pc_managepanel';
 
 import { Layout, Menu, Breadcrumb, Icon,message } from 'antd';
 const Header = Layout.Header;
@@ -24,6 +25,7 @@ export default class PCIndex extends React.Component {
 			newsType: "top",
 			currentPage:'index_page',
 			searchType:'title',
+			manageType:'publish',
 			isManager:false,
 			userId: '',
     };
@@ -64,6 +66,12 @@ export default class PCIndex extends React.Component {
 				localStorage.managerEnable = 0;
 				message.info('关闭管理员模式');
 			}
+		}else if(e.key == 'publish_news'){
+			this.setState({currentPage: 'manage_page',manageType:'publish'});
+		}else if(e.key == 'inform_deal'){
+			this.setState({currentPage: 'manage_page',manageType:'inform'});
+		}else if(e.key == 'manage_users'){
+			this.setState({currentPage: 'manage_page',manageType:'users'});
 		}
   }
 
@@ -81,6 +89,8 @@ export default class PCIndex extends React.Component {
 			content = <SearchPage searchType = {this.state.searchType}></SearchPage>;
 		}else if(this.state.currentPage == 'usercenter_page'){
             content = <PCUserCenter userId = {localStorage.userid}></PCUserCenter>;
+		}else if(this.state.currentPage == 'manege_page'){
+			content = <ManagePanel manageType = {this.state.manageType}></ManagePanel>;
 		}
 
 		return (
@@ -102,7 +112,7 @@ export default class PCIndex extends React.Component {
 								<Menu.Item key="search_by_title">标题搜索</Menu.Item>
 								<Menu.Item key="search_by_tag">标签搜索</Menu.Item>
 								<Menu.Item key="search_by_time">时间搜索</Menu.Item>
-	             </SubMenu>
+	                         </SubMenu>
 							 <SubMenu key="sub1" title={<span><Icon type="book" /><span>新闻分类</span></span>}>
 								 <Menu.Item key="keji_news">科技</Menu.Item>
 								 <Menu.Item key="zhengzhi_news">政治</Menu.Item>
@@ -119,6 +129,12 @@ export default class PCIndex extends React.Component {
 								  <Icon type="setting" />
 	                <span>新闻管理</span>
 	              </Menu.Item>
+                  <SubMenu key="manage_page" title={<span><Icon type="manage" /><span>管理员界面</span></span>}>
+                      <Menu.Item key="publish_news">发布新闻</Menu.Item>
+                      <Menu.Item key="inform_deal">举报处理</Menu.Item>
+                      <Menu.Item key="manage_users">用户管理</Menu.Item>
+                  </SubMenu>
+
 			  		</Menu>
         </Sider>
         <Layout>

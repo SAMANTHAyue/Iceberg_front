@@ -310,9 +310,13 @@ export default class PCNewsDetails extends React.Component {
 					</Avatar>
 					&nbsp;{this.state.newsAuthor}
 				</div>
-				<div class = 'news-detail-description'>
-					新闻概要:{this.state.newsDiscribe}
-				</div>
+				{
+					this.state.editEnable
+					?
+					<textarea value={this.state.newsDiscribe}  cols="95" rows="6"/>
+					:
+					<p class = 'news-detail-description'>新闻概要:{this.state.newsDiscribe}</p>
+				}
 				{/*通信这里不返回概要*/}
 				<div class = 'news-detail-info'>
 					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
@@ -338,9 +342,9 @@ export default class PCNewsDetails extends React.Component {
 					</Avatar>
 					&nbsp;{this.state.newsAuthor}
 				</div>
-				<div class = 'news-detail-description'>
-					新闻概要:{this.state.newsDiscribe}
-				</div>
+				{
+					<p class = 'news-detail-description'>新闻概要:{this.state.newsDiscribe}</p>
+				}
 				 {/*通信这里不返回概要*/}
 				<div class = 'news-detail-info'>
 					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
