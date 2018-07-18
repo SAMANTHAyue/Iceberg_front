@@ -20,7 +20,7 @@ export default class PCIndex extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-      collapsed: false,
+        collapsed: false,
 			newsType: "top",
 			currentPage:'index_page',
 			searchType:'title',
@@ -52,11 +52,11 @@ export default class PCIndex extends React.Component {
 		}else if(e.key == 'search_by_tag'){
 			this.setState({currentPage:'search_page',searchType:'tag'});
 		}
-		// else if(e.key == 'usercenter_page'){
-		// 	this.setState({currentPage:'usercenter_page',userId: localStorage.userid})
-		// }
+		else if(e.key == 'usercenter_page'){
+		 	this.setState({currentPage:'usercenter_page',userId: localStorage.userid})
+		}
 		else if(e.key == 'news_management'){
-			this.setState({isManager:!this.state.isManager});
+			this.setState({isManager:!this.state.isManager});//isManager: localStorage.useradmin
 			if(this.state.isManager){
 				message.info('进入管理员模式');
 				localStorage.managerEnable = 1;
@@ -80,7 +80,7 @@ export default class PCIndex extends React.Component {
 		}else if(this.state.currentPage == 'search_page'){
 			content = <SearchPage searchType = {this.state.searchType}></SearchPage>;
 		}else if(this.state.currentPage == 'usercenter_page'){
-            content = <PCUserCenter userId = {this.state.userId}></PCUserCenter>;
+            content = <PCUserCenter userId = {localStorage.userid}></PCUserCenter>;
 		}
 
 		return (
