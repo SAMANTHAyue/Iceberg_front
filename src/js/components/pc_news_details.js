@@ -6,7 +6,7 @@ import PCFooter from './pc_footer';
 import PCNewsImageBlock from './pc_news_image_block';
 import CommonComments from './common_comments';
 import NewsCommentList from './pc_news_comment_list';
-import { Layout, Menu, Breadcrumb,Card, Icon, Avatar,Rate,Tag,Divider,Popconfirm,message,Input } from 'antd';
+import { Layout, Menu, Breadcrumb,Card, Icon, Avatar,Rate,Tag,Divider,Popconfirm,message,Input,Modal,Button} from 'antd';
 const { Header, Content, Footer } = Layout;
 const { Meta } = Card;
 
@@ -28,7 +28,7 @@ export default class PCNewsDetails extends React.Component {
 			newsTime:'2018-10-29',
 			newsTagList:['计算机','人工智能','大数据'],
 			newsHeat: 10000,
-			editEnable:false
+			editEnable:false,
 		};
 		this.handleEditClick = this.handleEditClick.bind(this);
 		this.handleDeleteClick = this.handleDeleteClick.bind(this);
@@ -95,9 +95,17 @@ export default class PCNewsDetails extends React.Component {
 
 
 	handleEditClick(e){
-		console.log('点击新闻编辑',e);
-		message.info('进入新闻编辑模式');
-		this.setState({editEnable:true});
+		if(this.state.editEnable){
+			console.log('点击保存新闻编辑');
+			message.info('保存成功');
+			this.setState({editEnable:false});
+
+		}else{
+			console.log('点击新闻编辑',e);
+			message.info('进入新闻编辑模式');
+			this.setState({editEnable:true});
+		}
+
 	}
 
 	handleDeleteClick(e){
@@ -273,7 +281,7 @@ export default class PCNewsDetails extends React.Component {
 		var temp1 = {};
 		temp1.article_id = '1234';
 		temp1.comment_id = '214325';
-		temp1.user_id = '123342';
+		temp1.user_id = '123456';
 		temp1.user_name = 'Tom';
 		temp1.comment_timestamp = '2018-07-19 10:00';
 		temp1.comment_mod_timestamp = '2018-07-19 11:00';
@@ -288,8 +296,8 @@ export default class PCNewsDetails extends React.Component {
 		if(localStorage.managerEnable == '1'){
 			newsTop =
 			<Card actions={
-				[<Popconfirm placement="bottom" title='确认进入新闻编辑模式吗？' onConfirm={this.handleEditClick} okText="Yes" cancelText="No">
-					<div><Icon type="edit" />&nbsp;&nbsp;&nbsp;新闻编辑</div>
+				[<Popconfirm placement="bottom" title={this.state.editEnable?'确认保存修改后的内容吗?':'确认进入新闻编辑模式吗？'} onConfirm={this.handleEditClick} okText="Yes" cancelText="No">
+					<div><Icon type="edit" />&nbsp;&nbsp;&nbsp;{this.state.editEnable?'保存修改':'新闻编辑'}</div>
 				</Popconfirm>
 				,
 				<Popconfirm placement="bottom" title='确认删除本新闻?' onConfirm={this.handleDeleteClick} okText="Yes" cancelText="No">
@@ -358,7 +366,7 @@ export default class PCNewsDetails extends React.Component {
 				{
 					this.state.editEnable
 					?
-					<Input placeholder="请输入文章标题"  size = 'large'/>
+					<Input placeholder="请输入文章标题" defaultValue = {this.state.newsTitle} size = 'large'/>
 					:
 					<p class = 'news-detail-title'>{this.state.newsTitle}</p>
 				}
@@ -401,10 +409,7 @@ export default class PCNewsDetails extends React.Component {
 				<PCFooter></PCFooter>
   		</Layout>
 
-				<Row>
-				{/*<CommonComments uniquekey={this.props.params.uniquekey}/>*/}
-				</Row>
-			</div>
+	  </div>
 		);
 	};
 }
