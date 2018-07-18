@@ -358,7 +358,7 @@ export default class PCNewsDetails extends React.Component {
 				{
 					this.state.editEnable
 					?
-					<Input placeholder="请输入文章标题" value={this.state.newsTitle} />
+					<Input placeholder="请输入文章标题"  size = 'large'/>
 					:
 					<p class = 'news-detail-title'>{this.state.newsTitle}</p>
 				}
