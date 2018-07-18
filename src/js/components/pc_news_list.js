@@ -38,11 +38,69 @@ export default class LoadMoreList extends React.Component {
   newsDeleteClick(e){
     //e.key.slice(2)为新闻id
     console.log('新闻删除点击',e.key.slice(2));
+     /* const myRequest = new Request('/article/<' + e.key.slice(2) + '>/delete',
+          {
+              method: 'POST',
+              headers: new Headers({"Content-Type": "application/json"})
+          });
+      fetch(myRequest).then(response => {
+          if (response.status === "200") {
+              return response.json();
+          }
+          else {
+              throw new Error('Something went wrong');
+          }
+      }).then(json => {
+          console.log(json);
+          if (json.result === 0) {
+              message.success("添加成功！");
+          }
+          else {
+              message.warn("添加失败！");
+          }
+      }).catch(error => {
+          console.error(error);
+      });*/
   }
 
   newsUpdateClick(e){
     //e.key.slice(2)为新闻id
     console.log('新闻更新点击',e.key.slice(2));
+    /*  var formData = this.props.form.getFieldsValue();
+      console.log('新闻更新点击', e.key.slice(2));
+      const myRequest = new Request('/article/<' + e.key.slice(2) + '>/edit',
+          {
+              method: 'POST',
+              headers: new Headers({"Content-Type": "application/json"}),
+              body: JSON.stringify({
+                  'title': formData.update_title,
+                  'desc': formData.update_desc,
+                  'content': formData.update_content,
+                  'author': formData.update_author,
+                  'time': formData.update_time,
+                  'category_id': formData.update_categoryID,
+                  'tags': formData.update_taglist
+              })
+          });
+      fetch(myRequest).then(response => {
+          if (response.status === "200") {
+              return response.json();
+          }
+          else {
+              throw new Error('Something went wrong');
+          }
+      })
+          .then(json => {
+              console.log(json);
+              if (json.result === 0) {
+                  message.success("添加成功！");
+              }
+              else {
+                  message.warn("添加失败！");
+              }
+          }).catch(error => {
+          console.error(error);
+      });*/
   }
 
   newsLoadClick(e){
@@ -55,6 +113,54 @@ export default class LoadMoreList extends React.Component {
   render() {
     if(this.state.typeChange==true){
       console.log('列表获取到的新闻类型',this.props.newsType);
+      /*  const myRequest = new Request('/category/<' + this.state.newsType + '>',
+            {
+                method: 'GET',
+                headers: new Headers({"Content-Type": "application/json"})
+            });
+        fetch(myRequest)
+            .then((response) => {
+                if (response.status === 200) {
+                    return response.json();
+                }
+                else {
+                    throw new Error("Something went wrong");
+                }
+            })
+            .then((json) => {
+                console.log(json);
+                for (var i = 0; i < json.articles.length; i++) {
+                    var temp = {};
+                    temp.article_title = json.articles[i].article_title;
+                    temp.article_author = json.articles[i].article_author;
+                    temp.article_timestamp = json.articles[i].article_timestamp;
+                    temp.href = json.articles[i].url;
+                    temp.article_desc = json.articles[i].article_desc;
+                    temp.article_id = json.articles[i].article_id;
+                    temp.article_heat = json.articles[i].article_heat;
+                    temp.article_score = json.articles[i].article_score;
+                    temp.tag_list = json.articles[i].tag_list;
+                    var category_id = json.articles[i].category_id;
+              if(category_id == 1){
+                temp.category = '科技';
+              }else if(category_id == 2){
+                temp.category = '政治';
+              }else if(category_id == 3){
+                temp.category = '娱乐';
+              }else if(category_id == 4){
+                temp.category = '体育';
+              }else if(category_id == 5){
+                temp.category = '财经';
+              }else if(category_id == 6){
+                temp.category = '国际';
+              }else {
+                temp.category = '未知';
+              }
+                    listData.push(temp);
+                }
+            }).catch(error => {
+            console.error(error);
+        });*/
       var myFetchOptions = {
         method: 'GET'
       };

@@ -45,7 +45,7 @@ export default class SearchPage extends React.Component {
      const myRequest = new Request('/search',
                                     {method: 'POST',
                                         headers: new Headers({"Content-Type":"application/json"}),
-                                        body: JSON.stringify({search_type: this.props.searchType,keyword: value})});
+                                        body: JSON.stringify({'search_type': this.props.searchType,'keyword': value})});
      fetch(myRequest).then(response => {
        if(response.status === 200) {
          return response.json();
