@@ -81,7 +81,6 @@ export default class PCNewsDetails extends React.Component {
                 temp.comment_karma = json.article.comment_list[i].comment_karma;
                 temp.is_reply = json.article.comment_list[i].is_reply;
                 temp.father_comment_id = json.article.comment_list[i].father_comment_id;
-                temp.father_cooment_name = json.article.comment_list[i].father_cooment_name;
                 temp.father_comment_content = json.article.comment_list[i].father_comment_content;
                 temp.father_comment_user = json.article.comment_list[i].father_comment_user;
                 commentList.push(temp);
@@ -136,7 +135,6 @@ export default class PCNewsDetails extends React.Component {
                 temp.comment_karma = json.comments[i].comment_karma;
                 temp.is_reply = json.comments[i].is_reply;
                 temp.father_comment_id = json.comments[i].father_comment_id;
-                temp.father_cooment_name = json.comments[i].father_cooment_name;
                 temp.father_comment_content = json.comments[i].father_comment_content;
                 temp.father_comment_user = json.comments[i].father_comment_user;
                 commentList.push(temp);
@@ -178,7 +176,6 @@ export default class PCNewsDetails extends React.Component {
                 temp.comment_karma = json.comments[i].comment_karma;
                 temp.is_reply = json.comments[i].is_reply;
                 temp.father_comment_id = json.comments[i].father_comment_id;
-                temp.father_cooment_name = json.comments[i].father_cooment_name;
                 temp.father_comment_content = json.comments[i].father_comment_content;
                 temp.father_comment_user = json.comments[i].father_comment_user;
                 commentList.push(temp);
@@ -217,7 +214,6 @@ export default class PCNewsDetails extends React.Component {
             temp.comment_karma = json.comments.comment_karma;
             temp.is_reply = json.comments.is_reply;
             temp.father_comment_id = json.comments.father_comment_id;
-            temp.father_cooment_name = json.comments.father_cooment_name;
             temp.father_comment_content = json.comments.father_comment_content;
             temp.father_comment_user = json.comments.father_comment_user;
             for(var i=0;i<commentList.length;i++) {

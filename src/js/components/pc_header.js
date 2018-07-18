@@ -89,9 +89,11 @@ class PCHeader extends React.Component {
                 .then(json => {
                     console.log(json);
                     if(json.result === 0) {
-                        //获取用户id
+                        //获取用户id、信誉度、是否是管理员
                         this.setState({userid: json.user.user_id});
                         localStorage.userid = this.state.userid;
+                        localStorage.usercredit = json.user.user_credit;
+                        localStorage.useradmin = json.user.user_admin;
 
                         this.setState({hasLogined:true});
                         message.success("登录成功！");
@@ -111,7 +113,7 @@ class PCHeader extends React.Component {
         }
         else { //注册页面
           console.log('密码1',formData.r_password);
-          console.log('密码2',formData.r_confirmPassword);r_confirmPassword
+          console.log('密码2',formData.r_confirmPassword);
             if (formData.r_password == formData.r_confirmPassword) {
                 const myRequest = new Request('/register',
                                                {method: 'POST',
