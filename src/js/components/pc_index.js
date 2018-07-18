@@ -80,7 +80,7 @@ export default class PCIndex extends React.Component {
 		}else if(this.state.currentPage == 'search_page'){
 			content = <SearchPage searchType = {this.state.searchType}></SearchPage>;
 		}else if(this.state.currentPage == 'usercenter_page'){
-            content = <PCUserCenter userId = {this.state.userId}></PCUserCenter>;
+            content = <PCUserCenter userId = {localStorage.userid}></PCUserCenter>;
 		}
 
 		return (
