@@ -264,6 +264,7 @@ export default class PCNewsDetails extends React.Component {
 		temp.comment_mod_timestamp = '2018-07-19 11:00';
 		temp.comment_content = '这个新闻写得真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！';
 		temp.comment_karma = 21;
+		temp.is_commented = false;
 		temp.is_reply = false;
 		temp.father_comment_id = '12333';
 		temp.father_comment_content = '623445';
@@ -271,7 +272,7 @@ export default class PCNewsDetails extends React.Component {
 		commentList.push(temp);
 		var temp1 = {};
 		temp1.article_id = '1234';
-		temp1.comment_id = '214324';
+		temp1.comment_id = '214325';
 		temp1.user_id = '123342';
 		temp1.user_name = 'Tom';
 		temp1.comment_timestamp = '2018-07-19 10:00';
@@ -303,18 +304,17 @@ export default class PCNewsDetails extends React.Component {
 				</div>
 				<div class = 'news-detail-description'>
 					新闻概要:{this.state.newsDiscribe}
-				</div> 
+				</div>
 				<div class = 'news-detail-info'>
 					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
 					分类：{this.state.newsType}	&nbsp;
-					浏览量：{this.state.newsHeat}	&nbsp;
 					标签：
 					{this.state.newsTagList.map(tag => (
 						<Tag key={tag}>
 							{tag}
 						</Tag>  ))
 					}		&nbsp;
-					浏览量：{this.state.newsBrowseCount}	&nbsp;
+					浏览量：{this.state.newsHeat}	&nbsp;
 
 				</div>
 				<div class='news-detail-time'>时间：{this.state.newsTime}</div>
@@ -331,18 +331,17 @@ export default class PCNewsDetails extends React.Component {
 				</div>
 				<div class = 'news-detail-description'>
 					新闻概要:{this.state.newsDiscribe}
-				</div> /*通信这里不返回概要*/
+				</div>
 				<div class = 'news-detail-info'>
 					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
 					分类：{this.state.newsType}	&nbsp;
-					浏览量：{this.state.newsHeat}	&nbsp;
 					标签：
 					{this.state.newsTagList.map(tag => (
 						<Tag key={tag}>
 							{tag}
 						</Tag>  ))
 					}		&nbsp;
-					浏览量：{this.state.newsBrowseCount}	&nbsp;
+					浏览量：{this.state.newsHeat}	&nbsp;
 				</div>
 				<div class='news-detail-time'>时间：{this.state.newsTime}</div>
 			</Card>
