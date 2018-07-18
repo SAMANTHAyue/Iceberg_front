@@ -69,18 +69,15 @@ export default class LoadMoreList extends React.Component {
         for (var i = 0; i < json.length; i++) {
           var name = json[i].title;
           var temp = {};
-          temp.title = json[i].title;
-          temp.author_name = '李白';
-          temp.href = json[i].url;
-          temp.type = '科技';
-          temp.content = '我是简要介绍伺机待发的首府拉萨机砥砺风景啊上帝就发打算减肥啦就是大开可是大家阿凡达沙克范德萨激发了放进了口袋就是浪费科技撒赖咖啡碱阿斯弗送到家里都是卡就发了肯定就撒了开发深大路口设计的离开房间啊两款手机辐射拉到会计法刷卡机的风口浪尖开发了打算发的沙发了大家萨拉反抗军的撒的萨芬就打算昆仑剑法看来四大佛教按时灯笼裤飞机';
-          temp.uniquekey = json[i].uniquekey;
-          temp.newsID = '123244';
-          temp.star = 4;
-          temp.time = '2018-07-18 10:30';
-          temp.tag1 = '科技';
-          temp.tag2 = '艺术';
-          temp.tag3 = '自媒体';
+          temp.article_id = '12434';
+          temp.category = '科技';
+          temp.article_title = '这是新闻标题';
+          temp.article_desc = '新闻的简介数据库大家分厘卡即使的看法垃圾啊士大夫接受了的看法距离喀什角动量飞机侃大山就爱上了的咖啡机拉克丝解放了喀什的就ask两地分居垃圾十分宽大金克拉撒旦解放了喀什建立饭卡将离开洒家对方离开洒家灯笼裤飞机就立刻多久啊是芬兰空军分类的凯撒就建立可是大家分厘卡即使代理费';
+          temp.article_author = '名字';
+          temp.article_timestamp = '2018-07-16 10:00';
+          temp.article_heat = 43423;
+          temp.article_score = 3.5;
+          temp.tag_list = ['计算机','科学','大数据'];
           //console.log(temp);
           listData.push(temp);
         }
@@ -106,19 +103,20 @@ export default class LoadMoreList extends React.Component {
         dataSource={listData}
         footer={<div></div>}
     renderItem={item => (
-      <List.Item key={item.title}
+      <List.Item key={item.article_id}
           actions={[
-            <p>新闻指数：<Rate disabled allowHalf defaultValue={item.star}/></p>,
-            <p>分类:<IconText text={item.type}/></p>,
-            <p>作者:<IconText text={item.author_name}/></p>,
-            <p><IconText text={item.time}/></p>,
-            <p>
-              <div>
-                <Tag>Tag 1</Tag>
-                <Tag>Tag 2</Tag>
-                <Tag>Link</Tag>
-              </div>
+            <p>质量：<Rate disabled allowHalf defaultValue={item.article_score}/></p>,
+            <p>作者：{item.article_author}</p>,
+            <p>分类:<IconText text={item.category}/></p>,
+            <p>标签：{item.tag_list.map(tag => (
+  						<Tag key={tag}>
+  							{tag}
+  						</Tag>))
+           }
             </p>,
+
+          <p>浏览量：{item.article_heat}</p>,
+          <p>时间：{item.article_timestamp}</p>
           ]}
           extra={<div>
                     <img width={110} alt="logo" src='./src/images/logo.png'/>
@@ -127,9 +125,9 @@ export default class LoadMoreList extends React.Component {
                       <div >
                         <Dropdown overlay={ (
                           <Menu>
-                            <Menu.Item key={'1#'+item.newsID}  onClick={this.newsLoadClick}>查看新闻</Menu.Item>
-                            <Menu.Item key={'2#'+item.newsID} onClick={this.newsDeleteClick}>删除新闻</Menu.Item>
-                            <Menu.Item key={'3#'+item.newsID} onClick={this.newsUpdateClick}>修改新闻</Menu.Item>
+                            <Menu.Item key={'1#'+item.article_id}  onClick={this.newsLoadClick}>查看新闻</Menu.Item>
+                            <Menu.Item key={'2#'+item.article_id} onClick={this.newsDeleteClick}>删除新闻</Menu.Item>
+                            <Menu.Item key={'3#'+item.article_id} onClick={this.newsUpdateClick}>修改新闻</Menu.Item>
                           </Menu>
                         )}>
                               <Button style={{ marginTop: 3,marginLeft:8 }}>
@@ -143,11 +141,10 @@ export default class LoadMoreList extends React.Component {
                   </div>
                 }>
 
-          <Link to={`details/${item.uniquekey}`} target="_blank">
-            <List.Item.Meta
-              avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-              title={<a href={item.url}>{item.title}</a>}
-              description = {item.content}/>
+          <Link to={`details/${item.article_id}`} target="_blank">
+          <List.Item.Meta
+            title={item.article_title}
+            description = {item.article_desc}/>
           </Link>
 
       </List.Item>

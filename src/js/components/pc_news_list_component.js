@@ -83,9 +83,9 @@ export default class NewsList extends React.Component {
                       <div >
                         <Dropdown overlay={ (
                           <Menu>
-                            <Menu.Item key={'1#'+item.newsID}  onClick={this.newsLoadClick}>查看新闻</Menu.Item>
-                            <Menu.Item key={'2#'+item.newsID} onClick={this.newsDeleteClick}>删除新闻</Menu.Item>
-                            <Menu.Item key={'3#'+item.newsID} onClick={this.newsUpdateClick}>修改新闻</Menu.Item>
+                            <Menu.Item key={'1#'+item.article_id}  onClick={this.newsLoadClick}>查看新闻</Menu.Item>
+                            <Menu.Item key={'2#'+item.article_id} onClick={this.newsDeleteClick}>删除新闻</Menu.Item>
+                            <Menu.Item key={'3#'+item.article_id} onClick={this.newsUpdateClick}>修改新闻</Menu.Item>
                           </Menu>
                         )}>
                               <Button style={{ marginTop: 3,marginLeft:8 }}>

@@ -57,15 +57,31 @@ export default class SearchPage extends React.Component {
           console.log(json);
           for (var i = 0; i < json.articles.length; i++) {
               var temp = {};
+              temp.article_id = json.articles[i].article_id;
               temp.article_title = json.articles[i].article_title;
               temp.article_author = json.articles[i].article_author;
               temp.article_timestamp = json.articles[i].article_timestamp;
               temp.href = '/article/<'+json.articles[i].article_id+'>';
-              temp.description = 'sdfdsfa';
-              temp.article_id = json.articles[i].article_id;
+              temp.article_desc = json.articles[i].article_desc;
               temp.article_heat = json.articles[i].article_heat;
               temp.article_score = json.articles[i].article_score;
               temp.taglist = json.articles[i].tag_list;
+              var category_id = json.articles[i].category_id;
+              if(category_id == 1){
+                temp.category = '科技';
+              }else if(category_id == 2){
+                temp.category = '政治';
+              }else if(category_id == 3){
+                temp.category = '娱乐';
+              }else if(category_id == 4){
+                temp.category = '体育';
+              }else if(category_id == 5){
+                temp.category = '财经';
+              }else if(category_id == 6){
+                temp.category = '国际';
+              }else {
+                temp.category = '未知';
+              }
               listData.push(temp);
           }
        }).catch(error => {
