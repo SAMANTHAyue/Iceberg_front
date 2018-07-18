@@ -26,7 +26,7 @@ export default class PCNewsDetails extends React.Component {
 			newsStar:4,
 			newsType:'科技',
 			newsTime:'2018-10-29',
-			newsTagList:['计算机','人工智能','大数据'],
+			newsTagList:['计算机','人工智能','大数据 '],
 			newsHeat: 10000
 		};
 		this.handleEditClick = this.handleEditClick.bind(this);
@@ -36,7 +36,6 @@ export default class PCNewsDetails extends React.Component {
         this.replyAddClick = this.replyAddClick.bind(this);
         this.updateCommentClick = this.updateCommentClick.bind(this);
         this.daleteCommentClick = this.deleteCommentClick.bind(this);*/
-
 
 	};
 
@@ -304,14 +303,11 @@ export default class PCNewsDetails extends React.Component {
 				</div>
 				<div class = 'news-detail-description'>
 					新闻概要:{this.state.newsDiscribe}
-				</div>   /*通信这里不返回概要*/
+				</div> 
 				<div class = 'news-detail-info'>
 					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
 					分类：{this.state.newsType}	&nbsp;
-<<<<<<< HEAD
-=======
 					浏览量：{this.state.newsHeat}	&nbsp;
->>>>>>> db9dc1defc3fcf4b002f38107a2e127ed4bf78e0
 					标签：
 					{this.state.newsTagList.map(tag => (
 						<Tag key={tag}>
@@ -339,10 +335,7 @@ export default class PCNewsDetails extends React.Component {
 				<div class = 'news-detail-info'>
 					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
 					分类：{this.state.newsType}	&nbsp;
-<<<<<<< HEAD
-=======
 					浏览量：{this.state.newsHeat}	&nbsp;
->>>>>>> db9dc1defc3fcf4b002f38107a2e127ed4bf78e0
 					标签：
 					{this.state.newsTagList.map(tag => (
 						<Tag key={tag}>
