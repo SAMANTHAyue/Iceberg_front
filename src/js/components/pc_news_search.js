@@ -29,21 +29,19 @@ export default class SearchPage extends React.Component {
     this.setState({loading:true});
 
     listData = [];
- /*   if(value == '计算机'){
+    if(value == '计算机'){
       var temp = {};
-      temp.title = '这个是新闻标题';
-      temp.author_name = '名字';
-      temp.href = '';
-      temp.image = './src/images/logo.png';
-      temp.description = 'sdfdsfa';
-      temp.content = '';
-      temp.uniquekey = '';
-      temp.star = 4;
-      temp.tag1 = '科技';
-      temp.tag2 = '计算机';
-      temp.tag3 = '人工智能'
+      temp.article_id = '12434';
+      temp.category = '科技';
+      temp.article_title = '这是新闻标题';
+      temp.article_desc = '新闻的简介数据库大家分厘卡即使的看法垃圾啊士大夫接受了的看法距离喀什角动量飞机侃大山就爱上了的咖啡机拉克丝解放了喀什的就ask两地分居垃圾十分宽大金克拉撒旦解放了喀什建立饭卡将离开洒家对方离开洒家灯笼裤飞机就立刻多久啊是芬兰空军分类的凯撒就建立可是大家分厘卡即使代理费';
+      temp.article_author = '名字';
+      temp.article_timestamp = '2018-07-16 10:00';
+      temp.article_heat = 43423;
+      temp.article_score = 3.5;
+      temp.tag_list = ['计算机','科学','大数据'];
       listData.push(temp);
-    }*/
+    }
      const myRequest = new Request('/search',
                                     {method: 'POST',
                                         headers: new Headers({"Content-Type":"application/json"}),
@@ -59,15 +57,14 @@ export default class SearchPage extends React.Component {
           console.log(json);
           for (var i = 0; i < json.articles.length; i++) {
               var temp = {};
-              temp.title = json.articles[i].article_title;
-              temp.author_name = json.articles[i].article_author;
-              temp.time = json.articles[i].article_timestamp;
+              temp.article_title = json.articles[i].article_title;
+              temp.article_author = json.articles[i].article_author;
+              temp.article_timestamp = json.articles[i].article_timestamp;
               temp.href = '/article/<'+json.articles[i].article_id+'>';
-              temp.image = './src/images/logo.png';
               temp.description = 'sdfdsfa';
-              temp.uniquekey = json.articles[i].article_id;
-              temp.heat = json.articles[i].article_heat;
-              temp.star = json.articles[i].article_score;
+              temp.article_id = json.articles[i].article_id;
+              temp.article_heat = json.articles[i].article_heat;
+              temp.article_score = json.articles[i].article_score;
               temp.taglist = json.articles[i].tag_list;
               listData.push(temp);
           }

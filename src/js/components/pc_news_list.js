@@ -116,33 +116,33 @@ export default class LoadMoreList extends React.Component {
               <div>
                 <Tag>Tag 1</Tag>
                 <Tag>Tag 2</Tag>
-                <Tag><a href="https://github.com/ant-design/ant-design/issues/1862">Link</a></Tag>
+                <Tag>Link</Tag>
               </div>
             </p>,
           ]}
           extra={<div>
                     <img width={110} alt="logo" src='./src/images/logo.png'/>
                     {
-                      this.props.isManager?
-                      <div ><Dropdown
-                        overlay={ (
-                        <Menu>
-                          <Menu.Item key={'1#'+item.newsID}  onClick={this.newsLoadClick}>查看新闻</Menu.Item>
-                          <Menu.Item key={'2#'+item.newsID} onClick={this.newsDeleteClick}>删除新闻</Menu.Item>
-                          <Menu.Item key={'3#'+item.newsID} onClick={this.newsUpdateClick}>修改新闻</Menu.Item>
-                        </Menu>
-                      )}>
+                      localStorage.managerEnable==1?
+                      <div >
+                        <Dropdown overlay={ (
+                          <Menu>
+                            <Menu.Item key={'1#'+item.newsID}  onClick={this.newsLoadClick}>查看新闻</Menu.Item>
+                            <Menu.Item key={'2#'+item.newsID} onClick={this.newsDeleteClick}>删除新闻</Menu.Item>
+                            <Menu.Item key={'3#'+item.newsID} onClick={this.newsUpdateClick}>修改新闻</Menu.Item>
+                          </Menu>
+                        )}>
                               <Button style={{ marginTop: 3,marginLeft:8 }}>
                                 新闻管理<Icon type="down" />
                               </Button>
-                          </Dropdown>
+                        </Dropdown>
                       </div>
                       :
                       <div></div>
                     }
                   </div>
                 }>
-                
+
           <Link to={`details/${item.uniquekey}`} target="_blank">
             <List.Item.Meta
               avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
