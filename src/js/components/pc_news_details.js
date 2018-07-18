@@ -6,11 +6,12 @@ import PCFooter from './pc_footer';
 import PCNewsImageBlock from './pc_news_image_block';
 import CommonComments from './common_comments';
 import NewsCommentList from './pc_news_comment_list';
-import { Layout, Menu, Breadcrumb,Card, Icon, Avatar,Rate,Tag } from 'antd';
+import { Layout, Menu, Breadcrumb,Card, Icon, Avatar,Rate,Tag,Divider,Popconfirm,message } from 'antd';
 const { Header, Content, Footer } = Layout;
 const { Meta } = Card;
 
 var commentList = [];
+var newsTop;
 export default class PCNewsDetails extends React.Component {
 
 	constructor() {
@@ -28,6 +29,10 @@ export default class PCNewsDetails extends React.Component {
 			newsTagList:['计算机','人工智能','大数据'],
 			newsBrowseCount: 10000
 		};
+		this.handleEditClick = this.handleEditClick.bind(this);
+		this.handleDeleteClick = this.handleDeleteClick.bind(this);
+
+
 	};
 
 	//取一条新闻
@@ -44,7 +49,21 @@ export default class PCNewsDetails extends React.Component {
 	// createMarkup() {
 	// 	return {__html: this.state.newsItem.pagecontent};
 	};
+
+
+	handleEditClick(e){
+		console.log('点击新闻编辑',e);
+		message.info('进入新闻编辑模式');
+	}
+
+	handleDeleteClick(e){
+		console.log('点击新闻删除',e);
+		message.info('新闻已从数据库中删除');
+	}
+
 	render() {
+
+		console.log(localStorage.managerEnable);
 
 		var temp = {};
 		temp.article_id = '1234';
@@ -75,6 +94,67 @@ export default class PCNewsDetails extends React.Component {
 		temp1.is_reply = true;
 		commentList.push(temp1);
 
+		if(localStorage.managerEnable == '1'){
+			newsTop =
+			<Card actions={
+				[<Popconfirm placement="bottom" title='确认进入新闻编辑模式吗？' onConfirm={this.handleEditClick} okText="Yes" cancelText="No">
+					<div><Icon type="edit" />&nbsp;&nbsp;&nbsp;新闻编辑</div>
+				</Popconfirm>
+				,
+				<Popconfirm placement="bottom" title='确认删除本新闻?' onConfirm={this.handleDeleteClick} okText="Yes" cancelText="No">
+					<div><Icon type="delete" />&nbsp;&nbsp;&nbsp;新闻删除</div>
+				</Popconfirm>]
+			}>
+				<div class = 'news-detail-card'>
+					<Avatar style={{ backgroundColor: '#1E90FF', verticalAlign: 'middle' }} size="large">
+					{this.state.newsAuthor}
+					</Avatar>
+					&nbsp;{this.state.newsAuthor}
+				</div>
+				<div class = 'news-detail-description'>
+					新闻概要:{this.state.newsDiscribe}
+				</div>
+				<div class = 'news-detail-info'>
+					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
+					分类：{this.state.newsType}	&nbsp;
+					浏览量：{this.state.newsBrowseCount}	&nbsp;
+					标签：
+					{this.state.newsTagList.map(tag => (
+						<Tag key={tag}>
+							{tag}
+						</Tag>
+		))}		&nbsp;
+					时间：{this.state.newsTime}
+				</div>
+			</Card>
+			;
+		}else{
+			newsTop=
+			<Card>
+				<div class = 'news-detail-card'>
+					<Avatar style={{ backgroundColor: '#1E90FF', verticalAlign: 'middle' }} size="large">
+					{this.state.newsAuthor}
+					</Avatar>
+					&nbsp;{this.state.newsAuthor}
+				</div>
+				<div class = 'news-detail-description'>
+					新闻概要:{this.state.newsDiscribe}
+				</div>
+				<div class = 'news-detail-info'>
+					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
+					分类：{this.state.newsType}	&nbsp;
+					浏览量：{this.state.newsBrowseCount}	&nbsp;
+					标签：
+					{this.state.newsTagList.map(tag => (
+						<Tag key={tag}>
+							{tag}
+						</Tag>
+		))}		&nbsp;
+					时间：{this.state.newsTime}
+				</div>
+			</Card>
+			;
+		}
 
 		return (
 			<div>
@@ -85,32 +165,7 @@ export default class PCNewsDetails extends React.Component {
 				<Row>
 					<Col span={5}></Col>
 					<Col span={14}>
-					<Card
-						actions={[<Icon type="setting" />, <Icon type="edit" />, <Icon type="ellipsis" />]}>
-						<div class = 'news-detail-card'>
-							<Avatar style={{ backgroundColor: '#1E90FF', verticalAlign: 'middle' }} size="large">
-          		{this.state.newsAuthor}
-        			</Avatar>
-							&nbsp;{this.state.newsAuthor}
-						</div>
-						<div class = 'news-detail-description'>
-							新闻概要:{this.state.newsDiscribe}
-						</div>
-						<div class = 'news-detail-info'>
-							新闻指数：<Rate disabled allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
-							分类：<a>{this.state.newsType}</a>	&nbsp;
-							浏览量：{this.state.newsBrowseCount}	&nbsp;
-							标签：
-							{this.state.newsTagList.map(tag => (
-			          <Tag key={tag}>
-            			{tag}
-          			</Tag>
-        ))}		&nbsp;
-							时间：{this.state.newsTime}
-						</div>
-
-
-					</Card>
+						{newsTop}
 					</Col>
 					<Col span={5}></Col>
 				</Row>
@@ -135,8 +190,8 @@ export default class PCNewsDetails extends React.Component {
 						<Col span={5}></Col>
 						<Col span={14}>
 		      		<div style={{ background: '#fff',  padding: 44, minHeight: 180 }}>
-								<div class='comment_label'>热门评论</div>
-								<br/><br/>
+								<Divider class='comment_label'>热门评论</Divider>
+								<br/>
 								<NewsCommentList listData = {commentList}></NewsCommentList>
 							</div>
 						</Col>
