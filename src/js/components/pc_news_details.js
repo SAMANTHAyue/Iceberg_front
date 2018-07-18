@@ -6,7 +6,7 @@ import PCFooter from './pc_footer';
 import PCNewsImageBlock from './pc_news_image_block';
 import CommonComments from './common_comments';
 import NewsCommentList from './pc_news_comment_list';
-import { Layout, Menu, Breadcrumb,Card, Icon, Avatar,Rate,Tag,Divider,Popconfirm,message } from 'antd';
+import { Layout, Menu, Breadcrumb,Card, Icon, Avatar,Rate,Tag,Divider,Popconfirm,message,Input } from 'antd';
 const { Header, Content, Footer } = Layout;
 const { Meta } = Card;
 
@@ -27,7 +27,8 @@ export default class PCNewsDetails extends React.Component {
 			newsType:'科技',
 			newsTime:'2018-10-29',
 			newsTagList:['计算机','人工智能','大数据'],
-			newsHeat: 10000
+			newsHeat: 10000,
+			editEnable:false
 		};
 		this.handleEditClick = this.handleEditClick.bind(this);
 		this.handleDeleteClick = this.handleDeleteClick.bind(this);
@@ -96,6 +97,7 @@ export default class PCNewsDetails extends React.Component {
 	handleEditClick(e){
 		console.log('点击新闻编辑',e);
 		message.info('进入新闻编辑模式');
+		this.setState({editEnable:true});
 	}
 
 	handleDeleteClick(e){
@@ -353,7 +355,13 @@ export default class PCNewsDetails extends React.Component {
 			<Layout className="layout">
 				<PCHeader className="logo"></PCHeader>
 				<br/><br/>
-				<p class = 'news-detail-title'>{this.state.newsTitle}</p>
+				{
+					this.state.editEnable
+					?
+					<Input placeholder="请输入文章标题" value={this.state.newsTitle} />
+					:
+					<p class = 'news-detail-title'>{this.state.newsTitle}</p>
+				}
 				<Row>
 					<Col span={5}></Col>
 					<Col span={14}>
