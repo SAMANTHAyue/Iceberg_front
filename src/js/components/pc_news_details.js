@@ -26,7 +26,7 @@ export default class PCNewsDetails extends React.Component {
 			newsStar:4,
 			newsType:'科技',
 			newsTime:'2018-10-29',
-			newsTagList:['计算机','人工智能','大数据 '],
+			newsTagList:['计算机','人工智能','大数据'],
 			newsHeat: 10000
 		};
 		this.handleEditClick = this.handleEditClick.bind(this);
@@ -36,6 +36,7 @@ export default class PCNewsDetails extends React.Component {
         this.replyAddClick = this.replyAddClick.bind(this);
         this.updateCommentClick = this.updateCommentClick.bind(this);
         this.daleteCommentClick = this.deleteCommentClick.bind(this);*/
+
 
 	};
 
@@ -142,7 +143,6 @@ export default class PCNewsDetails extends React.Component {
             console.error(error);
         });
     }
-
     replyAddClick(e) {//回复评论
         //需回复评论界面
         e.preventDefault();
@@ -183,7 +183,6 @@ export default class PCNewsDetails extends React.Component {
             console.error(error);
         });
     }
-
     updateCommentClick(e) {//修改评论
         e.preventDefault();
         var formData = this.props.form.getFieldsValue();
@@ -224,7 +223,6 @@ export default class PCNewsDetails extends React.Component {
             console.error(error);
         });
     }
-
     daleteCommentClick(e){
         e.preventDefault();
         const myRequest = new Request('/article/<' + this.props.uniquekey + key + '/delete',
@@ -305,6 +303,7 @@ export default class PCNewsDetails extends React.Component {
 				<div class = 'news-detail-description'>
 					新闻概要:{this.state.newsDiscribe}
 				</div>
+				{/*通信这里不返回概要*/}
 				<div class = 'news-detail-info'>
 					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
 					分类：{this.state.newsType}	&nbsp;
@@ -332,6 +331,7 @@ export default class PCNewsDetails extends React.Component {
 				<div class = 'news-detail-description'>
 					新闻概要:{this.state.newsDiscribe}
 				</div>
+				 {/*通信这里不返回概要*/}
 				<div class = 'news-detail-info'>
 					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
 					分类：{this.state.newsType}	&nbsp;
@@ -353,7 +353,7 @@ export default class PCNewsDetails extends React.Component {
 			<Layout className="layout">
 				<PCHeader className="logo"></PCHeader>
 				<br/><br/>
-				<p class = 'news-detial-title'>{this.state.newsTitle}</p>
+				<p class = 'news-detail-title'>{this.state.newsTitle}</p>
 				<Row>
 					<Col span={5}></Col>
 					<Col span={14}>
