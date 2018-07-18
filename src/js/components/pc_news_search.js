@@ -29,7 +29,7 @@ export default class SearchPage extends React.Component {
     this.setState({loading:true});
 
     listData = [];
-    if(value == '计算机'){
+ /*   if(value == '计算机'){
       var temp = {};
       temp.title = '这个是新闻标题';
       temp.author_name = '名字';
@@ -43,7 +43,38 @@ export default class SearchPage extends React.Component {
       temp.tag2 = '计算机';
       temp.tag3 = '人工智能'
       listData.push(temp);
-    }
+    }*/
+     const myRequest = new Request('/search',
+                                    {method: 'POST',
+                                        headers: new Headers({"Content-Type":"application/json"}),
+                                        body: JSON.stringify({search_type: this.props.searchType,keyword: value})});
+     fetch(myRequest).then(response => {
+       if(response.status === 200) {
+         return response.json();
+       }
+       else {
+         throw new Error("Somehthing went wrong");
+       }
+       }).then(json => {
+          console.log(json);
+          for (var i = 0; i < json.articles.length; i++) {
+              var temp = {};
+              temp.title = json.articles[i].article_title;
+              temp.author_name = json.articles[i].article_author;
+              temp.time = json.articles[i].article_timestamp;
+              temp.href = '/article/<'+json.articles[i].article_id+'>';
+              temp.image = './src/images/logo.png';
+              temp.description = 'sdfdsfa';
+              temp.uniquekey = json.articles[i].article_id;
+              temp.heat = json.articles[i].article_heat;
+              temp.star = json.articles[i].article_score;
+              temp.taglist = json.articles[i].tag_list;
+              listData.push(temp);
+          }
+       }).catch(error => {
+          console.error(error);
+       });
+
 
     //获得新闻列表到listData
     this.setState({hasResult:true,loading:false});

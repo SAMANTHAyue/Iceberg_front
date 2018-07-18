@@ -73,7 +73,10 @@ class PCHeader extends React.Component {
 
         //网络通信
         if(this.state.action =='login') { //登录页面
-            const myRequest = new Request('/login',{method: 'POST', body: 'name='+formData.userName+'&password='+formData.password})
+            const myRequest = new Request('/login',
+                                           {method: 'POST',
+                                               headers: new Headers({"Content-Type":"application/json"}),
+                                               body: JSON.stringify({name: formData.userName,password: formData.password})});
             fetch(myRequest)
                 .then(response => {
                     if(response.status === "200") {
@@ -110,7 +113,10 @@ class PCHeader extends React.Component {
           console.log('密码1',formData.r_password);
           console.log('密码2',formData.r_confirmPassword);r_confirmPassword
             if (formData.r_password == formData.r_confirmPassword) {
-                const myRequest = new Request('/register',{method: 'POST', body: 'name='+formData.r_userName+'&password='+formData.r_password});
+                const myRequest = new Request('/register',
+                                               {method: 'POST',
+                                                   headers: new Headers({"Content-Type":"application/json"}),
+                                                   body: JSON.stringify({name: formData.r_userName,password: formData.r_password})});
                 fetch(myRequest)
                     .then(response => {
                         if (response.status === 200) {
@@ -123,10 +129,6 @@ class PCHeader extends React.Component {
                     .then(json => {
                         console.log(json);
                         if(json.result === 0) {
-                            //获取用户id
-                            this.setState({userid: json.user.user_id});
-                            localStorage.userid = this.state.userid;
-
                             message.success("注册成功！");
                             localStorage.userName = formData.r_userName;
                             localStorage.password = formData.r_password;
