@@ -8,6 +8,7 @@ import MobileNewsDetails from './components/mobile_news_details';
 import MobileIndex from './components/mobile_index';
 import PCUserCenter from './components/pc_usercenter';
 import MobileUserCenter from './components/mobile_usercenter';
+import SearchPage from './components/pc_news_search';
 import 'antd/dist/antd.css';
 import MediaQuery from 'react-responsive';
 import SiderDemo from './components/pc_news_main';
@@ -18,7 +19,8 @@ export default class Root extends React.Component {
 				<MediaQuery query='(min-device-width: 1224px)'>
 					<Router history={hashHistory}>
 						<Route path="/" component={PCIndex}></Route>
-						<Route path="/details/:uniquekey" component={PCNewsDetails}></Route>
+						<Route path="/details/:article_id" component={PCNewsDetails}></Route>
+						<Route path="/search" component={SearchPage}></Route>
 						<Route path="/usercenter" component={PCUserCenter}></Route>
 					</Router>
 				</MediaQuery>

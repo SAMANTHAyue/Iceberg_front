@@ -51,6 +51,7 @@ export default class PCNewsDetails extends React.Component {
 		this.showModal = this.showModal.bind(this);
 		this.handleCommentSubmitOk = this.handleCommentSubmitOk.bind(this);
 		this.handleCommentSubmitCancel = this.handleCommentSubmitCancel.bind(this);
+		this.handleChange = this.handleChange.bind(this);
 
 	};
 
@@ -271,6 +272,10 @@ export default class PCNewsDetails extends React.Component {
      });*/
 	}
 
+	handleChange(value){
+    this.setState({ value });
+  }
+
 	render() {
 
 		console.log(localStorage.managerEnable);
@@ -430,7 +435,7 @@ export default class PCNewsDetails extends React.Component {
 							}
 							<Divider class='comment_label'></Divider>
 							<div class = 'content_bottom'>
-									给这篇新闻打个分吧！<Rate defaultValue={0}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									给这篇新闻打个分吧！<Rate onChange = {this.handleChange} defaultValue={0}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 									<a class = 'a' onClick={() => {this.showModal()}}>评论 ({commentList.length})</a>
 							</div>
 							</div>

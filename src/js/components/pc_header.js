@@ -73,10 +73,10 @@ class PCHeader extends React.Component {
 
         //网络通信
         if(this.state.action =='login') { //登录页面
-            const myRequest = new Request('/login',
+            const myRequest = new Request('/',
                                            {method: 'POST',
                                                headers: new Headers({"Content-Type":"application/json"}),
-                                               body: JSON.stringify({'name': formData.userName,'password': formData.password})});
+                                               body: JSON.stringify({action:'login',name: formData.userName,password: formData.password})});
             fetch(myRequest)
                 .then(response => {
                     if(response.status === "200") {
@@ -116,10 +116,10 @@ class PCHeader extends React.Component {
           console.log('密码1',formData.r_password);
           console.log('密码2',formData.r_confirmPassword);
             if (formData.r_password == formData.r_confirmPassword) {
-                const myRequest = new Request('/register',
+                const myRequest = new Request('/',
                                                {method: 'POST',
                                                    headers: new Headers({"Content-Type":"application/json"}),
-                                                   body: JSON.stringify({'name': formData.r_userName,'password': formData.r_password})});
+                                                   body: JSON.stringify({action:'register',name: formData.r_userName,password: formData.r_password})});
                 fetch(myRequest)
                     .then(response => {
                         if (response.status === 200) {

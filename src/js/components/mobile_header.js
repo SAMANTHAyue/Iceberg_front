@@ -82,7 +82,9 @@ class MobileHeader extends React.Component {
 			? <Link to={`/usercenter`}>
 					<Icon type="inbox"/>
 				</Link>
-			: <Icon type="setting" onClick={this.login.bind(this)}/>
+			: <Link to={`/login`}>
+					<Icon type="setting" onClick={this.login.bind(this)}/>
+				</Link>
 		return (
 			<div id="mobileheader">
 				<header>
@@ -92,6 +94,7 @@ class MobileHeader extends React.Component {
 					</a>
 					{userShow}
 				</header>
+
 				<Modal title="用户中心" wrapClassName="vertical-center-modal" visible={this.state.modalVisible} onCancel= {()=>this.setModalVisible(false)} onOk={() => this.setModalVisible(false)} okText="关闭">
 					<Tabs type="card" onChange={this.callback.bind(this)}>
 						<TabPane tab="登录" key="1">
