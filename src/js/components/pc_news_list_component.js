@@ -67,7 +67,7 @@ export default class NewsList extends React.Component {
             <p>质量:<Rate disabled allowHalf defaultValue={item.article_score}/></p>,
             <p>作者:{item.article_author}</p>,
             <p>分类:<IconText text={item.category}/></p>,
-            <p>标签:{item.tag_list.map(tag => (
+            <p>标签:{item.taglist.map(tag => (
   						<Tag key={tag}>
   							{tag}
   						</Tag>))
