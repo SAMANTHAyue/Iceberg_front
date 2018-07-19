@@ -99,6 +99,7 @@ class PCHeader extends React.Component {
                         message.success("登录成功！");
                         localStorage.userName = formData.userName;
                         localStorage.password = formData.password;
+                        localStorage.hasLogined = this.state.hasLogined;
                     }
                     else if(json.result === 1) {
                         this.setState({userName: formData.userName});
@@ -165,6 +166,7 @@ class PCHeader extends React.Component {
         localStorage.userid= '';
         localStorage.userNickName = '';
         this.setState({hasLogined:false});
+        localStorage.hasLogined = '';
     };
 
     //渲染
