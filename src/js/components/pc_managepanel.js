@@ -11,6 +11,8 @@ for (let i = 10; i < 36; i++) {
   children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
 }
 
+var tagList =[];
+
 class ManagePanel_publish extends React.Component {
     constructor(){
         super();
@@ -57,12 +59,10 @@ class ManagePanel_publish extends React.Component {
       }
 
     }
-
-
     SubmitClicked(e) {
-        e.preventDefault();
         var formData = this.props.form.getFieldsValue();
-        localStorage.newscontent = fromData.newscontent;
+        console.log(formData);
+        localStorage.newscontent = formData.newscontent;
         //获取时间
         var date = new Date();
         var year = date.getFullYear();
@@ -83,9 +83,14 @@ class ManagePanel_publish extends React.Component {
         const myRequest = new Request('/',
                                       {   method: 'POST',
                                           headers: new Headers({"Content-Type":"application/json"}),
-                                          body: JSON.stringify({action:'publish', newstitle: formData.title,desc: formData.desc,newscontent: formData.content,
+                                          body: JSON.stringify({action:'publish', title: formData.title,desc: formData.desc,content: formData.content,
                                                                 author: formData.author,time: year +'-'+month+'-'+day+' '+hour+':'+minute+':'+second,
-                                                                category_id: this.state.category_id,tags: formData.tag_list})});
+                                                                category_id: this.state.category_id,tags: tagList})});
+        console.log({action:'publish', title: formData.title,desc: formData.desc,content: formData.content,
+                              author: formData.author,time: year +'-'+month+'-'+day+' '+hour+':'+minute+':'+second,
+                              category_id: this.state.category_id,tags:tagList});
+        tagList = [];
+
         fetch(myRequest)
             .then(response => {
                 if (response.status === 200) {
@@ -108,6 +113,13 @@ class ManagePanel_publish extends React.Component {
             });
     }
 
+    handleTagsChange(value){
+      console.log(`selected ${value}`);
+      tagList=[];
+      tagList.push(value);
+      console.log(tagList);
+    }
+
 
     render() {
       let {getFieldProps} = this.props.form;
@@ -121,7 +133,7 @@ class ManagePanel_publish extends React.Component {
                             发布新闻
                             <br/><br/>
                             <Input addonBefore='新闻标题' placeholder='请输入新闻标题'
-                            {...getFieldProps('newstitle',{rules: [{required: true, message: '标题不能为空！'}]})} size = 'large'/>
+                            {...getFieldProps('title',{rules: [{required: true, message: '标题不能为空！'}]})} size = 'large'/>
                             <br/><br/>
                             <Input addonBefore='新闻作者' placeholder='请输入新闻作者'
                             {...getFieldProps('author',{rules: [{required: true, message: '作者不能为空！'}]})} size = 'large'/>
@@ -139,7 +151,7 @@ class ManagePanel_publish extends React.Component {
               								</div>
                               :
                             <TextArea value={currcontent} placeholder="请以Markdown输入新闻内容"
-                            {...getFieldProps('newscontent',{rules: [{required: true, message: '内容不能为空！'}]})} style={{height: 350 }} />
+                            {...getFieldProps('content',{rules: [{required: true, message: '内容不能为空！'}]})} style={{height: 350 }} />
                             }
                             <br/><br/>
                             <Button type="ghost" htmlType="button" onClick={this.previewClicked}>{this.state.previewmode?'编辑':'预览'}</Button>
@@ -158,6 +170,8 @@ class ManagePanel_publish extends React.Component {
                             <Select mode="tags"
                             style={{width: '100%'}}
                             placeholder = "请输入新闻标签，以Enter/Return为标签间隔"
+                            tokenSeparators={[',']}
+                            onChange={this.handleTagsChange}
                             >
                             </Select>
                             <br/><br/>

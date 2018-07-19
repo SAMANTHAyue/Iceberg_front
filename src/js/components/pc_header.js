@@ -62,10 +62,6 @@ class PCHeader extends React.Component {
     {
         //页面开始向 API 进行提交数据
         e.preventDefault();
-        /*       var myFetchOptions = {
-                   method: 'GET'
-               };*/
-
         //获取页面参数
         var formData = this.props.form.getFieldsValue();
         console.log(this.state.action);
@@ -181,7 +177,7 @@ class PCHeader extends React.Component {
 
 
         //是否登录的的三元表达式
-        const userShow = this.state.hasLogined
+        const userShow = localStorage.userid != '' && typeof(localStorage.userid) != "undefined"
             ?<Menu.Item key="logout" class="register">
                 <Button type="primary" htmlType="button">{this.state.userNickName}</Button>
                 &nbsp;&nbsp;
