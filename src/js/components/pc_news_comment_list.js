@@ -54,13 +54,6 @@ export default class NewsCommentList extends React.Component {
       father_user_id = father_comment_id;
       father_user_comment = father_comment_content;
       commentDefault = '';
-    }else if(type == 'new_comment'){
-      console.log('新闻评论');
-      modalTitle = '编辑新闻评论：';
-      father_user_comment = '遵守互联网行为准则，维护良好网络氛围，评论时请注意您的言论！';
-      father_user_id = '';
-      father_user_comment = '';
-      commentDefault = '';
     }else if(type == 'edit_comment'){
       modalTitle = '修改您的评论：';
       father_user_comment = '遵守互联网行为准则，维护良好网络氛围，评论时请注意您的言论！';
@@ -75,61 +68,9 @@ export default class NewsCommentList extends React.Component {
 
   handleCommentSubmitOk(){
     this.setState({ commentSubmitLoading: true });
-    if(submit_type == 'new_comment'){
-      var temp = {};
-  		temp.article_id = '1234';
-  		temp.comment_id = '214324';
-  		temp.user_id = '123342';
-  		temp.user_name = "TOM";
-  		temp.comment_timestamp = '2018-07-19 10:00';
-  		temp.comment_mod_timestamp = '2018-07-19 11:00';
-  		temp.comment_content = '流失大量解放拉萨地方距离';
-  		temp.comment_karma = 21;
-  		temp.is_karmaed = false;
-  		temp.is_reply = false;
-  		temp.father_comment_id = '12333';
-  		temp.father_comment_content = '623445';
-  		temp.father_comment_user = 'Jack';
-  		this.props.listData.push(temp);
-  		/*
-  		var formData = this.props.form.getFieldsValue();
-        const myRequest = new Request('/article/<' + this.props.uniquekey + '>/comment',
-            {
-                method: 'POST',
-                headers: new Headers({"Content-Type": "application/json"}),
-                body: JSON.stringify({'user_id': localStorage.userid, 'content': formData.add_comment})
-            });
-        fetch(myRequest).then(response => {
-            if (response.status === 200) {
-                return response.json();
-            }
-            else {
-                throw new Error("Something went wrong");
-            }
-        }).then(json => {
-            console.log(json);
-            commentList.clear();
-            for (var i = 0; i < json.comments.length; i++) {
-                var temp = {};
-                temp.article_id = json.comments[i].article_id;
-                temp.comment_id = json.comments[i].comment_id;
-                temp.user_id = json.comments[i].user_id;
-                temp.user_name = json.comments[i].user_name;
-                temp.comment_timestamp = json.comments[i].comment_timestamp;
-                temp.comment_mod_timestamp = json.comments[i].comment_mod_timestamp;
-                temp.comment_content = json.comments[i].comment_content;
-                temp.comment_karma = json.comments[i].comment_karma;
-                temp.is_reply = json.comments[i].is_reply;
-                temp.father_comment_id = json.comments[i].father_comment_id;
-                temp.father_comment_content = json.comments[i].father_comment_content;
-                temp.father_comment_user = json.comments[i].father_comment_user;
-                commentList.push(temp);
-            }
-        }).catch(error => {
-            console.error(error);
-        });*/
 
-    }else if(submit_type == 'edit_comment'){
+
+    if(submit_type == 'edit_comment'){
       var temp = {};
   		temp.article_id = '1234';
   		temp.comment_id = '214324';
@@ -182,7 +123,6 @@ export default class NewsCommentList extends React.Component {
         }).catch(error => {
             console.error(error);
         });*/
-
 
     }else if(submit_type == 'reference_comment'){
       var temp = {};
@@ -238,10 +178,9 @@ export default class NewsCommentList extends React.Component {
         });*/
     }
 
+
     //网络通信响应完成之后，关闭loading和窗口，这里用延时模拟
-    setTimeout(() => {
-      this.setState({ commentSubmitLoading: false, commentModalVisible: false });
-    }, 3000);
+    this.setState({ commentSubmitLoading: false, commentModalVisible: false });
   }
 
   handleCommentSubmitCancel(){
@@ -264,7 +203,6 @@ export default class NewsCommentList extends React.Component {
   handleKarmaClick(e, comment_id,is_karmaed){
     console.log('点击点赞,id=',comment_id);
     if(!is_karmaed) {
-
         this.setState({loading: true});    //开启loading,不能丢，否则无法更新界面
         //发送点赞请求
         //。。。。。。。。。
@@ -274,10 +212,12 @@ export default class NewsCommentList extends React.Component {
                 headers: new Headers({"Content-Type": "application/json"})
             });
         fetch(myRequest).then(response => {
+            this.setState({loading: true});    //开启loading,不能丢，否则无法更新界面
             if (response.status === 200) {
                 return response.json();
             }
             else {
+                message.info('点赞失败，请检查网络');
                 throw new Error("Something went wrong");
             }
         }).then(json => {
@@ -292,16 +232,16 @@ export default class NewsCommentList extends React.Component {
                 }
             }
             else {
-                message.info('你已经赞过啦');
+                message.info('点赞失败');
             }
         }).catch(error => {
             console.error(error);
         });
-        //成功响应执行
-        //this.setState({loading:false});    //开启loading
-
-        //点赞返回result为true再执行
+    }else{
+      message.info('您以及点过赞啦');
     }
+
+
   }
 
   handleEditClick(e,comment_id,comment_content){

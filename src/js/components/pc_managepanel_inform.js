@@ -96,6 +96,20 @@ class ManagePanel_users extends React.Component {
     render() {
         let {getFieldProps} = this.props.form;
 
+        var temp = {};
+        temp.article_id = '1234';
+        temp.comment_id = '123456';
+        temp.user_name = 'Jack';
+        temp.comment_content = '卢卡斯大家浪费空间的萨芬九零的萨芬就看到了';
+        temp.comment_timestamp = '2018-09-08 10:00';
+        temp.comment_mod_timestamp = '2018-09-08 10:00';
+        temp.comment_karma = 100;
+        temp.is_reply = false;
+        temp.father_comment_id = '212332';
+        temp.father_comment_content = 'jnsdaladslkf';
+        temp.father_comment_user = 'sdafdsafddasf';
+        informed_comments.push(temp);
+
         console.log('管理员界面');
         return (
             <div>
