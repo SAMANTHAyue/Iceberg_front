@@ -29,7 +29,7 @@ export default class NewsCommentList extends React.Component {
 		this.state = {
             loading:false,
             commentModalVisible:false,
-			commentSubmitLoading:false,
+			      commentSubmitLoading:false,
             like_flag: 1
 		};
     this.handleComplainClick = this.handleComplainClick.bind(this);
@@ -359,9 +359,9 @@ export default class NewsCommentList extends React.Component {
     renderItem={item => (
       <List.Item key={item.user_id}>
 
-        <div>
+        <div class = 'comment_layout'>
           {item.is_reply?
-          <div>
+          <div >
             <div class='news_comment_father'>
             <div >
               引用@{item.father_comment_user}的评论：
