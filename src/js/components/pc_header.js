@@ -181,7 +181,7 @@ class PCHeader extends React.Component {
 
 
         //是否登录的的三元表达式
-        const userShow = this.state.hasLogined
+        const userShow = localStorage.userid !== ''
             ?<Menu.Item key="logout" class="register">
                 <Button type="primary" htmlType="button">{this.state.userNickName}</Button>
                 &nbsp;&nbsp;
