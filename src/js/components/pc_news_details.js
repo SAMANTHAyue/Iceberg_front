@@ -33,18 +33,12 @@ export default class PCNewsDetails extends React.Component {
 		this.handleEditClick = this.handleEditClick.bind(this);
 		this.handleDeleteClick = this.handleDeleteClick.bind(this);
 
-       /* this.commentAddClick = this.commentAddClick.bind(this);
-        this.replyAddClick = this.replyAddClick.bind(this);
-        this.updateCommentClick = this.updateCommentClick.bind(this);
-        this.daleteCommentClick = this.deleteCommentClick.bind(this);*/
-
-
 	};
 
 	//取一条新闻
 	componentDidMount() {
 	//网络通信
-        /*const myRequest = new Request('/article/<' + this.props.uniquekey,
+        /*const myRequest = new Request('/article/<' + this.props.uniquekey +'>',
             {
                 method: 'GET',
                 headers: new Headers({"Content-Type": "application/json"})
@@ -99,6 +93,41 @@ export default class PCNewsDetails extends React.Component {
 			console.log('点击保存新闻编辑');
 			message.info('保存成功');
 			this.setState({editEnable:false});
+            /*  var formData = this.props.form.getFieldsValue();
+      console.log('新闻更新点击', e.key.slice(2));
+      const myRequest = new Request('/article/<' + this.props.uniquekey + '>/edit',
+          {
+              method: 'POST',
+              headers: new Headers({"Content-Type": "application/json"}),
+              body: JSON.stringify({
+                  'title': formData.update_title,
+                  'desc': formData.update_desc,
+                  'content': formData.update_content,
+                  'author': formData.update_author,
+                  'time': formData.update_time,
+                  'category_id': formData.update_categoryID,
+                  'tags': formData.update_taglist
+              })
+          });
+      fetch(myRequest).then(response => {
+          if (response.status === "200") {
+              return response.json();
+          }
+          else {
+              throw new Error('Something went wrong');
+          }
+      })
+          .then(json => {
+              console.log(json);
+              if (json.result === 0) {
+                  message.success("修改新闻成功！");
+              }
+              else {
+                  message.warn("修改新闻失败！");
+              }
+          }).catch(error => {
+          console.error(error);
+      });*/
 
 		}else{
 			console.log('点击新闻编辑',e);
@@ -111,153 +140,30 @@ export default class PCNewsDetails extends React.Component {
 	handleDeleteClick(e){
 		console.log('点击新闻删除',e);
 		message.info('新闻已从数据库中删除');
+        /* const myRequest = new Request('/article/<' + this.props.uniquekey + '>/delete',
+         {
+             method: 'POST',
+             headers: new Headers({"Content-Type": "application/json"})
+         });
+     fetch(myRequest).then(response => {
+         if (response.status === "200") {
+             return response.json();
+         }
+         else {
+             throw new Error('Something went wrong');
+         }
+     }).then(json => {
+         console.log(json);
+         if (json.result === 0) {
+             message.success("删除新闻成功！");
+         }
+         else {
+             message.warn("删除新闻失败！");
+         }
+     }).catch(error => {
+         console.error(error);
+     });*/
 	}
-
-    /*commentAddClick(e) {//添加评论
-        //需要添加评论界面
-        e.preventDefault();
-        var formData = this.props.form.getFieldsValue();
-        const myRequest = new Request('/article/<' + this.props.uniquekey + '/comment',
-            {
-                method: 'POST',
-                headers: new Headers({"Content-Type": "application/json"}),
-                body: JSON.stringify({'user_id': localStorage.userid, 'content': formData.add_comment})
-            });
-        fetch(myRequest).then(response => {
-            if (response.status === 200) {
-                return response.json();
-            }
-            else {
-                throw new Error("Something went wrong");
-            }
-        }).then(json => {
-            console.log(json);
-            commentList.clear();
-            for (var i = 0; i < json.comments.length; i++) {
-                var temp = {};
-                temp.article_id = json.comments[i].article_id;
-                temp.comment_id = json.comments[i].comment_id;
-                temp.user_id = json.comments[i].user_id;
-                temp.user_name = json.comments[i].user_name;
-                temp.comment_timestamp = json.comments[i].comment_timestamp;
-                temp.comment_mod_timestamp = json.comments[i].comment_mod_timestamp;
-                temp.comment_content = json.comments[i].comment_content;
-                temp.comment_karma = json.comments[i].comment_karma;
-                temp.is_reply = json.comments[i].is_reply;
-                temp.father_comment_id = json.comments[i].father_comment_id;
-                temp.father_comment_content = json.comments[i].father_comment_content;
-                temp.father_comment_user = json.comments[i].father_comment_user;
-                commentList.push(temp);
-            }
-        }).catch(error => {
-            console.error(error);
-        });
-    }
-    replyAddClick(e) {//回复评论
-        //需回复评论界面
-        e.preventDefault();
-        var formData = this.props.form.getFieldsValue();
-        const myRequest = new Request('/article/<' + this.props.uniquekey + key + '/comment',
-            {
-                method: 'POST',
-                headers: new Headers({"Content-Type": "application/json"}),
-                body: JSON.stringify({'user_id': localStorage.userid, 'content': formData.add_reply_comment})
-            });
-        fetch(myRequest).then(response => {
-            if (response.status === 200) {
-                return response.json();
-            }
-            else {
-                throw new Error("Something went wrong");
-            }
-        }).then(json => {
-            console.log(json);
-            commentList.clear();
-            for (var i = 0; i < json.comments.length; i++) {
-                var temp = {};
-                temp.article_id = json.comments[i].article_id;
-                temp.comment_id = json.comments[i].comment_id;
-                temp.user_id = json.comments[i].user_id;
-                temp.user_name = json.comments[i].user_name;
-                temp.comment_timestamp = json.comments[i].comment_timestamp;
-                temp.comment_mod_timestamp = json.comments[i].comment_mod_timestamp;
-                temp.comment_content = json.comments[i].comment_content;
-                temp.comment_karma = json.comments[i].comment_karma;
-                temp.is_reply = json.comments[i].is_reply;
-                temp.father_comment_id = json.comments[i].father_comment_id;
-                temp.father_comment_content = json.comments[i].father_comment_content;
-                temp.father_comment_user = json.comments[i].father_comment_user;
-                commentList.push(temp);
-            }
-        }).catch(error => {
-            console.error(error);
-        });
-    }
-    updateCommentClick(e) {//修改评论
-        e.preventDefault();
-        var formData = this.props.form.getFieldsValue();
-        const myRequest = new Request('/article/<' + this.props.uniquekey + key + '/edit',
-            {
-                method: 'POST',
-                headers: new Headers({"Content-Type": "application/json"}),
-                body: JSON.stringify({'user_id': localStorage.userid, 'content': formData.update_comment})
-            });
-        fetch(myRequest).then(response => {
-            if (response.status === 200) {
-                return response.json();
-            }
-            else {
-                throw new Error("Something went wrong");
-            }
-        }).then(json => {
-            console.log(json)
-            var temp = {};
-            temp.article_id = json.comments.article_id;
-            temp.comment_id = json.comments.comment_id;
-            temp.user_id = json.comments.user_id;
-            temp.user_name = json.comments.user_name;
-            temp.comment_timestamp = json.comments.comment_timestamp;
-            temp.comment_mod_timestamp = json.comments.comment_mod_timestamp;
-            temp.comment_content = json.comments.comment_content;
-            temp.comment_karma = json.comments.comment_karma;
-            temp.is_reply = json.comments.is_reply;
-            temp.father_comment_id = json.comments.father_comment_id;
-            temp.father_comment_content = json.comments.father_comment_content;
-            temp.father_comment_user = json.comments.father_comment_user;
-            for(var i=0;i<commentList.length;i++) {
-                if(commentList[i].comment_id === temp.comment_id) {
-                    commentList[i] = temp;
-                }
-            }
-        }).catch(error => {
-            console.error(error);
-        });
-    }
-    daleteCommentClick(e){
-        e.preventDefault();
-        const myRequest = new Request('/article/<' + this.props.uniquekey + key + '/delete',
-            {
-                method: 'POST',
-                headers: new Headers({"Content-Type": "application/json"})});
-        fetch(myRequest).then(response => {
-            if (response.status === 200) {
-                return response.json();
-            }
-            else {
-                throw new Error("Something went wrong");
-            }
-        }).then(json => {
-            console.log(json);
-            if(json.result === 0) {
-                message.success("删除成功！");
-            }
-            else {
-                message.warn("删除失败！");
-            }
-        }).catch(error => {
-            console.error(error);
-        });
-    }*/
 
 	render() {
 

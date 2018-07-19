@@ -67,10 +67,10 @@ export default class ManagePanel extends React.Component {
             .then(json => {
                 console.log(json);
                 if(json.result == 0){
-                    message.success("添加新闻成功！");
+                    message.success("发布新闻成功！");
                 }
                 else {
-                    message.warn("添加新闻失败！");
+                    message.warn("发布新闻失败！");
                 }
             }).catch(error => {
             console.error(error);
