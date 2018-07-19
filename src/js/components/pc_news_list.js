@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { List, Avatar, Button, Spin,Icon,Row,Col,Menu, Dropdown} from 'antd';
+import { List, Avatar, Button, Spin,Icon,Row,Col,Menu, Dropdown,message} from 'antd';
 import {Router, Route, Link, browserHistory} from 'react-router'
 import { Rate } from 'antd';
 import { Tag } from 'antd';
@@ -20,7 +20,7 @@ export default class LoadMoreList extends React.Component {
 		super();
 		this.state = {
 			news: [],
-      loading:true,
+      loading:false,
       typeChange:true
 		};
     this.newsDeleteClick = this.newsDeleteClick.bind(this);
@@ -29,31 +29,8 @@ export default class LoadMoreList extends React.Component {
 
 	}
 
-  //更改新闻类别，重新加载
-  componentWillReceiveProps(){
-    listData=[];
-    this.setState({loading:true,typeChange:true});
-  }
-
-  newsDeleteClick(e){
-    //e.key.slice(2)为新闻id
-    console.log('新闻删除点击',e.key.slice(2));
-  }
-
-  newsUpdateClick(e){
-    //e.key.slice(2)为新闻id
-    console.log('新闻更新点击',e.key.slice(2));
-  }
-
-  newsLoadClick(e){
-    //e.key.slice(2)为新闻id
-    console.log('新闻查看点击',e.key.slice(2));
-  }
-
-
-
-  render() {
-    if(this.state.typeChange==true){
+  componentWillMount(){
+      this.setState({loading:true});
       console.log('列表获取到的新闻类型',this.props.newsType);
       const myRequest = new Request('/',
       {   method: 'POST',
@@ -63,10 +40,13 @@ export default class LoadMoreList extends React.Component {
       console.log({action:'category',category_id:this.props.newsType});
       fetch(myRequest)
           .then((response) => {
+              this.setState({loading:false,typeChange:false});
               if (response.status === 200) {
                   return response.json();
+                  message.info('加载成功');
               }
               else {
+                  message.info('加载失败');
                   throw new Error("Something went wrong");
               }
           })
@@ -100,10 +80,38 @@ export default class LoadMoreList extends React.Component {
               temp.category = '未知';
             }
                   listData.push(temp);
+                  this.setState({loading:false, news: json, typeChange:false});
               }
           }).catch(error => {
           console.error(error);
       });
+  }
+
+  //更改新闻类别，重新加载
+  componentWillReceiveProps(){
+    listData=[];
+    this.setState({loading:false,typeChange:true});
+  }
+
+  newsDeleteClick(e){
+    //e.key.slice(2)为新闻id
+    console.log('新闻删除点击',e.key.slice(2));
+  }
+
+  newsUpdateClick(e){
+    //e.key.slice(2)为新闻id
+    console.log('新闻更新点击',e.key.slice(2));
+  }
+
+  newsLoadClick(e){
+    //e.key.slice(2)为新闻id
+    console.log('新闻查看点击',e.key.slice(2));
+  }
+
+
+
+  render() {
+
 
 
 
@@ -138,7 +146,7 @@ export default class LoadMoreList extends React.Component {
       //   this.setState({loading:false, news: json, typeChange:false});
       //   //console.log('result',this.state.news);
       // });
-    }
+
 
     return (
       <List
