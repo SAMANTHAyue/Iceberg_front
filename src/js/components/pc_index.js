@@ -24,7 +24,7 @@ export default class PCIndex extends React.Component {
 		super();
 		this.state = {
         collapsed: false,
-			newsType: "top",
+			newsType: "1",
 			currentPage:'index_page',
 			searchType:'title',
 			manageType:'publish',
@@ -38,15 +38,19 @@ export default class PCIndex extends React.Component {
 	//点击处理
 	handleClick(e){
 		if(e.key == 'index_page'){	//点击首页新闻
-			this.setState({newsType:'top',currentPage:'index_page'});
+			this.setState({newsType:'1',currentPage:'index_page'});
+		}else if(e.key == 'keji_news'){
+			this.setState({newsType:'1',currentPage:'index_page'});
 		}else if(e.key == 'guoji_news'){
-			this.setState({newsType:'guoji',currentPage:'index_page'});
+			this.setState({newsType:'6',currentPage:'index_page'});
 		}else if(e.key == 'yule_news'){
-			this.setState({newsType: 'yule',currentPage:'index_page'});
+			this.setState({newsType: '3',currentPage:'index_page'});
 		}else if(e.key == 'tiyu_news'){
-			this.setState({newsType: 'tiyu',currentPage:'index_page'});
+			this.setState({newsType: '4',currentPage:'index_page'});
 		}else if(e.key == 'zhengzhi_news'){
-			this.setState({newsType: 'guonei',currentPage:'index_page'});
+			this.setState({newsType: '2',currentPage:'index_page'});
+		}else if(e.key == 'caijing_news'){
+			this.setState({newsType: '5',currentPage:'index_page'});
 		}else if(e.key == 'search_page'){
 			this.setState({currentPage:'search_page',searchType:'title'});
 		}else if(e.key == 'search_by_title'){

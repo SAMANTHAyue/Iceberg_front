@@ -55,84 +55,89 @@ export default class LoadMoreList extends React.Component {
   render() {
     if(this.state.typeChange==true){
       console.log('列表获取到的新闻类型',this.props.newsType);
-      /*  const myRequest = new Request('/category/<' + this.state.newsType + '>',
-            {
-                method: 'GET',
-                headers: new Headers({"Content-Type": "application/json"})
-            });
-        fetch(myRequest)
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                }
-                else {
-                    throw new Error("Something went wrong");
-                }
-            })
-            .then((json) => {
-                console.log(json);
-                for (var i = 0; i < json.articles.length; i++) {
-                    var temp = {};
-                    temp.article_title = json.articles[i].article_title;
-                    temp.article_author = json.articles[i].article_author;
-                    temp.article_timestamp = json.articles[i].article_timestamp;
-                    temp.href = json.articles[i].url;
-                    temp.article_desc = json.articles[i].article_desc;
-                    temp.article_id = json.articles[i].article_id;
-                    temp.article_heat = json.articles[i].article_heat;
-                    temp.article_score = json.articles[i].article_score;
-                    temp.tag_list = json.articles[i].tag_list;
-                    var category_id = json.articles[i].category_id;
-              if(category_id == 1){
-                temp.category = '科技';
-              }else if(category_id == 2){
-                temp.category = '政治';
-              }else if(category_id == 3){
-                temp.category = '娱乐';
-              }else if(category_id == 4){
-                temp.category = '体育';
-              }else if(category_id == 5){
-                temp.category = '财经';
-              }else if(category_id == 6){
-                temp.category = '国际';
-              }else {
-                temp.category = '未知';
+      const myRequest = new Request('/',
+      {   method: 'POST',
+          headers: new Headers({"Content-Type": "application/json"}),
+          body: JSON.stringify({action:'category',category_id:this.props.newsType})}
+      );
+      console.log({action:'category',category_id:this.props.newsType});
+      fetch(myRequest)
+          .then((response) => {
+              if (response.status === 200) {
+                  return response.json();
               }
-                    listData.push(temp);
-                }
-            }).catch(error => {
-            console.error(error);
-        });*/
-      var myFetchOptions = {
-        method: 'GET'
-      };
-      fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=" +
-      this.props.newsType + "&count=" + this.props.count, myFetchOptions)
-      .then((response) =>{
-
-        return response.json();
-
-      })
-      .then((json)=>{
-        for (var i = 0; i < json.length; i++) {
-          var name = json[i].title;
-          var temp = {};
-          temp.article_id = '12434';
-          temp.category = '科技';
-          temp.article_title = '这是新闻标题';
-          temp.article_desc = '新闻的简介数据库大家分厘卡即使的看法垃圾啊士大夫接受了的看法距离喀什角动量飞机侃大山就爱上了的咖啡机拉克丝解放了喀什的就ask两地分居垃圾十分宽大金克拉撒旦解放了喀什建立饭卡将离开洒家对方离开洒家灯笼裤飞机就立刻多久啊是芬兰空军分类的凯撒就建立可是大家分厘卡即使代理费';
-          temp.article_author = '名字';
-          temp.article_timestamp = '2018-07-16 10:00';
-          temp.article_heat = 43423;
-          temp.article_score = 3.5;
-          temp.tag_list = ['计算机','科学','大数据'];
-          //console.log(temp);
-          listData.push(temp);
-        }
-        //console.log(listData);
-        this.setState({loading:false, news: json, typeChange:false});
-        //console.log('result',this.state.news);
+              else {
+                  throw new Error("Something went wrong");
+              }
+          })
+          .then((json) => {
+              console.log(json);
+              for (var i = 0; i < json.articles.length; i++) {
+                  var temp = {};
+                  temp.article_title = json.articles[i].article_title;
+                  temp.article_author = json.articles[i].article_author;
+                  temp.article_timestamp = json.articles[i].article_timestamp;
+                  temp.href = json.articles[i].url;
+                  temp.article_desc = json.articles[i].article_desc;
+                  temp.article_id = json.articles[i].article_id;
+                  temp.article_heat = json.articles[i].article_heat;
+                  temp.article_score = json.articles[i].article_score;
+                  temp.tag_list = json.articles[i].tag_list;
+                  var category_id = json.articles[i].category_id;
+            if(category_id == 1){
+              temp.category = '科技';
+            }else if(category_id == 2){
+              temp.category = '政治';
+            }else if(category_id == 3){
+              temp.category = '娱乐';
+            }else if(category_id == 4){
+              temp.category = '体育';
+            }else if(category_id == 5){
+              temp.category = '财经';
+            }else if(category_id == 6){
+              temp.category = '国际';
+            }else {
+              temp.category = '未知';
+            }
+                  listData.push(temp);
+              }
+          }).catch(error => {
+          console.error(error);
       });
+
+
+
+
+      // var myFetchOptions = {
+      //   method: 'GET'
+      // };
+      // fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=" +
+      // this.props.newsType + "&count=" + this.props.count, myFetchOptions)
+      // .then((response) =>{
+      //
+      //   return response.json();
+      //
+      // })
+      // .then((json)=>{
+      //   for (var i = 0; i < json.length; i++) {
+      //     var name = json[i].title;
+      //     var temp = {};
+      //     temp.article_id = '12434';
+      //     temp.category = '科技';
+      //     temp.article_title = '这是新闻标题';
+      //     temp.article_desc = '新闻的简介数据库大家分厘卡即使的看法垃圾啊士大夫接受了的看法距离喀什角动量飞机侃大山就爱上了的咖啡机拉克丝解放了喀什的就ask两地分居垃圾十分宽大金克拉撒旦解放了喀什建立饭卡将离开洒家对方离开洒家灯笼裤飞机就立刻多久啊是芬兰空军分类的凯撒就建立可是大家分厘卡即使代理费';
+      //     temp.article_author = '名字';
+      //     temp.article_timestamp = '2018-07-16 10:00';
+      //     temp.article_heat = 43423;
+      //     temp.article_score = 3.5;
+      //     temp.tag_list = ['计算机','科学','大数据'];
+      //     //console.log(temp);
+      //     listData.push(temp);
+      //   }
+      //   //console.log(listData);
+      //   this.setState({loading:false, news: json, typeChange:false});
+      //   //console.log('result',this.state.news);
+      // });
     }
 
     return (
