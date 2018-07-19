@@ -4,15 +4,14 @@ import { Input,Row,Col ,message,Spin,Calendar,Form,Button} from 'antd';
 
 const FormItem = Form.Item;
 
-class ManagePanel extends React.Component {
+class ManagePanel_publish extends React.Component {
     constructor(){
         super();
         this.state = {
             category_id: 1,
-            tags: ''
         }
-        // this.categoryChanged = this.categoryChanged.bind(this);
-        // this.SubmintClicked = this.SubmintClicked.bind(this);
+        this.categoryChanged = this.categoryChanged.bind(this);
+        this.SubmitClicked = this.SubmitClicked.bind(this);
     };
 
     componentDidMount() {
@@ -61,7 +60,7 @@ class ManagePanel extends React.Component {
                                           headers: new Headers({"Content-Type":"application/json"}),
                                           body: JSON.stringify({'title': formData.title,'desc': formData.desc,'content': formData.content,
                                                                 'author': formData.author,'time': year +'-'+month+'-'+day+' '+hour+':'+minute+':'+second,
-                                                                'category_id': this.state.category_id,'tags': this.state.tags})});
+                                                                'category_id': this.state.category_id,'tags': formData.tag_list})});
         fetch(myRequest)
             .then(response => {
                 if (response.status === 200) {
@@ -123,7 +122,7 @@ class ManagePanel extends React.Component {
 
                     <Col span={7}></Col>
                     <Col span={12}>
-                        //标签获取？
+                        <input placeholder='请输入新闻标签' {...getFieldProps('tag_list')}/>
                     </Col>
                     <Col span={6}></Col>
 
@@ -138,4 +137,4 @@ class ManagePanel extends React.Component {
     }
 }
 
-export default  ManagePanel = Form.create()(ManagePanel);
+export default  ManagePanel_publish = Form.create()(ManagePanel_publish);

@@ -4,7 +4,9 @@ import PCFooter from './pc_footer';
 import PCNewsContainer from './pc_newscontainer';
 import SearchPage from './pc_news_search';
 import PCUserCenter from './pc_usercenter';
-import ManagePanel from './pc_managepanel';
+import ManagePanel_publish from './pc_managepanel';
+import ManagePanel_inform from './pc_managepanel_inform';
+import ManagePanel_users from './pc_managepanel_users';
 
 import { Layout, Menu, Breadcrumb, Icon,message } from 'antd';
 const Header = Layout.Header;
@@ -93,7 +95,15 @@ export default class PCIndex extends React.Component {
 		}else if(this.state.currentPage == 'usercenter_page'){
     	content = <PCUserCenter userId = {localStorage.userid}></PCUserCenter>;
 		}else if(this.state.currentPage == 'manage_page'){
-			content = <ManagePanel manageType = {this.state.manageType}></ManagePanel>;
+			if(this.state.manageType == 'publish'){
+                content = <ManagePanel_publish manageType = {this.state.manageType}></ManagePanel_publish>;
+			}
+			else if (this.state.manageType == 'inform') {
+                content = <ManagePanel_inform manageType = {this.state.manageType}></ManagePanel_inform>;
+			}
+			else {
+                content = <ManagePanel_users manageType = {this.state.manageType}></ManagePanel_users>;
+			}
 		}
 
 		return (
