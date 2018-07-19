@@ -62,7 +62,7 @@ class ManagePanel_publish extends React.Component {
     SubmitClicked(e) {
         e.preventDefault();
         var formData = this.props.form.getFieldsValue();
-        localStorage.newscontent = fromData.newscontent;
+        localStorage.newscontent = formData.newscontent;
         //获取时间
         var date = new Date();
         var year = date.getFullYear();
