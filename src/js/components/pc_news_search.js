@@ -24,33 +24,34 @@ export default class SearchPage extends React.Component {
 
   //通信部分，value为输入框内容，搜索类型为props.searchType
   searchRequest(value){
-    //fetch().......
+
     console.log(value);
     this.setState({loading:true});
 
     listData = [];
-    if(value == '计算机'){
-      var temp = {};
-      temp.article_id = '12434';
-      temp.category = '科技';
-      temp.article_title = '这是新闻标题';
-      temp.article_desc = '新闻的简介数据库大家分厘卡即使的看法垃圾啊士大夫接受了的看法距离喀什角动量飞机侃大山就爱上了的咖啡机拉克丝解放了喀什的就ask两地分居垃圾十分宽大金克拉撒旦解放了喀什建立饭卡将离开洒家对方离开洒家灯笼裤飞机就立刻多久啊是芬兰空军分类的凯撒就建立可是大家分厘卡即使代理费';
-      temp.article_author = '名字';
-      temp.article_timestamp = '2018-07-16 10:00';
-      temp.article_heat = 43423;
-      temp.article_score = 3.5;
-      temp.tag_list = ['计算机','科学','大数据'];
-      listData.push(temp);
+    var searchtype=0;
+    if(this.props.searchType == 'title'){
+      searchtype = '0';
+    }else if(this.props.searchType == 'tag'){
+      searchtype = '1';
+    }else if(this.props.searchType == 'time'){
+      searchtype = '2';
+    }else if(this.props.searchType == 'author'){
+      searchtype = '3';
     }
-     const myRequest = new Request('/search',
-                                    {method: 'POST',
-                                        headers: new Headers({"Content-Type":"application/json"}),
-                                        body: JSON.stringify({'search_type': this.props.searchType,'keyword': value})});
+
+    const myRequest = new Request('/',
+                                  {   method: 'POST',
+                                      headers: new Headers({"Content-Type":"application/json"}),
+                                      body: JSON.stringify({action:'search', search_type: searchtype,keyword: value})});
+    console.log({action:'search', search_type: searchtype,keyword: value});
      fetch(myRequest).then(response => {
+       this.setState({loading:false});
        if(response.status === 200) {
          return response.json();
        }
        else {
+         message.info('搜索失败');
          throw new Error("Somehthing went wrong");
        }
        }).then(json => {
