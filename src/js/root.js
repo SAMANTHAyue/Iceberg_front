@@ -24,13 +24,6 @@ export default class Root extends React.Component {
 						<Route path="/usercenter" component={PCUserCenter}></Route>
 					</Router>
 				</MediaQuery>
-				<MediaQuery query='(max-device-width: 1224px)'>
-					<Router history={hashHistory}>
-						<Route path="/" component={MobileIndex}></Route>
-						<Route path="/details/:uniquekey" component={MobileNewsDetails}></Route>
-						<Route path="/usercenter" component={MobileUserCenter}></Route>
-					</Router>
-				</MediaQuery>
 			</div>
 		);
 	};

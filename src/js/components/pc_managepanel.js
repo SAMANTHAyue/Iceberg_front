@@ -56,12 +56,12 @@ class ManagePanel_publish extends React.Component {
         minute = minute.substr(minute.length - 2);
         var second = "00" + date.getSeconds();
         second = second.substr(second.length - 2);
-        const myRequest = new Request('/publish',
-                                      {method: 'POST',
+        const myRequest = new Request('/',
+                                      {   method: 'POST',
                                           headers: new Headers({"Content-Type":"application/json"}),
-                                          body: JSON.stringify({'newstitle': formData.title,'desc': formData.desc,'newscontent': formData.content,
-                                                                'author': formData.author,'time': year +'-'+month+'-'+day+' '+hour+':'+minute+':'+second,
-                                                                'category_id': this.state.category_id,'tags': formData.tag_list})});
+                                          body: JSON.stringify({action:'publish', newstitle: formData.title,desc: formData.desc,newscontent: formData.content,
+                                                                author: formData.author,time: year +'-'+month+'-'+day+' '+hour+':'+minute+':'+second,
+                                                                category_id: this.state.category_id,tags: formData.tag_list})});
         fetch(myRequest)
             .then(response => {
                 if (response.status === 200) {

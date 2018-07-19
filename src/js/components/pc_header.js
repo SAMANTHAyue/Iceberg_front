@@ -76,10 +76,12 @@ class PCHeader extends React.Component {
             const myRequest = new Request('/',
                                            {method: 'POST',
                                                headers: new Headers({"Content-Type":"application/json"}),
-                                               body: JSON.stringify({action:'login',name: formData.userName,password: formData.password})});
+                                               body: JSON.stringify({action:'login',name: formData.userName,password: formData.password})
+                                             });
+            console.log(myRequest);
             fetch(myRequest)
                 .then(response => {
-                    if(response.status === "200") {
+                    if(response.status === 200) {
                         return response.json();
                     }
                     else {
@@ -119,7 +121,8 @@ class PCHeader extends React.Component {
                 const myRequest = new Request('/',
                                                {method: 'POST',
                                                    headers: new Headers({"Content-Type":"application/json"}),
-                                                   body: JSON.stringify({action:'register',name: formData.r_userName,password: formData.r_password})});
+                                                   body: JSON.stringify({action:'register',name: formData.r_userName,password: formData.r_password})
+                                                 });
                 fetch(myRequest)
                     .then(response => {
                         if (response.status === 200) {

@@ -90,12 +90,12 @@ export default class NewsCommentList extends React.Component {
   		temp.father_comment_content = '623445';
   		temp.father_comment_user = 'Jack';
   		comment_list.push(temp);
-       /* var formData = this.props.form.getFieldsValue();
-        const myRequest = new Request('/article/<' + this.props.uniquekey + '>/<'+ key + '>/edit',
+        var formData = this.props.form.getFieldsValue();
+        const myRequest = new Request('/',
             {
                 method: 'POST',
                 headers: new Headers({"Content-Type": "application/json"}),
-                body: JSON.stringify({'user_id': localStorage.userid, 'content': formData.update_comment})
+                body: JSON.stringify({action:'edit_article',user_id: localStorage.userid, content: formData.update_comment})
             });
         fetch(myRequest).then(response => {
             if (response.status === 200) {
@@ -126,7 +126,7 @@ export default class NewsCommentList extends React.Component {
             }
         }).catch(error => {
             console.error(error);
-        });*/
+        });
 
     }else if(submit_type == 'reference_comment'){
       var temp = {};

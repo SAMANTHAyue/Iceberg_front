@@ -20,9 +20,11 @@ class ManagePanel_users extends React.Component {
         // To disabled submit button at the beginning.
         this.props.form.validateFields();
 
-        const myRequest = new Request('/user/',
-                                      {method: 'GET',
-                                       headers: new Headers({"Content-Type":"application/json"})});
+        const myRequest = new Request('/',
+                                      {method: 'POST',
+                                       headers: new Headers({"Content-Type":"application/json"}),
+                                       body: JSON.stringify({action:'get_report_comments'})
+                                     });
         fetch(myRequest)
             .then(response => {
                 if (response.status === 200) {
@@ -53,8 +55,10 @@ class ManagePanel_users extends React.Component {
 
 
         const myRequest = new Request('/user/<' + {user_id} + '>/delete',
-                                      {method: 'GET',
-                                       headers: new Headers({"Content-Type":"application/json"})});
+                                      {method: 'POST',
+                                       headers: new Headers({"Content-Type":"application/json"}),
+                                       body: JSON.stringify({action:'delete_user'})
+                                     });
         fetch(myRequest)
             .then(response => {
                 if (response.status === 200) {
