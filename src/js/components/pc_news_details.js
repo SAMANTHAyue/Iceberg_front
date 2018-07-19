@@ -10,10 +10,21 @@ import { Layout, Menu, Breadcrumb,Card, Icon, Avatar,Rate,Tag,Divider,Popconfirm
 const { Header, Content, Footer } = Layout;
 const { Meta } = Card;
 const { TextArea } = Input;
-const InputGroup = Input.Group;
 
+
+const InputGroup = Input.Group;
 var commentList = [];
 var newsTop;
+
+var modalTitle = '';
+var commentDefault = '';
+var father_user_name = '';
+var father_user_id = '';
+var father_user_comment = '';
+var submit_type = 'new_comment';
+var comment_list = [];  //评论列表
+var article_id = '';
+
 export default class PCNewsDetails extends React.Component {
 
 	constructor() {
@@ -31,11 +42,93 @@ export default class PCNewsDetails extends React.Component {
 			newsTagList:['计算机','人工智能','大数据'],
 			newsHeat: 10000,
 			editEnable:false,
+			commentModalVisible:false,
+			commentSubmitLoading:false,
 		};
 		this.handleEditClick = this.handleEditClick.bind(this);
 		this.handleDeleteClick = this.handleDeleteClick.bind(this);
 
+		this.showModal = this.showModal.bind(this);
+		this.handleCommentSubmitOk = this.handleCommentSubmitOk.bind(this);
+		this.handleCommentSubmitCancel = this.handleCommentSubmitCancel.bind(this);
+
 	};
+
+	showModal(){
+		console.log('新闻评论');
+		modalTitle = '编辑新闻评论：';
+		father_user_comment = '遵守互联网行为准则，维护良好网络氛围，评论时请注意您的言论！';
+		father_user_id = '';
+		father_user_comment = '';
+		commentDefault = '';
+    this.setState({commentModalVisible: true});
+  }
+
+  handleCommentSubmitOk(){
+    this.setState({ commentSubmitLoading: true });
+      var temp = {};
+  		temp.article_id = '1234';
+  		temp.comment_id = '214324';
+  		temp.user_id = '123342';
+  		temp.user_name = "TOM";
+  		temp.comment_timestamp = '2018-07-19 10:00';
+  		temp.comment_mod_timestamp = '2018-07-19 11:00';
+  		temp.comment_content = '流失大量解放拉萨地方距离';
+  		temp.comment_karma = 21;
+  		temp.is_karmaed = false;
+  		temp.is_reply = false;
+  		temp.father_comment_id = '12333';
+  		temp.father_comment_content = '623445';
+  		temp.father_comment_user = 'Jack';
+			commentList.push(temp);
+
+  		/*
+  		var formData = this.props.form.getFieldsValue();
+        const myRequest = new Request('/article/<' + this.props.uniquekey + '>/comment',
+            {
+                method: 'POST',
+                headers: new Headers({"Content-Type": "application/json"}),
+                body: JSON.stringify({'user_id': localStorage.userid, 'content': formData.add_comment})
+            });
+        fetch(myRequest).then(response => {
+            if (response.status === 200) {
+                return response.json();
+            }
+            else {
+                throw new Error("Something went wrong");
+            }
+        }).then(json => {
+            console.log(json);
+            commentList.clear();
+            for (var i = 0; i < json.comments.length; i++) {
+                var temp = {};
+                temp.article_id = json.comments[i].article_id;
+                temp.comment_id = json.comments[i].comment_id;
+                temp.user_id = json.comments[i].user_id;
+                temp.user_name = json.comments[i].user_name;
+                temp.comment_timestamp = json.comments[i].comment_timestamp;
+                temp.comment_mod_timestamp = json.comments[i].comment_mod_timestamp;
+                temp.comment_content = json.comments[i].comment_content;
+                temp.comment_karma = json.comments[i].comment_karma;
+                temp.is_reply = json.comments[i].is_reply;
+                temp.father_comment_id = json.comments[i].father_comment_id;
+                temp.father_comment_content = json.comments[i].father_comment_content;
+                temp.father_comment_user = json.comments[i].father_comment_user;
+                commentList.push(temp);
+            }
+        }).catch(error => {
+            console.error(error);
+        });*/
+
+
+    //网络通信响应完成之后，关闭loading和窗口，这里用延时模拟
+
+      this.setState({ commentSubmitLoading: false, commentModalVisible: false });
+  }
+
+  handleCommentSubmitCancel(){
+    this.setState({ commentModalVisible: false });
+  }
 
 	//取一条新闻
 	componentDidMount() {
@@ -227,7 +320,7 @@ export default class PCNewsDetails extends React.Component {
 				{
 					this.state.editEnable
 					?
-					<TextArea value={this.state.newsDiscribe}  cols="95" rows="6"/>
+					<div class = 'news-detail-description'><textarea value={this.state.newsDiscribe}  cols="95" rows="6"/></div>
 					:
 					<p class = 'news-detail-description'>新闻概要:{this.state.newsDiscribe}</p>
 				}
@@ -243,7 +336,7 @@ export default class PCNewsDetails extends React.Component {
 				</div>
 				:
 				<div class = 'news-detail-info'>
-					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
+					质量：<Rate disabled  defaultValue={this.state.newsStar}/>	&nbsp;
 					分类：{this.state.newsType}	&nbsp;
 					标签：
 					{this.state.newsTagList.map(tag => (
@@ -270,9 +363,8 @@ export default class PCNewsDetails extends React.Component {
 				{
 					<p class = 'news-detail-description'>新闻概要:{this.state.newsDiscribe}</p>
 				}
-				 {/*通信这里不返回概要*/}
 				<div class = 'news-detail-info'>
-					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
+					质量：<Rate disabled  defaultValue={this.state.newsStar}/>	&nbsp;
 					分类：{this.state.newsType}	&nbsp;
 					标签：
 					{this.state.newsTagList.map(tag => (
@@ -295,7 +387,7 @@ export default class PCNewsDetails extends React.Component {
 				{
 					this.state.editEnable
 					?
-					<Input placeholder="请输入文章标题" defaultValue = {this.state.newsTitle} size = 'large'/>
+					<div class  = 'news-detail-title-edit'><Input placeholder="请输入文章标题" defaultValue = {this.state.newsTitle} size = 'large'/></div>
 					:
 					<p class = 'news-detail-title'>{this.state.newsTitle}</p>
 				}
@@ -313,17 +405,24 @@ export default class PCNewsDetails extends React.Component {
 					<Row>
 						<Col span={5}></Col>
 						<Col span={14}>
-		      		<div style={{ background: '#fff',  padding: 44, minHeight: 580 }}>
+							<div style={{ background: '#fff',  padding: 44, minHeight: 200 }}>
 							{
 								this.state.editEnable
 								?
 								<TextArea placeholder="请输入文章内容" defaultValue = {this.state.newsContent} cols="95" rows="10"/>
 								:
-								<div class="news-content"><div dangerouslySetInnerHTML = {{ __html: marked(this.state.newsContent) }}></div>
+								<div class="news-content">
+									<div dangerouslySetInnerHTML = {{ __html: marked(this.state.newsContent) }}></div>
 								</div>
-
 							}
+							<Divider class='comment_label'></Divider>
+							<div class = 'content_bottom'>
+									给这篇新闻打个分吧！<Rate defaultValue={0}/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+									<a class = 'a' onClick={() => {this.showModal()}}>评论 ({commentList.length})</a>
 							</div>
+							</div>
+
+
 						</Col>
 						<Col span={5}></Col>
 					</Row>
@@ -342,6 +441,22 @@ export default class PCNewsDetails extends React.Component {
 		    </Content>
 				<PCFooter></PCFooter>
   		</Layout>
+			<Modal
+					wrapClassName="vertical-center-modal"
+					visible={this.state.commentModalVisible}
+					title={modalTitle}
+					onOk={this.handleOk}
+					onCancel={this.handleCommentSubmitCancel}
+					footer={[
+						<Button key="back" onClick={this.handleCommentSubmitCancel}>退出</Button>,
+						<Button key="submit" type="primary" loading={this.state.commentSubmitLoading} onClick={this.handleCommentSubmitOk}>
+							提交评论
+						</Button>,
+					]}
+				>
+				<p>{father_user_comment}</p>
+				<div><TextArea placeholder="评论请遵守互联网行为准则!" defaultValue = {commentDefault} rows={5}/></div>
+			</Modal>
 
 	  </div>
 		);

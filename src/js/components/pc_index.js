@@ -6,7 +6,6 @@ import SearchPage from './pc_news_search';
 import PCUserCenter from './pc_usercenter';
 import ManagePanel_publish from './pc_managepanel';
 import ManagePanel_inform from './pc_managepanel_inform';
-import ManagePanel_users from './pc_managepanel_users';
 
 import { Layout, Menu, Breadcrumb, Icon,message } from 'antd';
 const Header = Layout.Header;
@@ -102,7 +101,7 @@ export default class PCIndex extends React.Component {
                 content = <ManagePanel_inform manageType = {this.state.manageType}></ManagePanel_inform>;
 			}
 			else {
-                content = <ManagePanel_users manageType = {this.state.manageType}></ManagePanel_users>;
+                //content = <ManagePanel_users manageType = {this.state.manageType}></ManagePanel_users>;
 			}
 		}
 
