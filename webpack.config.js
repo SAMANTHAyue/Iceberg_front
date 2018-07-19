@@ -22,8 +22,8 @@ module.exports = {
     ]
   },
   output: {
-    path: 'C:/Users/CWT/PycharmProjects/iceberg/app/static/src',
-    filename: "bundle.js"
+    path: __dirname,
+    filename: "./src/bundle.js"
   },
   plugins: debug ? [] : [
     new webpack.optimize.DedupePlugin(),
