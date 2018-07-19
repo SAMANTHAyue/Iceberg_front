@@ -67,10 +67,13 @@ export default class PCIndex extends React.Component {
 				message.info('关闭管理员模式');
 			}
 		}else if(e.key == 'publish_news'){
+			console.log('发布新闻');
 			this.setState({currentPage: 'manage_page',manageType:'publish'});
 		}else if(e.key == 'inform_deal'){
+			console.log('举报处理');
 			this.setState({currentPage: 'manage_page',manageType:'inform'});
 		}else if(e.key == 'manage_users'){
+			console.log('用户管理');
 			this.setState({currentPage: 'manage_page',manageType:'users'});
 		}
   }
@@ -88,8 +91,8 @@ export default class PCIndex extends React.Component {
 		}else if(this.state.currentPage == 'search_page'){
 			content = <SearchPage searchType = {this.state.searchType}></SearchPage>;
 		}else if(this.state.currentPage == 'usercenter_page'){
-            content = <PCUserCenter userId = {localStorage.userid}></PCUserCenter>;
-		}else if(this.state.currentPage == 'manege_page'){
+    	content = <PCUserCenter userId = {localStorage.userid}></PCUserCenter>;
+		}else if(this.state.currentPage == 'manage_page'){
 			content = <ManagePanel manageType = {this.state.manageType}></ManagePanel>;
 		}
 

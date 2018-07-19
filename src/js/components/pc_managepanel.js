@@ -1,19 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Input,Row,Col ,message,Spin,Calendar} from 'antd';
+import { Input,Row,Col ,message,Spin,Calendar,Form,Button} from 'antd';
 
-export default class ManagePanel extends React.Component {
+const FormItem = Form.Item;
+
+class ManagePanel extends React.Component {
     constructor(){
         super();
         this.state = {
             category_id: 1,
             tags: ''
         }
-        this.categoryChanged = this.categoryChanged.bind(this);
-        this.SubmintClicked = this.SubmintClicked.bind(this);
+        // this.categoryChanged = this.categoryChanged.bind(this);
+        // this.SubmintClicked = this.SubmintClicked.bind(this);
     };
 
-    categoryChanged (e){
+    componentDidMount() {
+    // To disabled submit button at the beginning.
+    this.props.form.validateFields();
+  }
+
+    categoryChanged(e){
         if(e.key == 1){
             category_id = 1;
         }else if(e.key == 2){
@@ -79,6 +86,9 @@ export default class ManagePanel extends React.Component {
 
 
     render() {
+      let {getFieldProps} = this.props.form;
+
+      console.log('管理员界面');
         return (
             <div>
                 <Row>
@@ -102,12 +112,12 @@ export default class ManagePanel extends React.Component {
                 <Row>
                     <Col span={7}></Col>
                     <Col span={12}>
-                        <Button type="ghost" htmlType="button" key = "1" onClick={this.categoryChanged()}>科技</Button>
-                        <Button type="ghost" htmlType="button" key = "2" onClick={this.categoryChanged()}>政治</Button>
-                        <Button type="ghost" htmlType="button" key = "3" onClick={this.categoryChanged()}>娱乐</Button>
-                        <Button type="ghost" htmlType="button" key = "4" onClick={this.categoryChanged()}>体育</Button>
-                        <Button type="ghost" htmlType="button" key = "5" onClick={this.categoryChanged()}>财经</Button>
-                        <Button type="ghost" htmlType="button" key = "6" onClick={this.categoryChanged()}>国际</Button>
+                        <Button type="ghost" htmlType="button" key = "1" onClick={this.categoryChanged}>科技</Button>
+                        <Button type="ghost" htmlType="button" key = "2" onClick={this.categoryChanged}>政治</Button>
+                        <Button type="ghost" htmlType="button" key = "3" onClick={this.categoryChanged}>娱乐</Button>
+                        <Button type="ghost" htmlType="button" key = "4" onClick={this.categoryChanged}>体育</Button>
+                        <Button type="ghost" htmlType="button" key = "5" onClick={this.categoryChanged}>财经</Button>
+                        <Button type="ghost" htmlType="button" key = "6" onClick={this.categoryChanged}>国际</Button>
                     </Col>
                     <Col span={6}></Col>
 
@@ -119,7 +129,7 @@ export default class ManagePanel extends React.Component {
 
                     <Col span={7}></Col>
                     <Col span={12}>
-                        <Button type="ghost" htmlType="button" onClick={this.SubmitClicked()}>提交</Button>
+                        <Button type="ghost" htmlType="button" onClick={this.SubmitClicked}>提交</Button>
                     </Col>
                     <Col span={6}></Col>
                 </Row>
@@ -127,3 +137,5 @@ export default class ManagePanel extends React.Component {
         );
     }
 }
+
+export default  ManagePanel = Form.create()(ManagePanel);
