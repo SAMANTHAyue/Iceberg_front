@@ -166,6 +166,14 @@ class PCHeader extends React.Component {
         localStorage.userNickName = '';
         this.setState({hasLogined:false});
         localStorage.hasLogined = '';
+        localStorage.usercredit = '';
+        localStorage.managerEnable='0';
+        localStorage.newscontent = '';
+        localStorage.password = '';
+        localStorage.userName = '';
+        localStorage.useradmin = 'false';
+        localStorage.usercredit ='0';
+
     };
 
     //渲染
