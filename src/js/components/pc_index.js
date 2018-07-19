@@ -6,6 +6,7 @@ import SearchPage from './pc_news_search';
 import PCUserCenter from './pc_usercenter';
 import ManagePanel_publish from './pc_managepanel';
 import ManagePanel_inform from './pc_managepanel_inform';
+import ManagePanel_users from './pc_managepanel_users';
 
 import { Layout, Menu, Breadcrumb, Icon,message } from 'antd';
 const Header = Layout.Header;
@@ -101,7 +102,7 @@ export default class PCIndex extends React.Component {
                 content = <ManagePanel_inform manageType = {this.state.manageType}></ManagePanel_inform>;
 			}
 			else {
-                //content = <ManagePanel_users manageType = {this.state.manageType}></ManagePanel_users>;
+                content = <ManagePanel_users manageType = {this.state.manageType}></ManagePanel_users>;
 			}
 		}
 
@@ -116,10 +117,6 @@ export default class PCIndex extends React.Component {
 								<Icon type="desktop" />
 								<span>新闻首页</span>
 							</Menu.Item>
-							<Menu.Item key="hot_news">
-								<Icon type="pie-chart" />
-								<span>热点新闻</span>
-	            </Menu.Item>
 							<SubMenu key="search_page" title={<span><Icon type="search" /><span>新闻搜索</span></span>}>
 								<Menu.Item key="search_by_title">标题搜索</Menu.Item>
 								<Menu.Item key="search_by_tag">标签搜索</Menu.Item>
@@ -141,7 +138,7 @@ export default class PCIndex extends React.Component {
 								  <Icon type="setting" />
 	                <span>新闻管理</span>
 	              </Menu.Item>
-                  <SubMenu key="manage_page" title={<span><Icon type="manage" /><span>管理员界面</span></span>}>
+                  <SubMenu key="manage_page" title={<span><Icon type="appstore-o" /><span>管理员界面</span></span>}>
                       <Menu.Item key="publish_news">发布新闻</Menu.Item>
                       <Menu.Item key="inform_deal">举报处理</Menu.Item>
                       <Menu.Item key="manage_users">用户管理</Menu.Item>

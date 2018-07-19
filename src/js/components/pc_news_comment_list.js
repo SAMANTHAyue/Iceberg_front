@@ -29,8 +29,8 @@ export default class NewsCommentList extends React.Component {
 		this.state = {
             loading:false,
             commentModalVisible:false,
-			      commentSubmitLoading:false,
-            like_flag: 1
+            commentSubmitLoading:false,
+            can_comment: true
 		};
     this.handleComplainClick = this.handleComplainClick.bind(this);
     this.handleKarmaClick = this.handleKarmaClick.bind(this);
@@ -69,6 +69,10 @@ export default class NewsCommentList extends React.Component {
   handleCommentSubmitOk(){
     this.setState({ commentSubmitLoading: true });
 
+    if(localStorage.hasLogined =='') {
+          message("您未登录，不能发表评论！");
+          return;
+    }
 
     if(submit_type == 'edit_comment'){
       var temp = {};
@@ -173,6 +177,9 @@ export default class NewsCommentList extends React.Component {
                 temp.father_comment_user = json.comments[i].father_comment_user;
                 commentList.push(temp);
             }
+            if(json.result == 1 {
+                can_comment = false;
+            }
         }).catch(error => {
             console.error(error);
         });*/
@@ -195,24 +202,55 @@ export default class NewsCommentList extends React.Component {
 
   handleComplainClick(e,comment_id){
     console.log('点击举报,id=',comment_id);
-    console.log(e.key);
+  if(localStorage.hasLogined =='') {
+        message("您未登录，不能举报！！");
+        return;
+    }
     message.info('举报成功，管理员将对评论进行审核');
-
+    const myRequest = new Request('/article/<' + this.props.article_id + '>/<' + comment_id + 'report',
+    {
+        method: 'GET',
+        headers: new Headers({"Content-Type": "application/json"})
+    });
+    fetch(myRequest).then(response => {
+        if (response.status === 200) {
+            return response.json();
+        }
+        else {
+            throw new Error("Something went wrong");
+        }
+    }).then(json => {
+        console.log(json);
+        if (json.result === 0) {
+            message.success("举报成功！");
+        }
+        else {
+            message.info('举报失败！');
+        }
+    }).catch(error => {
+        console.error(error);
+    });
   }
+
+
 
   handleKarmaClick(e, comment_id,is_karmaed){
     console.log('点击点赞,id=',comment_id);
+    if(localStorage.hasLogined =='') {
+          message("您未登录，不能点赞！");
+          return;
+    }
     if(!is_karmaed) {
         this.setState({loading: true});    //开启loading,不能丢，否则无法更新界面
         //发送点赞请求
         //。。。。。。。。。
-        const myRequest = new Request('/article/<' + this.props.uniquekey + '>/<' + key + '>/light/<' + this.state.like_flag + '>',
+        const myRequest = new Request('/article/<' +localStorage.userid + '>/<'+ this.props.article_id + '>/<' + comment_id + '>/light/<0>',
             {
-                method: 'POST',
+                method: 'GET',
                 headers: new Headers({"Content-Type": "application/json"})
             });
+
         fetch(myRequest).then(response => {
-            this.setState({loading: true});    //开启loading,不能丢，否则无法更新界面
             if (response.status === 200) {
                 return response.json();
             }
@@ -222,24 +260,26 @@ export default class NewsCommentList extends React.Component {
             }
         }).then(json => {
             console.log(json);
+            this.setState({loading: false});
             if (json.result === 0) {
                 for (var i = 0; i < this.props.listData.length; i++) {
                     if (this.props.listData[i].comment_id == comment_id) {
                         this.props.listData[i].is_karmaed = true;
                         this.props.listData[i].comment_karma++;
-                        message.info('点赞成功');
+                        message.info('点赞成功!');
                     }
                 }
             }
             else {
-                message.info('点赞失败');
+                message.info('点赞失败！');
             }
         }).catch(error => {
             console.error(error);
         });
     }else{
-      message.info('您以及点过赞啦');
+      message.info('您已经点过赞啦');
     }
+    this.setState({loading: false});    //开启loading,不能丢，否则无法更新界面
 
 
   }
@@ -250,9 +290,13 @@ export default class NewsCommentList extends React.Component {
 
   handleDeleteClick(e,comment_id){
     console.log('点击删除,id=',comment_id);
+    if(localStorage.hasLogined =='') {
+          message("您未登录，不能删除！");
+          return;
+    }
     /*  const myRequest = new Request('/article/<' + this.props.uniquekey + '>/<' + key + '>/delete',
           {
-              method: 'POST',
+              method: 'GET',
               headers: new Headers({"Content-Type": "application/json"})});
       fetch(myRequest).then(response => {
           if (response.status === 200) {

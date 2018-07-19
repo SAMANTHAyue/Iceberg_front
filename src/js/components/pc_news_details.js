@@ -65,7 +65,11 @@ export default class PCNewsDetails extends React.Component {
   }
 
   handleCommentSubmitOk(){
-    this.setState({ commentSubmitLoading: true });
+      if(localStorage.hasLogined =='') {
+          message("您未登录，不能发表评论！");
+          return;
+      }
+      this.setState({ commentSubmitLoading: true });
       var temp = {};
   		temp.article_id = '1234';
   		temp.comment_id = '214324';
@@ -184,6 +188,10 @@ export default class PCNewsDetails extends React.Component {
 
 
 	handleEditClick(e){
+        if(localStorage.hasLogined =='') {
+            message("您未登录，不能编辑新闻！");
+            return;
+        }
 		if(this.state.editEnable){
 			console.log('点击保存新闻编辑');
 			message.info('保存成功');
@@ -234,7 +242,10 @@ export default class PCNewsDetails extends React.Component {
 
 	handleDeleteClick(e){
 		console.log('点击新闻删除',e);
-		message.info('新闻已从数据库中删除');
+        if(localStorage.hasLogined =='') {
+            message("您未登录，不能删除新闻！");
+            return;
+        }
         /* const myRequest = new Request('/article/<' + this.props.uniquekey + '>/delete',
          {
              method: 'POST',
@@ -435,7 +446,7 @@ export default class PCNewsDetails extends React.Component {
 		      		<div style={{ background: '#fff',  padding: 44, minHeight: 180 }}>
 								<Divider class='comment_label'>热门评论</Divider>
 								<br/>
-								<NewsCommentList listData = {commentList}></NewsCommentList>
+								<NewsCommentList listData = {commentList} article_id = {this.state.newsID}></NewsCommentList>
 							</div>
 						</Col>
 						<Col span={5}></Col>
