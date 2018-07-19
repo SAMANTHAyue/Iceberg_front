@@ -1,18 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Input,Row,Col ,message,Spin,Calendar,Form,Button} from 'antd';
+import { Input,Row,Col ,message,Spin,Calendar,Form,Button,Select} from 'antd';
+import marked from 'marked'
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
+var currcontent = '';
+const children = [];
+for (let i = 10; i < 36; i++) {
+  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+}
 
 class ManagePanel_publish extends React.Component {
     constructor(){
         super();
         this.state = {
             category_id: 1,
+            previewmode: false,
+            currentcontent:'aaaaa',
         }
         this.categoryChanged = this.categoryChanged.bind(this);
         this.SubmitClicked = this.SubmitClicked.bind(this);
+        this.previewClicked = this.previewClicked.bind(this);
     };
 
     componentDidMount() {
@@ -36,9 +45,24 @@ class ManagePanel_publish extends React.Component {
         }
     }
 
+    previewClicked(e){
+      var formData = this.props.form.getFieldsValue();
+      if(this.state.previewmode == false){
+        this.state.currentcontent = formData.newscontent;
+        this.setState({previewmode:true});
+        currcontent = formData.newscontent
+      }
+      else{
+        this.setState({previewmode:false});
+      }
+
+    }
+
+
     SubmitClicked(e) {
         e.preventDefault();
         var formData = this.props.form.getFieldsValue();
+        localStorage.newscontent = fromData.newscontent;
         //获取时间
         var date = new Date();
         var year = date.getFullYear();
@@ -59,7 +83,7 @@ class ManagePanel_publish extends React.Component {
         const myRequest = new Request('/publish',
                                       {method: 'POST',
                                           headers: new Headers({"Content-Type":"application/json"}),
-                                          body: JSON.stringify({'newstitle': formData.title,'desc': formData.desc,'newscontent': formData.content,
+                                          body: JSON.stringify({'title': formData.newstitle,'desc': formData.desc,'content': formData.newscontent,
                                                                 'author': formData.author,'time': year +'-'+month+'-'+day+' '+hour+':'+minute+':'+second,
                                                                 'category_id': this.state.category_id,'tags': formData.tag_list})});
         fetch(myRequest)
@@ -108,10 +132,17 @@ class ManagePanel_publish extends React.Component {
                             <br/><br/>
                             <span>新闻内容</span>
                             <br/><br/>
-                            <TextArea placeholder='请输入新闻内容'
-                            {...getFieldProps('newscontent',{rules: [{required: true, message: '内容不能为空！'}]})} style={{height: 350 }}/>
+                            {
+                              this.state.previewmode?
+                              <div class="news-content">
+              									<div dangerouslySetInnerHTML = {{ __html: marked(this.state.currentcontent) }}></div>
+              								</div>
+                              :
+                            <TextArea value={currcontent} placeholder="请以Markdown输入新闻内容" 
+                            {...getFieldProps('newscontent',{rules: [{required: true, message: '内容不能为空！'}]})} style={{height: 350 }} />
+                            }
                             <br/><br/>
-                            <Button type="ghost" htmlType="button" onClick={this.SubmitClicked}>预览</Button>
+                            <Button type="ghost" htmlType="button" onClick={this.previewClicked}>{this.state.previewmode?'编辑':'预览'}</Button>
                             <br/><br/>
                             <span>新闻分类</span>
                             <br/><br/>
@@ -124,7 +155,11 @@ class ManagePanel_publish extends React.Component {
                             <br/><br/>
                             <span>新闻标签</span>
                             <br/><br/>
-                            <Input placeholder='请输入新闻标签' {...getFieldProps('tag_list')}/>
+                            <Select mode="tags"
+                            style={{width: '100%'}}
+                            placeholder = "请输入新闻标签，以Enter/Return为标签间隔"
+                            >
+                            </Select>
                             <br/><br/>
 
                             <Button type="ghost" htmlType="button" onClick={this.SubmitClicked}>提交</Button>
