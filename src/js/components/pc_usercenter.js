@@ -36,9 +36,8 @@ export default class PCUserCenter extends React.Component {
     };
 
     componentDidMount() {
-        const myRequest = new Request('/user/<'+this.props.userId+'>',
-                                       {method: 'GET',
-                                           headers: new Headers({"Content-Type":"application/json"})});
+        const myRequest = new Request('/',
+                                       {method: 'GET', headers: new Headers({"Content-Type":"application/json"}), body: JSON.stringify({action: 'show_user'})});
         fetch(myRequest)
             .then(response => {
                 if (response.status === 200) {

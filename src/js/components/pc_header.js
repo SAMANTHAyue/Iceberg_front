@@ -28,7 +28,7 @@ class PCHeader extends React.Component {
             hasLogined: false,
             userName: '',
             password: '',
-            userid: 0
+            userid: ''
         };
     };
 
