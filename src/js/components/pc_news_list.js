@@ -38,69 +38,11 @@ export default class LoadMoreList extends React.Component {
   newsDeleteClick(e){
     //e.key.slice(2)为新闻id
     console.log('新闻删除点击',e.key.slice(2));
-     /* const myRequest = new Request('/article/<' + e.key.slice(2) + '>/delete',
-          {
-              method: 'POST',
-              headers: new Headers({"Content-Type": "application/json"})
-          });
-      fetch(myRequest).then(response => {
-          if (response.status === "200") {
-              return response.json();
-          }
-          else {
-              throw new Error('Something went wrong');
-          }
-      }).then(json => {
-          console.log(json);
-          if (json.result === 0) {
-              message.success("添加成功！");
-          }
-          else {
-              message.warn("添加失败！");
-          }
-      }).catch(error => {
-          console.error(error);
-      });*/
   }
 
   newsUpdateClick(e){
     //e.key.slice(2)为新闻id
     console.log('新闻更新点击',e.key.slice(2));
-    /*  var formData = this.props.form.getFieldsValue();
-      console.log('新闻更新点击', e.key.slice(2));
-      const myRequest = new Request('/article/<' + e.key.slice(2) + '>/edit',
-          {
-              method: 'POST',
-              headers: new Headers({"Content-Type": "application/json"}),
-              body: JSON.stringify({
-                  'title': formData.update_title,
-                  'desc': formData.update_desc,
-                  'content': formData.update_content,
-                  'author': formData.update_author,
-                  'time': formData.update_time,
-                  'category_id': formData.update_categoryID,
-                  'tags': formData.update_taglist
-              })
-          });
-      fetch(myRequest).then(response => {
-          if (response.status === "200") {
-              return response.json();
-          }
-          else {
-              throw new Error('Something went wrong');
-          }
-      })
-          .then(json => {
-              console.log(json);
-              if (json.result === 0) {
-                  message.success("添加成功！");
-              }
-              else {
-                  message.warn("添加失败！");
-              }
-          }).catch(error => {
-          console.error(error);
-      });*/
   }
 
   newsLoadClick(e){

@@ -27,9 +27,10 @@ export default class NewsCommentList extends React.Component {
   constructor() {
 		super();
 		this.state = {
-      loading:false,
-      commentModalVisible:false,
-			commentSubmitLoading:false
+            loading:false,
+            commentModalVisible:false,
+			commentSubmitLoading:false,
+            like_flag: 1
 		};
     this.handleComplainClick = this.handleComplainClick.bind(this);
     this.handleKarmaClick = this.handleKarmaClick.bind(this);
@@ -90,6 +91,43 @@ export default class NewsCommentList extends React.Component {
   		temp.father_comment_content = '623445';
   		temp.father_comment_user = 'Jack';
   		this.props.listData.push(temp);
+  		/*
+  		var formData = this.props.form.getFieldsValue();
+        const myRequest = new Request('/article/<' + this.props.uniquekey + '>/comment',
+            {
+                method: 'POST',
+                headers: new Headers({"Content-Type": "application/json"}),
+                body: JSON.stringify({'user_id': localStorage.userid, 'content': formData.add_comment})
+            });
+        fetch(myRequest).then(response => {
+            if (response.status === 200) {
+                return response.json();
+            }
+            else {
+                throw new Error("Something went wrong");
+            }
+        }).then(json => {
+            console.log(json);
+            commentList.clear();
+            for (var i = 0; i < json.comments.length; i++) {
+                var temp = {};
+                temp.article_id = json.comments[i].article_id;
+                temp.comment_id = json.comments[i].comment_id;
+                temp.user_id = json.comments[i].user_id;
+                temp.user_name = json.comments[i].user_name;
+                temp.comment_timestamp = json.comments[i].comment_timestamp;
+                temp.comment_mod_timestamp = json.comments[i].comment_mod_timestamp;
+                temp.comment_content = json.comments[i].comment_content;
+                temp.comment_karma = json.comments[i].comment_karma;
+                temp.is_reply = json.comments[i].is_reply;
+                temp.father_comment_id = json.comments[i].father_comment_id;
+                temp.father_comment_content = json.comments[i].father_comment_content;
+                temp.father_comment_user = json.comments[i].father_comment_user;
+                commentList.push(temp);
+            }
+        }).catch(error => {
+            console.error(error);
+        });*/
 
     }else if(submit_type == 'edit_comment'){
       var temp = {};
@@ -107,6 +145,44 @@ export default class NewsCommentList extends React.Component {
   		temp.father_comment_content = '623445';
   		temp.father_comment_user = 'Jack';
   		comment_list.push(temp);
+       /* var formData = this.props.form.getFieldsValue();
+        const myRequest = new Request('/article/<' + this.props.uniquekey + '>/<'+ key + '>/edit',
+            {
+                method: 'POST',
+                headers: new Headers({"Content-Type": "application/json"}),
+                body: JSON.stringify({'user_id': localStorage.userid, 'content': formData.update_comment})
+            });
+        fetch(myRequest).then(response => {
+            if (response.status === 200) {
+                return response.json();
+            }
+            else {
+                throw new Error("Something went wrong");
+            }
+        }).then(json => {
+            console.log(json)
+            var temp = {};
+            temp.article_id = json.comments.article_id;
+            temp.comment_id = json.comments.comment_id;
+            temp.user_id = json.comments.user_id;
+            temp.user_name = json.comments.user_name;
+            temp.comment_timestamp = json.comments.comment_timestamp;
+            temp.comment_mod_timestamp = json.comments.comment_mod_timestamp;
+            temp.comment_content = json.comments.comment_content;
+            temp.comment_karma = json.comments.comment_karma;
+            temp.is_reply = json.comments.is_reply;
+            temp.father_comment_id = json.comments.father_comment_id;
+            temp.father_comment_content = json.comments.father_comment_content;
+            temp.father_comment_user = json.comments.father_comment_user;
+            for(var i=0;i<commentList.length;i++) {
+                if(commentList[i].comment_id === temp.comment_id) {
+                    commentList[i] = temp;
+                }
+            }
+        }).catch(error => {
+            console.error(error);
+        });*/
+
 
     }else if(submit_type == 'reference_comment'){
       var temp = {};
@@ -124,7 +200,42 @@ export default class NewsCommentList extends React.Component {
   		temp.father_comment_content = father_user_comment;
   		temp.father_comment_user = father_user_name;
   		comment_list.push(temp);
-
+        /*var formData = this.props.form.getFieldsValue();
+        const myRequest = new Request('/article/<' + this.props.uniquekey +'>/<'+ key + '>/comment',
+            {
+                method: 'POST',
+                headers: new Headers({"Content-Type": "application/json"}),
+                body: JSON.stringify({'user_id': localStorage.userid, 'content': formData.add_reply_comment})
+            });
+        fetch(myRequest).then(response => {
+            if (response.status === 200) {
+                return response.json();
+            }
+            else {
+                throw new Error("Something went wrong");
+            }
+        }).then(json => {
+            console.log(json);
+            commentList.clear();
+            for (var i = 0; i < json.comments.length; i++) {
+                var temp = {};
+                temp.article_id = json.comments[i].article_id;
+                temp.comment_id = json.comments[i].comment_id;
+                temp.user_id = json.comments[i].user_id;
+                temp.user_name = json.comments[i].user_name;
+                temp.comment_timestamp = json.comments[i].comment_timestamp;
+                temp.comment_mod_timestamp = json.comments[i].comment_mod_timestamp;
+                temp.comment_content = json.comments[i].comment_content;
+                temp.comment_karma = json.comments[i].comment_karma;
+                temp.is_reply = json.comments[i].is_reply;
+                temp.father_comment_id = json.comments[i].father_comment_id;
+                temp.father_comment_content = json.comments[i].father_comment_content;
+                temp.father_comment_user = json.comments[i].father_comment_user;
+                commentList.push(temp);
+            }
+        }).catch(error => {
+            console.error(error);
+        });*/
     }
 
     //网络通信响应完成之后，关闭loading和窗口，这里用延时模拟
@@ -152,33 +263,75 @@ export default class NewsCommentList extends React.Component {
 
   handleKarmaClick(e, comment_id,is_karmaed){
     console.log('点击点赞,id=',comment_id);
-    if(!is_karmaed){
+    if(!is_karmaed) {
 
-      this.setState({loading:true});    //开启loading,不能丢，否则无法更新界面
-      //发送点赞请求
-      //。。。。。。。。。
+        this.setState({loading: true});    //开启loading,不能丢，否则无法更新界面
+        //发送点赞请求
+        //。。。。。。。。。
+        const myRequest = new Request('/article/<' + this.props.uniquekey + '>/<' + key + '>/light/<' + this.state.like_flag + '>',
+            {
+                method: 'POST',
+                headers: new Headers({"Content-Type": "application/json"})
+            });
+        fetch(myRequest).then(response => {
+            if (response.status === 200) {
+                return response.json();
+            }
+            else {
+                throw new Error("Something went wrong");
+            }
+        }).then(json => {
+            console.log(json);
+            if (json.result === 0) {
+                for (var i = 0; i < this.props.listData.length; i++) {
+                    if (this.props.listData[i].comment_id == comment_id) {
+                        this.props.listData[i].is_karmaed = true;
+                        this.props.listData[i].comment_karma++;
+                        message.info('点赞成功');
+                    }
+                }
+            }
+            else {
+                message.info('你已经赞过啦');
+            }
+        }).catch(error => {
+            console.error(error);
+        });
+        //成功响应执行
+        //this.setState({loading:false});    //开启loading
 
-      //成功响应执行
-      this.setState({loading:false});    //开启loading
-
-      //点赞返回result为true再执行
-      for(var i=0;i<this.props.listData.length;i++){
-        if(this.props.listData[i].comment_id == comment_id){
-          this.props.listData[i].is_karmaed = true;
-          this.props.listData[i].comment_karma++;
-          message.info('点赞成功');
-        }
-      }
-    }else{
-      message.info('你已经赞过啦');
+        //点赞返回result为true再执行
     }
   }
+
   handleEditClick(e,comment_id,comment_content){
     console.log('点击编辑,id=',comment_id);
   }
+
   handleDeleteClick(e,comment_id){
     console.log('点击删除,id=',comment_id);
-
+    /*  const myRequest = new Request('/article/<' + this.props.uniquekey + '>/<' + key + '>/delete',
+          {
+              method: 'POST',
+              headers: new Headers({"Content-Type": "application/json"})});
+      fetch(myRequest).then(response => {
+          if (response.status === 200) {
+              return response.json();
+          }
+          else {
+              throw new Error("Something went wrong");
+          }
+      }).then(json => {
+          console.log(json);
+          if(json.result === 0) {
+              message.success("删除成功！");
+          }
+          else {
+              message.warn("删除失败！");
+          }
+      }).catch(error => {
+          console.error(error);
+      });*/
     message.info('删除成功');
 
   }
