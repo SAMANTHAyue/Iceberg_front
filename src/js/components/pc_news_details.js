@@ -308,7 +308,9 @@ export default class PCNewsDetails extends React.Component {
 				{
 					this.state.editEnable
 				?
-				<Input placeholder = "请输入文章作者" defaultValue = {this.state.newsAuthor} size = 'large'/>
+				<div class = 'news-detail-card'>
+				<Input placeholder = "请输入文章作者" defaultValue = {this.state.newsAuthor} size = 'large' style={{ width: 150 }}/>
+				</div>
 				:
 				<div class = 'news-detail-card'>
 					<Avatar style={{ backgroundColor: '#1E90FF', verticalAlign: 'middle' }} size="large">
@@ -320,7 +322,7 @@ export default class PCNewsDetails extends React.Component {
 				{
 					this.state.editEnable
 					?
-					<div class = 'news-detail-description'><textarea value={this.state.newsDiscribe}  cols="95" rows="6"/></div>
+					<div class = 'news-detail-description'><TextArea value={this.state.newsDiscribe}  cols="95" rows="6"/></div>
 					:
 					<p class = 'news-detail-description'>新闻概要:{this.state.newsDiscribe}</p>
 				}
