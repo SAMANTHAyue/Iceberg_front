@@ -9,6 +9,8 @@ import NewsCommentList from './pc_news_comment_list';
 import { Layout, Menu, Breadcrumb,Card, Icon, Avatar,Rate,Tag,Divider,Popconfirm,message,Input,Modal,Button} from 'antd';
 const { Header, Content, Footer } = Layout;
 const { Meta } = Card;
+const { TextArea } = Input;
+const InputGroup = Input.Group;
 
 var commentList = [];
 var newsTop;
@@ -22,7 +24,7 @@ export default class PCNewsDetails extends React.Component {
 			newsAuthor:'未知作者',
 			newsID:'12344',
 			newsDiscribe:'这是新闻概要就是觉得洛夫卡的撒娇的开发及分厘卡技术的拉法基拉萨酱豆腐了及独立董事咖啡机卢卡斯的经理反馈尽量扩大时间分厘卡机联发科老大就是浪费卡洛斯开发上的分厘卡机撒大反击大师傅大师傅航空基地建设',
-			newsContent:marked('# Damage done\n\nDoes Donald Trump believe in ominous metaphors? As he affirmed his support for US intelligence agencies, the lights went to black in the White House conference room.\nOnce order was restored, he said he had been in the dark as to why a storm had swirled around his presidency since his Helsinki summit with Vladimir Putin. It was, he said, because he had misspoken.\nThat is going to be hard for many of the president\'s critics to swallow, however. Even if he did mean to say, \"I don\'t see a reason why it wouldn\'t be Russia\", it is a pretty weak way to confront the head of a nation accused of targeting the heart of American democracy.\nWhat is more, the context of the president\'s comments make a simple slip of the tongue seem less likely.\nAt the very least, the president gave his supporters some material to rally around.\nThe damage, however, has been done. Mr Trump can give as many White House statements as he likes, but on the biggest stage \- standing beside the Russian president - he fumbled. All the explanations cannot change that.'),
+			newsContent:'# 世界杯头球攻门占尽风头\n## 大脑会因此被破坏吗\n英格兰队在本届世界杯上取得了自1990年以来的最好成绩，**哈里·凯恩（Harry Kane，哈利·简尼）**和**哈里·马奎尔（Harry Maguire，麦佳亚/马古尼）**在不同比赛中的头球得分功不可没。' ,
 			newsStar:4,
 			newsType:'科技',
 			newsTime:'2018-10-29',
@@ -210,20 +212,36 @@ export default class PCNewsDetails extends React.Component {
 					<div><Icon type="delete" />&nbsp;&nbsp;&nbsp;新闻删除</div>
 				</Popconfirm>]
 			}>
+				{
+					this.state.editEnable
+				?
+				<Input placeholder = "请输入文章作者" defaultValue = {this.state.newsAuthor} size = 'large'/>
+				:
 				<div class = 'news-detail-card'>
 					<Avatar style={{ backgroundColor: '#1E90FF', verticalAlign: 'middle' }} size="large">
 					{this.state.newsAuthor}
 					</Avatar>
 					&nbsp;{this.state.newsAuthor}
 				</div>
+			}
 				{
 					this.state.editEnable
 					?
-					<textarea value={this.state.newsDiscribe}  cols="95" rows="6"/>
+					<TextArea value={this.state.newsDiscribe}  cols="95" rows="6"/>
 					:
 					<p class = 'news-detail-description'>新闻概要:{this.state.newsDiscribe}</p>
 				}
 				{/*通信这里不返回概要*/}
+			{
+				this.state.editEnable
+				?
+				<div class = 'news-detail-info'>
+				质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
+				<Input addonBefore = "分类" placeholder = "请输入分类" defaultValue = {this.state.newsType} size = 'default' style={{ width: 200 }}/> &nbsp;
+				标签：{this.state.newsTagList.map(tag => (<Input defaultValue = {tag} size = 'default' style={{ width: 80 }}/>))} &nbsp;
+				浏览量：{this.state.newsHeat}	&nbsp;
+				</div>
+				:
 				<div class = 'news-detail-info'>
 					质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
 					分类：{this.state.newsType}	&nbsp;
@@ -236,6 +254,7 @@ export default class PCNewsDetails extends React.Component {
 					浏览量：{this.state.newsHeat}	&nbsp;
 
 				</div>
+			}
 				<div class='news-detail-time'>时间：{this.state.newsTime}</div>
 			</Card>
 			;
@@ -295,10 +314,15 @@ export default class PCNewsDetails extends React.Component {
 						<Col span={5}></Col>
 						<Col span={14}>
 		      		<div style={{ background: '#fff',  padding: 44, minHeight: 580 }}>
+							{
+								this.state.editEnable
+								?
+								<TextArea placeholder="请输入文章内容" defaultValue = {this.state.newsContent} cols="95" rows="10"/>
+								:
+								<div class="news-content"><div dangerouslySetInnerHTML = {{ __html: marked(this.state.newsContent) }}></div>
+								</div>
 
-							<div class="news-content"><div dangerouslySetInnerHTML = {{ __html:this.state.newsContent }}>
-							</div>
-							</div>
+							}
 							</div>
 						</Col>
 						<Col span={5}></Col>
