@@ -537,6 +537,15 @@ iframe {
   margin-right: 5%;
 }
 
+.news-commit-info{
+  text-align: center;
+  font-size: 16px;
+  margin-top: 10px;
+  width: 99%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
 .news-content{
   text-align: center;
   font-size: 16px;

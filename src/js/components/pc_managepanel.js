@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Input,Row,Col ,message,Spin,Calendar,Form,Button} from 'antd';
 
 const FormItem = Form.Item;
+const { TextArea } = Input;
 
 class ManagePanel_publish extends React.Component {
     constructor(){
@@ -58,7 +59,7 @@ class ManagePanel_publish extends React.Component {
         const myRequest = new Request('/publish',
                                       {method: 'POST',
                                           headers: new Headers({"Content-Type":"application/json"}),
-                                          body: JSON.stringify({'title': formData.title,'desc': formData.desc,'content': formData.content,
+                                          body: JSON.stringify({'newstitle': formData.title,'desc': formData.desc,'newscontent': formData.content,
                                                                 'author': formData.author,'time': year +'-'+month+'-'+day+' '+hour+':'+minute+':'+second,
                                                                 'category_id': this.state.category_id,'tags': formData.tag_list})});
         fetch(myRequest)
@@ -88,51 +89,51 @@ class ManagePanel_publish extends React.Component {
       let {getFieldProps} = this.props.form;
 
       console.log('管理员界面');
-        return (
-            <div>
+        return (<div>
                 <Row>
                     <Col span={7}></Col>
                     <Col span={12}>
-                        <div>
-                            <span>新闻标题：</span>
-                            <input placeholder='请输入新闻标题' {...getFieldProps('title',{rules: [{required: true, message: '标题不能为空！'}]})}/>
-                            <span>作者：</span>
-                            <input placeholder='请输入新闻作者' {...getFieldProps('author',{rules: [{required: true, message: '作者不能为空！'}]})}/>
+                    <div class = 'news-commit-info'>
+                            发布新闻
                             <br/><br/>
-                            <span>新闻简介：</span>
-                            <input placeholder='请输入新闻简介' {...getFieldProps('desc')}/>
+                            <Input addonBefore='新闻标题' placeholder='请输入新闻标题'
+                            {...getFieldProps('newstitle',{rules: [{required: true, message: '标题不能为空！'}]})} size = 'large'/>
                             <br/><br/>
-                            <span>新闻内容：</span>
-                            <input placeholder='请输入新闻内容' {...getFieldProps('content',{rules: [{required: true, message: '内容不能为空！'}]})}/>
-                        </div>
+                            <Input addonBefore='新闻作者' placeholder='请输入新闻作者'
+                            {...getFieldProps('author',{rules: [{required: true, message: '作者不能为空！'}]})} size = 'large'/>
+                            <br/><br/>
+                            <span>新闻简介</span>
+                            <br/><br/>
+                            <TextArea placeholder='请输入新闻简介' {...getFieldProps('desc')} style={{ height: 200 }}/>
+                            <br/><br/>
+                            <span>新闻内容</span>
+                            <br/><br/>
+                            <TextArea placeholder='请输入新闻内容'
+                            {...getFieldProps('newscontent',{rules: [{required: true, message: '内容不能为空！'}]})} style={{height: 350 }}/>
+                            <br/><br/>
+                            <Button type="ghost" htmlType="button" onClick={this.SubmitClicked}>预览</Button>
+                            <br/><br/>
+                            <span>新闻分类</span>
+                            <br/><br/>
+                            <Button type="ghost" htmlType="button" key = "1" onClick={this.categoryChanged}>科技</Button>
+                            <Button type="ghost" htmlType="button" key = "2" onClick={this.categoryChanged}>政治</Button>
+                            <Button type="ghost" htmlType="button" key = "3" onClick={this.categoryChanged}>娱乐</Button>
+                            <Button type="ghost" htmlType="button" key = "4" onClick={this.categoryChanged}>体育</Button>
+                            <Button type="ghost" htmlType="button" key = "5" onClick={this.categoryChanged}>财经</Button>
+                            <Button type="ghost" htmlType="button" key = "6" onClick={this.categoryChanged}>国际</Button>
+                            <br/><br/>
+                            <span>新闻标签</span>
+                            <br/><br/>
+                            <Input placeholder='请输入新闻标签' {...getFieldProps('tag_list')}/>
+                            <br/><br/>
+
+                            <Button type="ghost" htmlType="button" onClick={this.SubmitClicked}>提交</Button>
+                    </div>
                     </Col>
                     <Col span={6}></Col>
                 </Row>
-                <Row>
-                    <Col span={7}></Col>
-                    <Col span={12}>
-                        <Button type="ghost" htmlType="button" key = "1" onClick={this.categoryChanged}>科技</Button>
-                        <Button type="ghost" htmlType="button" key = "2" onClick={this.categoryChanged}>政治</Button>
-                        <Button type="ghost" htmlType="button" key = "3" onClick={this.categoryChanged}>娱乐</Button>
-                        <Button type="ghost" htmlType="button" key = "4" onClick={this.categoryChanged}>体育</Button>
-                        <Button type="ghost" htmlType="button" key = "5" onClick={this.categoryChanged}>财经</Button>
-                        <Button type="ghost" htmlType="button" key = "6" onClick={this.categoryChanged}>国际</Button>
-                    </Col>
-                    <Col span={6}></Col>
 
-                    <Col span={7}></Col>
-                    <Col span={12}>
-                        <input placeholder='请输入新闻标签' {...getFieldProps('tag_list')}/>
-                    </Col>
-                    <Col span={6}></Col>
-
-                    <Col span={7}></Col>
-                    <Col span={12}>
-                        <Button type="ghost" htmlType="button" onClick={this.SubmitClicked}>提交</Button>
-                    </Col>
-                    <Col span={6}></Col>
-                </Row>
-            </div>
+                </div>
         );
     }
 }
