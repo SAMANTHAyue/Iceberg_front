@@ -114,9 +114,10 @@ class ManagePanel_publish extends React.Component {
     }
 
     handleTagsChange(value){
-      console.log(`selected ${value}`);
       tagList=[];
-      tagList.push(value);
+      for(var i=0;i<value.length;i++){
+        tagList.push(value[i].toString());
+      }
       console.log(tagList);
     }
 
