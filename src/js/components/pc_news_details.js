@@ -50,7 +50,8 @@ class PCNewsDetails extends React.Component {
 			editEnable:false,
 			commentModalVisible:false,
 			commentSubmitLoading:false,
-			category_id:1
+			category_id:1,
+			loading:false,
 		};
 		this.handleEditClick = this.handleEditClick.bind(this);
 		this.handleDeleteClick = this.handleDeleteClick.bind(this);
@@ -126,6 +127,7 @@ class PCNewsDetails extends React.Component {
 
 	//取一条新闻
 	componentWillMount() {
+		this.setState({loading:true});
 		var sHref = window.location.href;
 		console.log('href',sHref);
 		var args = sHref.split("?");
@@ -133,7 +135,8 @@ class PCNewsDetails extends React.Component {
 		var value = head.split('/');
 		article_id = value[value.length-1];
 		console.log('article_id',article_id);
-	//网络通信
+
+		//网络通信
 
         const myRequest = new Request('/',
 													            {
@@ -196,6 +199,7 @@ class PCNewsDetails extends React.Component {
             }
 						console.log('评论列表',commentList);
 						console.log('新闻详细',this.state);
+						this.state({loading:false});
         }).catch(error => {
             console.error(error);
         });
@@ -348,11 +352,13 @@ class PCNewsDetails extends React.Component {
 
 
 
-		localStorage.userid='1233213';
+		//localStorage.userid='1233213';
 		localStorage.managerEnable='1';
 
 		let {getFieldProps} = this.props.form;
 		newsContent = this.state.newsContent;
+
+
 
 
 
@@ -490,7 +496,7 @@ class PCNewsDetails extends React.Component {
 		      		<div style={{ background: '#fff',  padding: 44, minHeight: 180 }}>
 								<Divider class='comment_label'>热门评论</Divider>
 								<br/>
-								<NewsCommentList listData = {commentList} article_id = {this.state.newsID}></NewsCommentList>
+								<NewsCommentList listData = {comment_list} article_id = {this.state.newsID}></NewsCommentList>
 							</div>
 						</Col>
 						<Col span={5}></Col>
