@@ -282,10 +282,11 @@ class PCNewsDetails extends React.Component {
             message.info("您未登录，不能删除新闻！");
             return;
         }
-        /* const myRequest = new Request('/article/<' + this.props.uniquekey + '>/delete',
+        const myRequest = new Request('/',
          {
              method: 'POST',
-             headers: new Headers({"Content-Type": "application/json"})
+             headers: new Headers({"Content-Type": "application/json"}),
+						 body: JSON.stringify({action:'delete_article',article_id: article_id})
          });
      fetch(myRequest).then(response => {
          if (response.status === "200") {
@@ -298,17 +299,43 @@ class PCNewsDetails extends React.Component {
          console.log(json);
          if (json.result === 0) {
              message.success("删除新闻成功！");
+						 window.close();
          }
          else {
              message.warn("删除新闻失败！");
          }
      }).catch(error => {
          console.error(error);
-     });*/
+     });
+
 	}
 
+	//打分变化
 	handleChange(value){
-    this.setState({ value });
+
+    this.setState({ newsStar:value });
+		const myRequest = new Request('/',
+																	{
+																			method: 'POST',
+																			headers: new Headers({"Content-Type": "application/json"}),
+																			body: JSON.stringify({action:'browse_article',article_id: article_id,score:value})
+																	});
+		console.log({action:'browse_article',article_id: article_id,score:value});
+		fetch(myRequest).then(response => {
+				if (response.status === 200) {
+						return response.json();
+				}
+				else {
+						throw new Error("Something went wrong");
+				}
+		}).then(json => {
+				console.log(json);
+				message.info('评分成功');
+
+		}).catch(error => {
+				console.error(error);
+		});
+
   }
 
 	contentChange(value){
@@ -333,36 +360,6 @@ class PCNewsDetails extends React.Component {
 
 		console.log('managerenable',localStorage.managerEnable);
 
-
-		var temp = {};
-		temp.article_id = '1234';
-		temp.comment_id = '214324';
-		temp.user_id = '123342';
-		temp.user_name = 'Tom';
-		temp.comment_timestamp = '2018-07-19 10:00';
-		temp.comment_mod_timestamp = '2018-07-19 11:00';
-		temp.comment_content = '这个新闻写得真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！';
-		temp.comment_karma = 21;
-		temp.is_commented = false;
-		temp.is_reply = false;
-		temp.father_comment_id = '12333';
-		temp.father_comment_content = '623445';
-		temp.father_comment_user = 'Jack';
-		commentList.push(temp);
-		var temp1 = {};
-		temp1.article_id = '1234';
-		temp1.comment_id = '214325';
-		temp1.user_id = '123456';
-		temp1.user_name = 'Tom';
-		temp1.comment_timestamp = '2018-07-19 10:00';
-		temp1.comment_mod_timestamp = '2018-07-19 11:00';
-		temp1.comment_content = '这个新闻写得真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！真赞呀！';
-		temp1.comment_karma = 23;
-		temp1.father_comment_id = '12333';
-		temp1.father_comment_content = '623445';
-		temp1.father_comment_user = 'Jack';
-		temp1.is_reply = true;
-		commentList.push(temp1);
 
 		if(localStorage.managerEnable == '1'){
 			newsTop =
