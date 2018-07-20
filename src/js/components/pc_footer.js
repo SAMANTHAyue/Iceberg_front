@@ -9,7 +9,7 @@ export default class PCFooter extends React.Component {
 			<Col span={10}></Col>
 			<Col >
 				<a href="/" class="footer">
-					<img src="./src/images/logo.png" alt="logo"/>
+					<img src="./static/src/images/logo.png" alt="logo"/>
 					<span>ICEBERGNews</span>
 				</a>
 			</Col>

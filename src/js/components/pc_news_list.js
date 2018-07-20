@@ -30,17 +30,23 @@ export default class LoadMoreList extends React.Component {
 	}
 
   componentWillMount(){
-      this.setState({loading:true});
+
+
+  }
+
+  //更改新闻类别，重新加载
+  componentWillReceiveProps(){
+    listData=[];
+    //this.setState({loading:false,typeChange:!this.state.typeChange});
       console.log('列表获取到的新闻类型',this.props.newsType);
       const myRequest = new Request('/',
-      {   method: 'POST',
-          headers: new Headers({"Content-Type": "application/json"}),
-          body: JSON.stringify({action:'category',category_id:this.props.newsType})}
+          {   method: 'POST',
+              headers: new Headers({"Content-Type": "application/json"}),
+              body: JSON.stringify({action:'category',category_id:this.props.newsType})}
       );
       console.log({action:'category',category_id:this.props.newsType});
       fetch(myRequest)
           .then((response) => {
-              this.setState({loading:false,typeChange:false});
               if (response.status === 200) {
                   return response.json();
                   message.info('加载成功');
@@ -52,6 +58,7 @@ export default class LoadMoreList extends React.Component {
           })
           .then((json) => {
               console.log(json);
+              listData=[];
               for (var i = 0; i < json.articles.length; i++) {
                   var temp = {};
                   temp.article_title = json.articles[i].article_title;
@@ -64,33 +71,28 @@ export default class LoadMoreList extends React.Component {
                   temp.article_score = json.articles[i].article_score;
                   temp.tag_list = json.articles[i].tag_list;
                   var category_id = json.articles[i].category_id;
-            if(category_id == 1){
-              temp.category = '科技';
-            }else if(category_id == 2){
-              temp.category = '政治';
-            }else if(category_id == 3){
-              temp.category = '娱乐';
-            }else if(category_id == 4){
-              temp.category = '体育';
-            }else if(category_id == 5){
-              temp.category = '财经';
-            }else if(category_id == 6){
-              temp.category = '国际';
-            }else {
-              temp.category = '未知';
-            }
+                  if(category_id == 1){
+                      temp.category = '科技';
+                  }else if(category_id == 2){
+                      temp.category = '政治';
+                  }else if(category_id == 3){
+                      temp.category = '娱乐';
+                  }else if(category_id == 4){
+                      temp.category = '体育';
+                  }else if(category_id == 5){
+                      temp.category = '财经';
+                  }else if(category_id == 6){
+                      temp.category = '国际';
+                  }else {
+                      temp.category = '未知';
+                  }
                   listData.push(temp);
-                  this.setState({loading:false, news: json, typeChange:false});
+                  this.setState({typeChange:!this.state.typeChange});
               }
           }).catch(error => {
           console.error(error);
       });
-  }
 
-  //更改新闻类别，重新加载
-  componentWillReceiveProps(){
-    listData=[];
-    this.setState({loading:false,typeChange:true});
   }
 
   newsDeleteClick(e){
@@ -112,23 +114,6 @@ export default class LoadMoreList extends React.Component {
 
   render() {
 
-
-
-
-
-
-          var temp = {};
-          temp.article_id = '12434';
-          temp.category = '科技';
-          temp.article_title = '这是新闻标题';
-          temp.article_desc = '新闻的简介数据库大家分厘卡即使的看法垃圾啊士大夫接受了的看法距离喀什角动量飞机侃大山就爱上了的咖啡机拉克丝解放了喀什的就ask两地分居垃圾十分宽大金克拉撒旦解放了喀什建立饭卡将离开洒家对方离开洒家灯笼裤飞机就立刻多久啊是芬兰空军分类的凯撒就建立可是大家分厘卡即使代理费';
-          temp.article_author = '名字';
-          temp.article_timestamp = '2018-07-16 10:00';
-          temp.article_heat = 43423;
-          temp.article_score = 3.5;
-          temp.tag_list = ['计算机','科学','大数据'];
-          //console.log(temp);
-          listData.push(temp);
 
 
     return (
@@ -163,7 +148,7 @@ export default class LoadMoreList extends React.Component {
           <p>时间：{item.article_timestamp}</p>
           ]}
           extra={<div>
-                    <img width={110} alt="logo" src='./src/images/logo.png'/>
+                    <img width={110} alt="logo" src='./static/src/images/logo.png'/>
                     {
                       localStorage.managerEnable==1?
                       <div >

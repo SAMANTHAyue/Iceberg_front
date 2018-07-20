@@ -89,7 +89,7 @@ class PCHeader extends React.Component {
                     if(json.result === 0) {
                         //获取用户id、信誉度、是否是管理员
                         this.setState({userid: json.user.user_id});
-                        localStorage.userid = this.state.userid;
+                        localStorage.userid = json.user.user_id;
                         localStorage.usercredit = json.user.user_credit;
                         localStorage.useradmin = json.user.user_admin;
 
@@ -98,6 +98,7 @@ class PCHeader extends React.Component {
                         localStorage.userName = formData.userName;
                         localStorage.password = formData.password;
                         localStorage.hasLogined = this.state.hasLogined;
+                        console.log('登录', localStorage);
                     }
                     else if(json.result === 1) {
                         this.setState({userName: formData.userName});
@@ -173,7 +174,7 @@ class PCHeader extends React.Component {
         localStorage.userName = '';
         localStorage.useradmin = 'false';
         localStorage.usercredit ='0';
-
+        console.log(localStorage);
     };
 
     //渲染
@@ -203,7 +204,7 @@ class PCHeader extends React.Component {
                 <Row >
                     <Col span={16}>
                         <a href="/" class="logo">
-                            <img src="./src/images/logo.png" alt="logo"/>
+                            <img src="./static/src/images/logo.png" alt="logo"/>
                             <div>
                                 <span>ICEBERGNews</span>
                                 <p>只服务于独立思考的人群</p>
