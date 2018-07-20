@@ -40,9 +40,9 @@ class PCNewsDetails extends React.Component {
 			newsTitle: '新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题新闻标题',
 			newsAuthor:'未知作者',
 			newsID:'12344',
-			newsDiscribe:'这是新闻概要就是觉得洛夫卡的撒娇的开发及分厘卡技术的拉法基拉萨酱豆腐了及独立董事咖啡机卢卡斯的经理反馈尽量扩大时间分厘卡机联发科老大就是浪费卡洛斯开发上的分厘卡机撒大反击大师傅大师傅航空基地建设',
+			newsDescribe:'这是新闻概要就是觉得洛夫卡的撒娇的开发及分厘卡技术的拉法基拉萨酱豆腐了及独立董事咖啡机卢卡斯的经理反馈尽量扩大时间分厘卡机联发科老大就是浪费卡洛斯开发上的分厘卡机撒大反击大师傅大师傅航空基地建设',
 			newsContent:'# 世界杯头球攻门占尽风头\n## 大脑会因此被破坏吗\n英格兰队在本届世界杯上取得了自1990年以来的最好成绩，**哈里·凯恩（Harry Kane，哈利·简尼）**和**哈里·马奎尔（Harry Maguire，麦佳亚/马古尼）**在不同比赛中的头球得分功不可没。' ,
-			newsStar:4,
+			newsStar:0,
 			newsType:'科技',
 			newsTime:'2018-10-29',
 			newsTagList:['计算机','人工智能','大数据'],
@@ -174,7 +174,8 @@ class PCNewsDetails extends React.Component {
                 newsHeat: json.article.article_heat,
                 newsTagList: json.article.tag_list,
                 newsComments: json.article.comment_list,
-								category_id:json.article.category_id
+								category_id:json.article.category_id,
+								newsDescribe:json.article.article_desc
             })
 						newsContent = json.article.article_content;
             for (var i = 0; i < json.article.comment_list.length; i++) {
@@ -202,6 +203,14 @@ class PCNewsDetails extends React.Component {
 
 
 	handleEditClick(e){
+		var formData = this.props.form.getFieldsValue();
+		this.setState({newsTitle:formData.title});
+		this.setState({newsDescribe:formData.desc});
+		this.setState({newsContent:formData.content});
+		this.setState({newsAuthor:formData.author});
+		console.log('state',this.state);
+
+
 		if(localStorage.userid =='') {
 				message.info("您未登录，不能编辑新闻！");
 				return;
@@ -221,7 +230,7 @@ class PCNewsDetails extends React.Component {
 																					article_id:article_id,
 												                  title: formData.title,
 												                  desc: formData.desc,
-												                  content: newsContent,
+												                  content: formData.content,
 												                  author: formData.author,
 												                  time: this.state.newsTime,
 												                  category_id: this.state.category_id,
@@ -230,13 +239,14 @@ class PCNewsDetails extends React.Component {
 												          });
 		  console.log({
 					action:'edit_article',
-					title: formData.update_title,
-					desc: formData.update_desc,
-					content: formData.update_content,
-					author: formData.update_author,
-					time: formData.update_time,
-					category_id: formData.update_categoryID,
-					tags: formData.update_taglist
+					article_id:article_id,
+					title: formData.title,
+					desc: formData.desc,
+					content: newsContent,
+					author: formData.author,
+					time: this.state.newsTime,
+					category_id: this.state.category_id,
+					tags: this.state.newsTagList
 			});
       fetch(myRequest).then(response => {
           if (response.status === "200") {
@@ -302,6 +312,7 @@ class PCNewsDetails extends React.Component {
   }
 
 	contentChange(value){
+			console.log(value);
 			 newsContent = value;
 			 this.setState(newsContent:value);
 	}
@@ -381,9 +392,9 @@ class PCNewsDetails extends React.Component {
 				{
 					this.state.editEnable
 					?
-					<div class = 'news-detail-description'><TextArea value={this.state.newsDiscribe}  cols="95" rows="6"  {...getFieldProps('desc',{rules: [{required: true, message: '概要不能为空！'}]})}/></div>
+					<div class = 'news-detail-description'><TextArea value={this.state.newsDescribe}  cols="95" rows="6"  {...getFieldProps('desc',{rules: [{required: true, message: '概要不能为空！'}]})}/></div>
 					:
-					<p class = 'news-detail-description'>新闻概要:{this.state.newsDiscribe}</p>
+					<p class = 'news-detail-description'>新闻概要:{this.state.newsDescribe}</p>
 				}
 				{/*通信这里不返回概要*/}
 				<div class = 'news-detail-info'>
@@ -410,7 +421,7 @@ class PCNewsDetails extends React.Component {
 					&nbsp;{this.state.newsAuthor}
 				</div>
 				{
-					<p class = 'news-detail-description'>新闻概要:{this.state.newsDiscribe}</p>
+					<p class = 'news-detail-description'>新闻概要:{this.state.newsDescribe}</p>
 				}
 				<div class = 'news-detail-info'>
 					质量：<Rate disabled  defaultValue={this.state.newsStar}/>	&nbsp;
@@ -458,10 +469,10 @@ class PCNewsDetails extends React.Component {
 							{
 								this.state.editEnable
 								?
-								<TextArea placeholder="请输入文章内容" defaultValue = {newsContent} cols="95" rows="10" onChange={this.contentChange}/>
+								<TextArea placeholder="请输入文章内容" defaultValue = {this.state.newsContent} cols="95" rows="10" {...getFieldProps('content',{rules: [{required: true, message: '正文不能为空！'}]})}/>
 								:
 								<div class="news-content">
-									<div dangerouslySetInnerHTML = {{ __html: marked(newsContent) }}></div>
+									<div dangerouslySetInnerHTML = {{ __html: marked(this.state.newsContent) }}></div>
 								</div>
 							}
 							<Divider class='comment_label'></Divider>
