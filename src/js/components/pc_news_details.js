@@ -401,7 +401,7 @@ class PCNewsDetails extends React.Component {
 				}
 				{/*通信这里不返回概要*/}
 				<div class = 'news-detail-info'>
-					质量：<Rate disabled  defaultValue={this.state.newsStar}/>	&nbsp;
+					质量：<Rate disabled  value={this.state.newsStar}/>	&nbsp;
 					分类：{this.state.newsType}	&nbsp;
 					标签：
 					{this.state.newsTagList.map(tag => (
@@ -427,7 +427,7 @@ class PCNewsDetails extends React.Component {
 					<p class = 'news-detail-description'>新闻概要:{this.state.newsDescribe}</p>
 				}
 				<div class = 'news-detail-info'>
-					质量：<Rate disabled  defaultValue={this.state.newsStar}/>	&nbsp;
+					质量：<Rate disabled  value={this.state.newsStar}/>	&nbsp;
 					分类：{this.state.newsType}	&nbsp;
 					标签：
 					{this.state.newsTagList.map(tag => (
