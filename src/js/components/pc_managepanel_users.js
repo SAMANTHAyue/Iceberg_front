@@ -54,10 +54,10 @@ class ManagePanel_users extends React.Component {
         let {getFieldProps} = this.props.form;
 
 
-        const myRequest = new Request('/user/<' + {user_id} + '>/delete',
+        const myRequest = new Request('/',
                                       {method: 'POST',
                                        headers: new Headers({"Content-Type":"application/json"}),
-                                       body: JSON.stringify({action:'delete_user'})
+                                       body: JSON.stringify({action:'delete_user', user_id: user_id})
                                      });
         fetch(myRequest)
             .then(response => {
