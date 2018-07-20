@@ -6,10 +6,12 @@ import PCFooter from './pc_footer';
 import PCNewsImageBlock from './pc_news_image_block';
 import CommonComments from './common_comments';
 import NewsCommentList from './pc_news_comment_list';
-import { Layout, Menu, Breadcrumb,Card, Icon, Avatar,Rate,Tag,Divider,Popconfirm,message,Input,Modal,Button} from 'antd';
+import { Layout, Menu, Breadcrumb,Card, Icon, Avatar,Rate,Tag,Divider,Popconfirm,message,Input,Modal,Button,Form} from 'antd';
 const { Header, Content, Footer } = Layout;
 const { Meta } = Card;
 const { TextArea } = Input;
+const FormItem = Form.Item;
+
 
 
 const InputGroup = Input.Group;
@@ -25,7 +27,11 @@ var submit_type = 'new_comment';
 var comment_list = [];  //评论列表
 var article_id = '';
 
-export default class PCNewsDetails extends React.Component {
+var newsContent;
+
+var article_id;
+
+class PCNewsDetails extends React.Component {
 
 	constructor() {
 		super();
@@ -44,6 +50,7 @@ export default class PCNewsDetails extends React.Component {
 			editEnable:false,
 			commentModalVisible:false,
 			commentSubmitLoading:false,
+			category_id:1
 		};
 		this.handleEditClick = this.handleEditClick.bind(this);
 		this.handleDeleteClick = this.handleDeleteClick.bind(this);
@@ -52,6 +59,7 @@ export default class PCNewsDetails extends React.Component {
 		this.handleCommentSubmitOk = this.handleCommentSubmitOk.bind(this);
 		this.handleCommentSubmitCancel = this.handleCommentSubmitCancel.bind(this);
 		this.handleChange = this.handleChange.bind(this);
+		this.contentChange = this.contentChange.bind(this);
 
 	};
 
@@ -66,35 +74,19 @@ export default class PCNewsDetails extends React.Component {
   }
 
   handleCommentSubmitOk(){
-      if(localStorage.hasLogined =='') {
-          message("您未登录，不能发表评论！");
+      if(localStorage.userid =='') {
+          message.info("您未登录，不能发表评论！");
           return;
       }
       this.setState({ commentSubmitLoading: true });
-      var temp = {};
-  		temp.article_id = '1234';
-  		temp.comment_id = '214324';
-  		temp.user_id = '123342';
-  		temp.user_name = "TOM";
-  		temp.comment_timestamp = '2018-07-19 10:00';
-  		temp.comment_mod_timestamp = '2018-07-19 11:00';
-  		temp.comment_content = '流失大量解放拉萨地方距离';
-  		temp.comment_karma = 21;
-  		temp.is_karmaed = false;
-  		temp.is_reply = false;
-  		temp.father_comment_id = '12333';
-  		temp.father_comment_content = '623445';
-  		temp.father_comment_user = 'Jack';
-			commentList.push(temp);
-
-  		/*
   		var formData = this.props.form.getFieldsValue();
-        const myRequest = new Request('/article/<' + this.props.uniquekey + '>/comment',
-            {
-                method: 'POST',
-                headers: new Headers({"Content-Type": "application/json"}),
-                body: JSON.stringify({'user_id': localStorage.userid, 'content': formData.add_comment})
-            });
+        const myRequest = new Request('/',
+												            {
+												                method: 'POST',
+												                headers: new Headers({"Content-Type": "application/json"}),
+												                body: JSON.stringify({action:'add_comment',user_id: localStorage.userid, content: formData.comment_content,article_id:article_id})
+												            });
+								console.log({action:'add_comment',user_id: localStorage.userid, content: formData.comment_content,article_id:article_id});
         fetch(myRequest).then(response => {
             if (response.status === 200) {
                 return response.json();
@@ -104,7 +96,7 @@ export default class PCNewsDetails extends React.Component {
             }
         }).then(json => {
             console.log(json);
-            commentList.clear();
+            commentList=[];
             for (var i = 0; i < json.comments.length; i++) {
                 var temp = {};
                 temp.article_id = json.comments[i].article_id;
@@ -121,14 +113,11 @@ export default class PCNewsDetails extends React.Component {
                 temp.father_comment_user = json.comments[i].father_comment_user;
                 commentList.push(temp);
             }
+						this.setState({ commentSubmitLoading: false, commentModalVisible: false });
         }).catch(error => {
             console.error(error);
-        });*/
+        });
 
-
-    //网络通信响应完成之后，关闭loading和窗口，这里用延时模拟
-
-      this.setState({ commentSubmitLoading: false, commentModalVisible: false });
   }
 
   handleCommentSubmitCancel(){
@@ -136,13 +125,23 @@ export default class PCNewsDetails extends React.Component {
   }
 
 	//取一条新闻
-	componentDidMount() {
+	componentWillMount() {
+		var sHref = window.location.href;
+		console.log('href',sHref);
+		var args = sHref.split("?");
+		var head = args[0];
+		var value = head.split('/');
+		article_id = value[value.length-1];
+		console.log('article_id',article_id);
 	//网络通信
-        /*const myRequest = new Request('/article/<' + this.props.uniquekey +'>',
-            {
-                method: 'GET',
-                headers: new Headers({"Content-Type": "application/json"})
-            });
+
+        const myRequest = new Request('/',
+													            {
+													                method: 'POST',
+													                headers: new Headers({"Content-Type": "application/json"}),
+																					body: JSON.stringify({action:'browse_article',article_id: article_id})
+													            });
+				console.log({action:'browse_article',article_id: article_id});
         fetch(myRequest).then(response => {
             if (response.status === 200) {
                 return response.json();
@@ -152,9 +151,21 @@ export default class PCNewsDetails extends React.Component {
             }
         }).then(json => {
             console.log(json);
+						if(json.article.category_id ==1){
+							this.setState({newsType:'科技'});
+						}else if(json.article.category_id ==2){
+							this.setState({newsType:'政治'});
+						}else if(json.article.category_id ==3){
+							this.setState({newsType:'娱乐'});
+						}else if(json.article.category_id ==4){
+							this.setState({newsType:'体育'});
+						}else if(json.article.category_id ==5){
+							this.setState({newsType:'财经'});
+						}else if(json.article.category_id ==6){
+							this.setState({newsType:'国际'});
+						}
             this.setState({
                 newsID: json.article.article_id,
-                newsType: json.article.category_id,
                 newsTitle: json.article.article_title,
                 newsContent: json.article.article_content,
                 newsAuthor: json.article.article_author,
@@ -162,8 +173,10 @@ export default class PCNewsDetails extends React.Component {
                 newsStar: json.article.article_score,
                 newsHeat: json.article.article_heat,
                 newsTagList: json.article.tag_list,
-                newsComments: json.article.comment_list
+                newsComments: json.article.comment_list,
+								category_id:json.article.category_id
             })
+						newsContent = json.article.article_content;
             for (var i = 0; i < json.article.comment_list.length; i++) {
                 var temp = {};
                 temp.article_id = json.article.comment_list[i].article_id;
@@ -180,39 +193,51 @@ export default class PCNewsDetails extends React.Component {
                 temp.father_comment_user = json.article.comment_list[i].father_comment_user;
                 commentList.push(temp);
             }
+						console.log('评论列表',commentList);
+						console.log('新闻详细',this.state);
         }).catch(error => {
             console.error(error);
-        });*/
-	// createMarkup() {
-	// 	return {__html: this.state.newsItem.pagecontent};
+        });
 	};
 
 
 	handleEditClick(e){
-        if(localStorage.hasLogined =='') {
-            message("您未登录，不能编辑新闻！");
-            return;
-        }
+		if(localStorage.userid =='') {
+				message.info("您未登录，不能编辑新闻！");
+				return;
+		}
 		if(this.state.editEnable){
 			console.log('点击保存新闻编辑');
 			message.info('保存成功');
 			this.setState({editEnable:false});
-            /*  var formData = this.props.form.getFieldsValue();
-      console.log('新闻更新点击', e.key.slice(2));
-      const myRequest = new Request('/article/<' + this.props.uniquekey + '>/edit',
-          {
-              method: 'POST',
-              headers: new Headers({"Content-Type": "application/json"}),
-              body: JSON.stringify({
-                  'title': formData.update_title,
-                  'desc': formData.update_desc,
-                  'content': formData.update_content,
-                  'author': formData.update_author,
-                  'time': formData.update_time,
-                  'category_id': formData.update_categoryID,
-                  'tags': formData.update_taglist
-              })
-          });
+
+    	var formData = this.props.form.getFieldsValue();
+      const myRequest = new Request('/',
+												          {
+												              method: 'POST',
+												              headers: new Headers({"Content-Type": "application/json"}),
+												              body: JSON.stringify({
+																					action:'edit_article',
+																					article_id:article_id,
+												                  title: formData.title,
+												                  desc: formData.desc,
+												                  content: newsContent,
+												                  author: formData.author,
+												                  time: this.state.newsTime,
+												                  category_id: this.state.category_id,
+												                  tags: this.state.newsTagList
+												              })
+												          });
+		  console.log({
+					action:'edit_article',
+					title: formData.update_title,
+					desc: formData.update_desc,
+					content: formData.update_content,
+					author: formData.update_author,
+					time: formData.update_time,
+					category_id: formData.update_categoryID,
+					tags: formData.update_taglist
+			});
       fetch(myRequest).then(response => {
           if (response.status === "200") {
               return response.json();
@@ -231,7 +256,7 @@ export default class PCNewsDetails extends React.Component {
               }
           }).catch(error => {
           console.error(error);
-      });*/
+      });
 
 		}else{
 			console.log('点击新闻编辑',e);
@@ -243,8 +268,8 @@ export default class PCNewsDetails extends React.Component {
 
 	handleDeleteClick(e){
 		console.log('点击新闻删除',e);
-        if(localStorage.hasLogined =='') {
-            message("您未登录，不能删除新闻！");
+        if(localStorage.userid =='') {
+            message.info("您未登录，不能删除新闻！");
             return;
         }
         /* const myRequest = new Request('/article/<' + this.props.uniquekey + '>/delete',
@@ -276,9 +301,27 @@ export default class PCNewsDetails extends React.Component {
     this.setState({ value });
   }
 
+	contentChange(value){
+			 newsContent = value;
+			 this.setState(newsContent:value);
+	}
+
 	render() {
 
-		console.log(localStorage.managerEnable);
+
+
+		localStorage.userid='1233213';
+		localStorage.managerEnable='1';
+
+		let {getFieldProps} = this.props.form;
+		newsContent = this.state.newsContent;
+
+
+
+
+
+		console.log('managerenable',localStorage.managerEnable);
+
 
 		var temp = {};
 		temp.article_id = '1234';
@@ -325,7 +368,7 @@ export default class PCNewsDetails extends React.Component {
 					this.state.editEnable
 				?
 				<div class = 'news-detail-card'>
-				<Input placeholder = "请输入文章作者" defaultValue = {this.state.newsAuthor} size = 'large' style={{ width: 150 }}/>
+				<Input placeholder = "请输入文章作者" defaultValue = {this.state.newsAuthor} size = 'large' style={{ width: 150 }}  {...getFieldProps('author',{rules: [{required: true, message: '标题不能为空！'}]})}/>
 				</div>
 				:
 				<div class = 'news-detail-card'>
@@ -338,21 +381,11 @@ export default class PCNewsDetails extends React.Component {
 				{
 					this.state.editEnable
 					?
-					<div class = 'news-detail-description'><TextArea value={this.state.newsDiscribe}  cols="95" rows="6"/></div>
+					<div class = 'news-detail-description'><TextArea value={this.state.newsDiscribe}  cols="95" rows="6"  {...getFieldProps('desc',{rules: [{required: true, message: '概要不能为空！'}]})}/></div>
 					:
 					<p class = 'news-detail-description'>新闻概要:{this.state.newsDiscribe}</p>
 				}
 				{/*通信这里不返回概要*/}
-			{
-				this.state.editEnable
-				?
-				<div class = 'news-detail-info'>
-				质量：<Rate allowHalf defaultValue={this.state.newsStar}/>	&nbsp;
-				<Input addonBefore = "分类" placeholder = "请输入分类" defaultValue = {this.state.newsType} size = 'default' style={{ width: 200 }}/> &nbsp;
-				标签：{this.state.newsTagList.map(tag => (<Input defaultValue = {tag} size = 'default' style={{ width: 80 }}/>))} &nbsp;
-				浏览量：{this.state.newsHeat}	&nbsp;
-				</div>
-				:
 				<div class = 'news-detail-info'>
 					质量：<Rate disabled  defaultValue={this.state.newsStar}/>	&nbsp;
 					分类：{this.state.newsType}	&nbsp;
@@ -363,9 +396,7 @@ export default class PCNewsDetails extends React.Component {
 						</Tag>  ))
 					}		&nbsp;
 					浏览量：{this.state.newsHeat}	&nbsp;
-
 				</div>
-			}
 				<div class='news-detail-time'>时间：{this.state.newsTime}</div>
 			</Card>
 			;
@@ -405,7 +436,7 @@ export default class PCNewsDetails extends React.Component {
 				{
 					this.state.editEnable
 					?
-					<div class  = 'news-detail-title-edit'><Input placeholder="请输入文章标题" defaultValue = {this.state.newsTitle} size = 'large'/></div>
+					<div class  = 'news-detail-title-edit'><Input placeholder="请输入文章标题" defaultValue = {this.state.newsTitle} size = 'large'  {...getFieldProps('title',{rules: [{required: true, message: '标题不能为空！'}]})}/></div>
 					:
 					<p class = 'news-detail-title'>{this.state.newsTitle}</p>
 				}
@@ -427,10 +458,10 @@ export default class PCNewsDetails extends React.Component {
 							{
 								this.state.editEnable
 								?
-								<TextArea placeholder="请输入文章内容" defaultValue = {this.state.newsContent} cols="95" rows="10"/>
+								<TextArea placeholder="请输入文章内容" defaultValue = {newsContent} cols="95" rows="10" onChange={this.contentChange}/>
 								:
 								<div class="news-content">
-									<div dangerouslySetInnerHTML = {{ __html: marked(this.state.newsContent) }}></div>
+									<div dangerouslySetInnerHTML = {{ __html: marked(newsContent) }}></div>
 								</div>
 							}
 							<Divider class='comment_label'></Divider>
@@ -473,10 +504,12 @@ export default class PCNewsDetails extends React.Component {
 					]}
 				>
 				<p>{father_user_comment}</p>
-				<div><TextArea placeholder="评论请遵守互联网行为准则!" defaultValue = {commentDefault} rows={5}/></div>
+				<div><TextArea placeholder="评论请遵守互联网行为准则!" defaultValue = {commentDefault} rows={5} {...getFieldProps('comment_content',{rules: [{required: true, message: '评论不能为空！'}]})}/></div>
 			</Modal>
 
 	  </div>
 		);
 	};
 }
+
+export default PCNewsDetails = Form.create({})(PCNewsDetails);

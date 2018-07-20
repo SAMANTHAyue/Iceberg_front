@@ -88,16 +88,17 @@ export default class SearchPage extends React.Component {
                 console.log('listdata', listData);
             }
             this.setState({hasResult: true, loading: false});
+            if (listData.length < 1) {
+                message.info("搜索结果为空，请修改您的关键字,或采用其他搜索方式。");
+            } else {
+                message.success("为您搜索到" + listData.length + "个结果！");
+            }
         });
         console.log('now', listData);
 
         //获得新闻列表到listData
 
-        if (listData.length < 1) {
-            message.info("搜索结果为空，请修改您的关键字,或采用其他搜索方式。");
-        } else {
-            message.success("为您搜索到" + listData.length + "个结果！");
-        }
+
 
     }
 

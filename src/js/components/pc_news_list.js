@@ -116,36 +116,19 @@ export default class LoadMoreList extends React.Component {
 
 
 
-      // var myFetchOptions = {
-      //   method: 'GET'
-      // };
-      // fetch("http://newsapi.gugujiankong.com/Handler.ashx?action=getnews&type=" +
-      // this.props.newsType + "&count=" + this.props.count, myFetchOptions)
-      // .then((response) =>{
-      //
-      //   return response.json();
-      //
-      // })
-      // .then((json)=>{
-      //   for (var i = 0; i < json.length; i++) {
-      //     var name = json[i].title;
-      //     var temp = {};
-      //     temp.article_id = '12434';
-      //     temp.category = '科技';
-      //     temp.article_title = '这是新闻标题';
-      //     temp.article_desc = '新闻的简介数据库大家分厘卡即使的看法垃圾啊士大夫接受了的看法距离喀什角动量飞机侃大山就爱上了的咖啡机拉克丝解放了喀什的就ask两地分居垃圾十分宽大金克拉撒旦解放了喀什建立饭卡将离开洒家对方离开洒家灯笼裤飞机就立刻多久啊是芬兰空军分类的凯撒就建立可是大家分厘卡即使代理费';
-      //     temp.article_author = '名字';
-      //     temp.article_timestamp = '2018-07-16 10:00';
-      //     temp.article_heat = 43423;
-      //     temp.article_score = 3.5;
-      //     temp.tag_list = ['计算机','科学','大数据'];
-      //     //console.log(temp);
-      //     listData.push(temp);
-      //   }
-      //   //console.log(listData);
-      //   this.setState({loading:false, news: json, typeChange:false});
-      //   //console.log('result',this.state.news);
-      // });
+
+          var temp = {};
+          temp.article_id = '12434';
+          temp.category = '科技';
+          temp.article_title = '这是新闻标题';
+          temp.article_desc = '新闻的简介数据库大家分厘卡即使的看法垃圾啊士大夫接受了的看法距离喀什角动量飞机侃大山就爱上了的咖啡机拉克丝解放了喀什的就ask两地分居垃圾十分宽大金克拉撒旦解放了喀什建立饭卡将离开洒家对方离开洒家灯笼裤飞机就立刻多久啊是芬兰空军分类的凯撒就建立可是大家分厘卡即使代理费';
+          temp.article_author = '名字';
+          temp.article_timestamp = '2018-07-16 10:00';
+          temp.article_heat = 43423;
+          temp.article_score = 3.5;
+          temp.tag_list = ['计算机','科学','大数据'];
+          //console.log(temp);
+          listData.push(temp);
 
 
     return (
@@ -202,7 +185,7 @@ export default class LoadMoreList extends React.Component {
                   </div>
                 }>
 
-          <Link to={`details/${item.article_id}`} target="_blank">
+          <Link to={`details/${item.article_id}`} article_id='1234' target="_blank">
           <List.Item.Meta
             title={item.article_title}
             description = {item.article_desc}/>
