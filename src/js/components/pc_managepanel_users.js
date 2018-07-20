@@ -23,7 +23,7 @@ class ManagePanel_users extends React.Component {
         const myRequest = new Request('/',
                                       {method: 'POST',
                                        headers: new Headers({"Content-Type":"application/json"}),
-                                       body: JSON.stringify({action:'get_report_comments'})
+                                       body: JSON.stringify({action:'get_users'})
                                      });
         fetch(myRequest)
             .then(response => {
