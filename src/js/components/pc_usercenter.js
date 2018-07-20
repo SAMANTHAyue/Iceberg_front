@@ -36,9 +36,11 @@ export default class PCUserCenter extends React.Component {
     };
 
     componentDidMount() {
-        const myRequest = new Request('/user/<'+this.props.userId+'>',
-                                       {method: 'GET',
-                                           headers: new Headers({"Content-Type":"application/json"})});
+        const myRequest = new Request('/', {
+            method: 'POST',
+            headers: new Headers({"Content-Type":"application/json"}),
+            body: JSON.stringify({action: "show_user", user_id: localStorage.userid})
+        });
         fetch(myRequest)
             .then(response => {
                 if (response.status === 200) {
@@ -85,24 +87,24 @@ export default class PCUserCenter extends React.Component {
                             {/* actions={[<Icon type="setting"/>, <Icon type="edit"/>, <Icon type="ellipsis"/>]}>*/}
                             <div class='user-detail-card'>
                                 <Avatar style={{backgroundColor: '#1E90FF', verticalAlign: 'middle'}} size="large">
-                                    {/*{username.substring(0,1)}*/}
-                                    Karl
+                                    {username.substring(0,1)}
+                                    {/*Karl*/}
                                 </Avatar>
                                 &nbsp;&nbsp;
-                                {/*{username}*/}
-                                Karl
+                                {username}
+                                {/*Karl*/}
                             </div>
                             <div class='user-detail-description'>
                                 <br/>
                                 信誉度
-                                {/*{user_credit}*/}
+                                {user_credit}
                                 <br/>
-                                100
+                                {/*100*/}
                                 <br/><br/>
                                 个人介绍
                                 <br/>
-                                {/*{user_intro}*/}
-                                啦啦啦啦
+                                {user_intro}
+                                {/*啦啦啦啦*/}
                                 <br/>
                             </div>
                         </Card>
